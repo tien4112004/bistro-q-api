@@ -1,17 +1,20 @@
-using Microsoft.EntityFrameworkCore;
+using BistroQ.API.Configurations;
 using BistroQ.Infrastructure.Data;
+using BistroQ.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 DotNetEnv.Env.Load();
-var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
-builder.Services.AddDbContext<BistroQContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddDatabaseConfig();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+
+builder.Services.AddIdentityConfig()
+    .AddAppServiceConfig();
 
 var app = builder.Build();
 

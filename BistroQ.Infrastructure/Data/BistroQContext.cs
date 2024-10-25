@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using BistroQ.Core.Entities;
+using BistroQ.Core.Enums;
+using BistroQ.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace BistroQ.Infrastructure.Data;
 
-public partial class BistroQContext : DbContext
+public partial class BistroQContext : IdentityDbContext<AppUser>
 {
     public BistroQContext()
     {
@@ -33,6 +37,17 @@ public partial class BistroQContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            var tableName = entityType.GetTableName();
+            if (tableName.StartsWith("AspNet"))
+            {
+                entityType.SetTableName(tableName.Substring(6));
+            }
+        }
+        
         modelBuilder
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
@@ -145,6 +160,61 @@ public partial class BistroQContext : DbContext
             entity.Property(e => e.ZoneId).ValueGeneratedNever();
             entity.Property(e => e.Name).HasMaxLength(100);
         });
+        
+        var listRoles = new List<IdentityRole>()
+        {
+            new IdentityRole { Id = "1", Name = BistroRoles.Admin, NormalizedName = BistroRoles.Admin.ToUpper() },
+            new IdentityRole { Id = "2", Name = BistroRoles.Kitchen, NormalizedName = BistroRoles.Kitchen.ToUpper() },
+            new IdentityRole { Id = "3", Name = BistroRoles.Cashier, NormalizedName = BistroRoles.Cashier.ToUpper() }
+        };
+        
+        modelBuilder.Entity<IdentityRole>().HasData(listRoles);
+        
+        var hasher = new PasswordHasher<AppUser>();
+        modelBuilder.Entity<AppUser>().HasData(new AppUser
+            {
+                Id = "1",
+                UserName = "admin",
+                NormalizedUserName = "ADMIN",
+                Email = "admin@gmail.com",
+                NormalizedEmail = "ADMIN@GMAIL.COM",
+                PasswordHash = hasher.HashPassword(null, "admin"),
+            },
+            new AppUser
+            {
+                Id = "2",
+                UserName = "kitchen",
+                NormalizedUserName = "KITCHEN",
+                Email = "kitchen@gmail.com",
+                NormalizedEmail = "KITCHEN@GMAIL.COM",
+                PasswordHash = hasher.HashPassword(null, "kitchen"),
+            },
+            new AppUser
+            {
+                Id = "3",
+                UserName = "cashier",
+                NormalizedUserName = "CASHIER",
+                Email = "cashier@gmail.com",
+                NormalizedEmail = "CASHIER@GMAIL.COM",
+                PasswordHash = hasher.HashPassword(null, "cashier"),
+            });
+
+        modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            {
+                RoleId = "1",
+                UserId = "1"
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "2",
+                UserId = "2"
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "3",
+                UserId = "3",
+            });
+        
 
         OnModelCreatingPartial(modelBuilder);
     }

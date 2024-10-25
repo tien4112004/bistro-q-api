@@ -11,4 +11,8 @@
       <ProjectReference Include="..\BistroQ.Infrastructure\BistroQ.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Helpers\" />
+    </ItemGroup>
+
 </Project>
