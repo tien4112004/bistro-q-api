@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BistroQ.Core\BistroQ.Core.csproj" />
+      <ProjectReference Include="..\BistroQ.Infrastructure\BistroQ.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>
