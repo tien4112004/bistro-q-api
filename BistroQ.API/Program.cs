@@ -1,7 +1,7 @@
+using AutoMapper;
 using BistroQ.API.Configurations;
-using BistroQ.Infrastructure.Data;
-using BistroQ.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
+using BistroQ.API.Middlewares;
+using BistroQ.Core.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +16,12 @@ builder.Services.AddControllers();
 builder.Services.AddIdentityConfig()
     .AddAppServiceConfig();
 
+var config = new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile<MappingProfile>();
+});
+builder.Services.AddScoped<IMapper>(sp => new AutoMapper.Mapper(config));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +31,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandlingMiddleware();
 app.UseHttpsRedirection();
 app.UseRouting();
 
