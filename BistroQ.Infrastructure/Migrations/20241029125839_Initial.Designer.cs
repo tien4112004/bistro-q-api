@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BistroQ.Infrastructure.Migrations
 {
     [DbContext(typeof(BistroQContext))]
-    [Migration("20241025165105_AddIdentityAndRole")]
-    partial class AddIdentityAndRole
+    [Migration("20241029125839_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,7 +30,10 @@ namespace BistroQ.Infrastructure.Migrations
             modelBuilder.Entity("BistroQ.Core.Entities.Category", b =>
                 {
                     b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("CategoryId"));
 
                     b.Property<string>("Name")
                         .HasMaxLength(100)
@@ -116,7 +119,10 @@ namespace BistroQ.Infrastructure.Migrations
             modelBuilder.Entity("BistroQ.Core.Entities.Product", b =>
                 {
                     b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ProductId"));
 
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
@@ -148,7 +154,10 @@ namespace BistroQ.Infrastructure.Migrations
             modelBuilder.Entity("BistroQ.Core.Entities.Table", b =>
                 {
                     b.Property<int>("TableId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("TableId"));
 
                     b.Property<int?>("Number")
                         .HasColumnType("int");
@@ -170,7 +179,10 @@ namespace BistroQ.Infrastructure.Migrations
             modelBuilder.Entity("BistroQ.Core.Entities.Zone", b =>
                 {
                     b.Property<int>("ZoneId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ZoneId"));
 
                     b.Property<string>("Name")
                         .HasMaxLength(100)
@@ -256,15 +268,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6e6f550f-e82f-4c1a-98b5-1d408596ff10",
+                            ConcurrencyStamp = "cebb5033-fcf0-4cbd-84d9-b4ba00a91d20",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAECbLTDDeBnop2AY4YPvaTwtbIbruegiZOazSD3UsZsixOKbZSR0BUspShvyrOFEW5Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOE1qegBsYW/LuHfXtj4jLYagS2SlFG7hrTziRV7AdUcfieW3o33WDEDUugju57rMQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f2e5db31-8262-4049-ab7c-4dce1c6c3138",
+                            SecurityStamp = "9b15f27a-a8c5-4298-9cd9-a163f5497ca8",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
@@ -272,15 +284,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "da6d8282-9135-47bd-9c1a-8dfb5657c84f",
+                            ConcurrencyStamp = "c89a07c9-cfb5-40f7-a0ad-1d69a4cb7bc2",
                             Email = "kitchen@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "KITCHEN@GMAIL.COM",
                             NormalizedUserName = "KITCHEN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEwOlony/zrVsaxFOq5BSW+Luy3CF9czW4He6+3mLdOBTBsNEkHUbLmg9lKoWBo/Bg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENuKG4cqOQeTHWAmSnk1WIqrEcBXI42oT8JPvhig7Rj7srIMv8lcaRUbtmHGLODuAA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5112fed3-84ba-4365-9160-8d34a50fed4f",
+                            SecurityStamp = "5699b74a-2f0b-4de9-8a87-2de646cad84f",
                             TwoFactorEnabled = false,
                             UserName = "kitchen"
                         },
@@ -288,15 +300,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "70ac494e-0103-4d65-8186-90a6b454abd3",
+                            ConcurrencyStamp = "7b7f764a-b504-48cf-9fca-a7b01fc63780",
                             Email = "cashier@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CASHIER@GMAIL.COM",
                             NormalizedUserName = "CASHIER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIrMOOE7bvGXTLKc82riHzN4yEbwN90F6CFL5uqMSc5301nLfbhYnowX4CR+sLT9/g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELPwcMF5AiZthQQ58cHawb2COKO1SZOiAo0JmKe5C2VYBcfF5wHAEzRVonFeskoZ2A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ceafdbd5-b551-4827-92d0-9407a595d766",
+                            SecurityStamp = "5d351854-b70a-4849-a7a0-bbccec9acae8",
                             TwoFactorEnabled = false,
                             UserName = "cashier"
                         });

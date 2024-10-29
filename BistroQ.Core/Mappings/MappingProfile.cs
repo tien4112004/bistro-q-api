@@ -9,7 +9,11 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<Product, ProductDto>().ReverseMap();
-        
-        CreateMap<CreateProductRequestDto, Product>();
+
+        CreateMap<CreateProductRequestDto, Product>()
+            .ConstructUsing((src, context) => new Product());
+
+        CreateMap<UpdateProductRequestDto, Product>()
+            .ConstructUsing((src, context) => new Product());
     }
 }

@@ -1,12 +1,8 @@
 namespace BistroQ.Core.Dtos.Products;
 
-public class ProductDto
+public class UpdateProductRequestDto
 {
-    public int? ProductId { get; set; }
-
     public string? Name { get; set; }
-
-    public int? CategoryId { get; set; }
 
     public decimal? Price { get; set; }
 

@@ -1,7 +1,9 @@
+using System.Text.Json;
 using AutoMapper;
 using BistroQ.Core.Common.Builder;
 using BistroQ.Core.Dtos.Products;
 using BistroQ.Core.Entities;
+using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Services;
 
@@ -18,9 +20,13 @@ public class ProductService : IProductService
         _mapper = mapper;
     }
 
-    public async Task<ProductDto> GetByIdAsync(int id)
+    public async Task<ProductDto> GetByIdAsync(int productId)
     {
-        var product = await _unitOfWork.ProductRepository.GetByIdAsync(id);
+        var product = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
+        if(product == null)
+        {
+            throw new ResourceNotFoundException("Product not found");
+        }
         
         return _mapper.Map<ProductDto>(product);
     }
@@ -43,28 +49,47 @@ public class ProductService : IProductService
         var products = await _unitOfWork.ProductRepository.GetProductsAsync(builder.Build());
 
         await _unitOfWork.SaveChangesAsync();
-        
         return (_mapper.Map<IEnumerable<ProductDto>>(products), count);
     }
 
     public async Task<ProductDto> AddAsync(CreateProductRequestDto productDto)
     {
         var product = _mapper.Map<Product>(productDto);
-        
-        var createdProduct = await _unitOfWork.ProductRepository.AddAsync(product);
-        
-        await _unitOfWork.SaveChangesAsync();
 
+        var createdProduct = await _unitOfWork.ProductRepository.AddAsync(product);
+
+        await _unitOfWork.SaveChangesAsync();
         return _mapper.Map<ProductDto>(createdProduct);
     }
 
-    public Task<ProductDto> UpdateAsync(ProductDto productDto)
+    public async Task<ProductDto> UpdateAsync(int productId, UpdateProductRequestDto productDto)
     {
-        throw new NotImplementedException();
+        var existingProduct = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
+        if (existingProduct == null)
+        {
+            throw new ResourceNotFoundException("Product not found");
+        }
+        
+        var newProduct = _mapper.Map<Product>(productDto);
+        newProduct.ProductId = productId;
+
+        await _unitOfWork.ProductRepository.UpdateAsync(existingProduct, newProduct);
+        await _unitOfWork.SaveChangesAsync();
+        
+        var updatedProduct = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
+
+        return _mapper.Map<ProductDto>(updatedProduct);
     }
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int productId)
     {
-        throw new NotImplementedException();
+        var existingProduct = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
+        if (existingProduct == null)
+        {
+            throw new ResourceNotFoundException("Product not found");
+        }
+        
+        await _unitOfWork.ProductRepository.DeleteAsync(existingProduct);
+        await _unitOfWork.SaveChangesAsync();
     }
 }
