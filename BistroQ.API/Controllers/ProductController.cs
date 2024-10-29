@@ -1,13 +1,16 @@
 using System.Text.Json;
 using BistroQ.Core.Dtos;
 using BistroQ.Core.Dtos.Products;
+using BistroQ.Core.Enums;
 using BistroQ.Core.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BistroQ.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = BistroRoles.Admin)]
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
@@ -36,9 +39,7 @@ public class ProductController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddProduct([FromBody] CreateProductRequestDto request)
     {
-        Console.WriteLine(JsonSerializer.Serialize(request));
         var product = await _productService.AddAsync(request);
-        
         
         return Ok(new ResponseDto<ProductDto>(product));
     }

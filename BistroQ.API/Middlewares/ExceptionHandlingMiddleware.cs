@@ -15,6 +15,22 @@ public class ExceptionHandlingMiddleware
         try
         {
             await _next(context);
+            
+            if (context.Response.StatusCode == StatusCodes.Status401Unauthorized)
+            {
+                if (context.Response.Headers.ContainsKey("WWW-Authenticate") 
+                    && context.Response.Headers["WWW-Authenticate"].ToString().Contains("expired"))
+                {
+                    throw new TokenExpiredException("Token expired");
+                }
+
+                throw new UnauthorizedException("Authorization failed - invalid token");
+            }
+
+            if (context.Response.StatusCode == StatusCodes.Status403Forbidden)
+            {
+                throw new ForbiddenException("Authorization failed - insufficient permissions");
+            }
         }
         catch (Exception e)
         {

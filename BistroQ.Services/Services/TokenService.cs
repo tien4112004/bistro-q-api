@@ -28,11 +28,14 @@ public class TokenService : ITokenService
 
     public async Task<string> GenerateAccessToken(AppUser user)
     {
+        var userRoles = await _userManager.GetRolesAsync(user);
         var authClaims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
+
+        authClaims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
 
         var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
         var creds = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
