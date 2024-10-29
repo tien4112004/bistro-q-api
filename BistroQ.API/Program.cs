@@ -7,20 +7,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 DotNetEnv.Env.Load();
 
-builder.Services.AddDatabaseConfig();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
-
-builder.Services.AddIdentityConfig()
+builder.Services.AddDatabaseConfig()
+    .AddApiConfig()
+    .AddAutoMapperConfig()
+    .AddIdentityConfig()
+    .AddSwaggerConfig()
+    .AddAuthenticationConfig()
     .AddAppServiceConfig();
 
-var config = new MapperConfiguration(cfg =>
-{
-    cfg.AddProfile<MappingProfile>();
-});
-builder.Services.AddScoped<IMapper>(sp => new AutoMapper.Mapper(config));
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -34,6 +29,8 @@ if (app.Environment.IsDevelopment())
 app.UseExceptionHandlingMiddleware();
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
