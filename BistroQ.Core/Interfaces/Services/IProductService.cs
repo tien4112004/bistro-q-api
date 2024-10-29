@@ -1,17 +1,50 @@
-using BistroQ.Core.Entities;
 using BistroQ.Core.Dtos.Products;
+using BistroQ.Core.Exceptions;
 
 namespace BistroQ.Core.Interfaces.Services;
 
+/// <summary>
+/// Service for managing product operations with DTO transformations
+/// and business logic handling
+/// </summary>
 public interface IProductService
 {
-    public Task<ProductDto> GetByIdAsync(int id);
+    /// <summary>
+    /// Retrieves a product by its identifier
+    /// </summary>
+    /// <param name="id">The product identifier</param>
+    /// <returns>The product DTO if found</returns>
+    /// <exception cref="ResourceNotFoundException">When product with given id doesn't exist</exception>
+    Task<ProductDto> GetByIdAsync(int id);
     
-    public Task<(IEnumerable<ProductDto> Products, int Count)> GetAllAsync(ProductCollectionQueryParams queryParams);
+    /// <summary>
+    /// Retrieves a filtered, sorted, and paginated collection of products
+    /// </summary>
+    /// <param name="queryParams">Parameters for filtering, sorting, and pagination</param>
+    /// <returns>A tuple containing the collection of products and total count</returns>
+    Task<(IEnumerable<ProductDto> Products, int Count)> GetAllAsync(
+        ProductCollectionQueryParams queryParams);
     
-    public Task<ProductDto> AddAsync(CreateProductRequestDto productDto);
+    /// <summary>
+    /// Creates a new product
+    /// </summary>
+    /// <param name="productDto">The product creation data</param>
+    /// <returns>The newly created product DTO</returns>
+    Task<ProductDto> AddAsync(CreateProductRequestDto productDto);
     
-    public Task<ProductDto> UpdateAsync(ProductDto productDto);
+    /// <summary>
+    /// Updates an existing product
+    /// </summary>
+    /// <param name="id">The identifier of the product to update</param>
+    /// <param name="productDto">The updated product data</param>
+    /// <returns>The updated product DTO</returns>
+    /// <exception cref="ResourceNotFoundException">When product with given id doesn't exist</exception>
+    Task<ProductDto> UpdateAsync(int id, UpdateProductRequestDto productDto);
     
-    public Task DeleteAsync(int id);
+    /// <summary>
+    /// Removes a product
+    /// </summary>
+    /// <param name="id">The identifier of the product to delete</param>
+    /// <exception cref="ResourceNotFoundException">When product with given id doesn't exist</exception>
+    Task DeleteAsync(int id);
 }

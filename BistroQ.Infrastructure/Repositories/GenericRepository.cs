@@ -33,10 +33,9 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return res.Entity;
     }
 
-    public async Task UpdateAsync(T entity)
+    public async Task UpdateAsync(T oldEntity, T newEntity)
     {
-        _dbSet.Attach(entity);
-        _context.Entry(entity).State = EntityState.Modified;
+        _context.Entry(oldEntity).CurrentValues.SetValues(newEntity);
         await Task.CompletedTask;
     }
 

@@ -19,8 +19,6 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
     
     public async Task<IEnumerable<Product>>  GetProductsAsync(IQueryable<Product> queryable)
     {
-        Console.WriteLine("B");
-        Console.WriteLine(queryable.Expression);
         var products = await queryable.ToListAsync();
         
         return products;

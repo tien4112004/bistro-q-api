@@ -58,7 +58,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
             entity.ToTable("Category");
 
-            entity.Property(e => e.CategoryId).ValueGeneratedNever();
+            entity.Property(e => e.CategoryId).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).HasMaxLength(100);
         });
 
@@ -120,12 +120,12 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
         modelBuilder.Entity<Product>(entity =>
         {
             entity.HasKey(e => e.ProductId).HasName("PRIMARY");
-
+            
             entity.ToTable("Product");
 
             entity.HasIndex(e => e.CategoryId, "CategoryId");
 
-            entity.Property(e => e.ProductId).ValueGeneratedNever();
+            entity.Property(e => e.ProductId).ValueGeneratedOnAdd();
             entity.Property(e => e.DiscountPrice).HasPrecision(10);
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.Price).HasPrecision(10);
@@ -144,7 +144,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
             entity.HasIndex(e => e.ZoneId, "ZoneId");
 
-            entity.Property(e => e.TableId).ValueGeneratedNever();
+            entity.Property(e => e.TableId).ValueGeneratedOnAdd();
 
             entity.HasOne(d => d.Zone).WithMany(p => p.Tables)
                 .HasForeignKey(d => d.ZoneId)
@@ -157,7 +157,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
             entity.ToTable("Zone");
 
-            entity.Property(e => e.ZoneId).ValueGeneratedNever();
+            entity.Property(e => e.ZoneId).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).HasMaxLength(100);
         });
         
