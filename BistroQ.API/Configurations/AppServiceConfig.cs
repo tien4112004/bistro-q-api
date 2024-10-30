@@ -1,3 +1,4 @@
+using BistroQ.Core.Common.Settings;
 using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Repositories;
 using BistroQ.Core.Interfaces.Services;
@@ -13,7 +14,10 @@ public static class AppServiceConfigExtension
     {
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        
+        services.AddSingleton(new JwtSettings().ReadFromEnvironment());
         
         return services;
     }
