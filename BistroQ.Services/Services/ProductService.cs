@@ -48,7 +48,6 @@ public class ProductService : IProductService
 
         var products = await _unitOfWork.ProductRepository.GetProductsAsync(builder.Build());
 
-        await _unitOfWork.SaveChangesAsync();
         return (_mapper.Map<IEnumerable<ProductDto>>(products), count);
     }
 

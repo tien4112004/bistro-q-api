@@ -24,6 +24,15 @@ public interface IGenericRepository<T> where T : class
     Task<T?> GetByIdAsync(int id);
 
     /// <summary>
+    /// Retrieves all entities in the repository
+    /// </summary>
+    /// <returns>An enumerable of all entities in the repository</returns>
+    /// <remarks>
+    /// Should be used with caution on large datasets
+    /// </remarks>
+    Task<IEnumerable<T>> GetAllAsync();
+    
+    /// <summary>
     /// Adds a new entity to the repository
     /// </summary>
     /// <param name="entity">The entity to add</param>
