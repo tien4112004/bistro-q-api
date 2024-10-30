@@ -31,6 +31,13 @@ public interface IGenericRepository<T> where T : class
     Task<T?> AddAsync(T entity);
 
     /// <summary>
+    /// Adds a collection of entities to the repository
+    /// </summary>
+    /// <param name="entities">The collection of entities to add</param>
+    /// <returns>A task representing the asynchronous operation, containing the added entities</returns>
+    Task<IEnumerable<T>?> AddRangeAsync(IEnumerable<T> entities);
+    
+    /// <summary>
     /// Replaces an existing entity with a new version
     /// </summary>
     /// <param name="oldEntity">The existing entity to be replaced</param>
