@@ -11,7 +11,7 @@ namespace BistroQ.API.Controllers;
 
 [ApiController]
 [Route("api/Admin/[controller]")]
-// [Authorize]
+[Authorize]
 public class ZoneController : ControllerBase
 {
     private readonly IZoneService _zoneService;

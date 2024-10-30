@@ -11,7 +11,7 @@ namespace BistroQ.API.Controllers;
 
 [ApiController]
 [Route("api/Admin/[controller]")]
-// [Authorize]
+[Authorize]
 public class TableController : ControllerBase
 {
     private readonly ITableService _tableService;
