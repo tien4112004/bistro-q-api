@@ -10,7 +10,7 @@ public interface IGenericRepository<T> where T : class
     /// Gets a queryable instance of the entity set
     /// </summary>
     /// <returns>An IQueryable of type T that can be further filtered, ordered, or projected</returns>
-    Task<IQueryable<T>> GetQueryable();
+    IQueryable<T> GetQueryable();
     
     /// <summary>
     /// Retrieves an entity by its identifier

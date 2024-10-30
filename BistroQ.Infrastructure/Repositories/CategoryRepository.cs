@@ -22,4 +22,13 @@ public class CategoryRepository : GenericRepository<Category>, ICategoryReposito
         
         return category;
     }
+
+    public Task AddProductsToCategoryAsync(Category category, List<Product> products)
+    {
+        foreach (var product in products)
+        {
+            category.Products.Add(product);
+        }
+        return Task.CompletedTask;
+    }
 }

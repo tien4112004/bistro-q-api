@@ -91,7 +91,8 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
             entity.HasOne(d => d.Table).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.TableId)
-                .HasConstraintName("Order_ibfk_1");
+                .HasConstraintName("Order_ibfk_1")
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<OrderDetail>(entity =>
@@ -110,11 +111,13 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.OrderId)
-                .HasConstraintName("OrderDetail_ibfk_1");
+                .HasConstraintName("OrderDetail_ibfk_1")
+                .OnDelete(DeleteBehavior.Cascade);
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("OrderDetail_ibfk_2");
+                .HasConstraintName("OrderDetail_ibfk_2")
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -133,7 +136,8 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("Product_ibfk_1");
+                .HasConstraintName("Product_ibfk_1")
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<Table>(entity =>
@@ -148,7 +152,8 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
             entity.HasOne(d => d.Zone).WithMany(p => p.Tables)
                 .HasForeignKey(d => d.ZoneId)
-                .HasConstraintName("Table_ibfk_1");
+                .HasConstraintName("Table_ibfk_1")
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<Zone>(entity =>

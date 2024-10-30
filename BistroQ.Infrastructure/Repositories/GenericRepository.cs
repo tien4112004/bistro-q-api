@@ -16,9 +16,9 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         _dbSet = context.Set<T>();
     }
 
-    public Task<IQueryable<T>> GetQueryable()
+    public IQueryable<T> GetQueryable()
     {
-        return Task.FromResult(_dbSet.AsQueryable());
+        return _dbSet.AsQueryable();
     }
     
     public async Task<IEnumerable<T>> GetAllAsync()

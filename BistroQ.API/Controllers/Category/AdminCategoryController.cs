@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BistroQ.API.Controllers.Category;
 
 [ApiController]
-[Route("api/Admin/[controller]")]
+[Route("api/Admin/Category")]
 [Authorize(Roles = BistroRoles.Admin)]
 [Tags("Admin Category")]
 public class AdminCategoryController : ControllerBase
@@ -31,6 +31,14 @@ public class AdminCategoryController : ControllerBase
     public async Task<IActionResult> GetCategory(int categoryId)
     {
         var category = await _categoryService.GetCategoryByIdAsync(categoryId);
+        return Ok(new ResponseDto<CategoryDetailDto>(category));
+    }
+    
+    [HttpPost]
+    [Route("{categoryId:int}/Product")]
+    public async Task<IActionResult> AddProductsToCategory([FromRoute] int categoryId, [FromBody] List<int> productIds)
+    {
+        var category = await _categoryService.AddProductsToCategoryAsync(categoryId, productIds);
         return Ok(new ResponseDto<CategoryDetailDto>(category));
     }
     

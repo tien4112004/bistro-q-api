@@ -75,4 +75,24 @@ public class CategoryService : ICategoryService
         await _unitOfWork.CategoryRepository.DeleteAsync(category);
         await _unitOfWork.SaveChangesAsync();
     }
+
+    public async Task<CategoryDetailDto> AddProductsToCategoryAsync(int categoryId, List<int> productIds)
+    {
+        var category = await _unitOfWork.CategoryRepository.GetDetailCategoryByIdAsync(categoryId);
+        if (category == null)
+        {
+            throw new ResourceNotFoundException("Category not found");
+        }
+
+        var products = await _unitOfWork.ProductRepository.GetProductsAsync(
+            _unitOfWork.ProductRepository.GetQueryable()
+                .Where(p => productIds.Contains(p.ProductId))
+                .Where(p => p.CategoryId == null));
+        
+        await _unitOfWork.CategoryRepository.AddProductsToCategoryAsync(category, products.ToList());
+        await _unitOfWork.SaveChangesAsync();
+        
+        var res = _mapper.Map<CategoryDetailDto>(category);
+        return res;
+    }
 }
