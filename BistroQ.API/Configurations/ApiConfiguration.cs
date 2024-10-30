@@ -12,6 +12,7 @@ public static class ApiConfiguration
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 options.JsonSerializerOptions.WriteIndented = true;
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                // options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             });
 
         services.AddEndpointsApiExplorer();

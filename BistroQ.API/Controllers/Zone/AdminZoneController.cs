@@ -11,7 +11,7 @@ namespace BistroQ.API.Controllers;
 
 [ApiController]
 [Route("api/Admin/[controller]")]
-// [Authorize(Roles = BistroRoles.Admin)]
+[Authorize(Roles = BistroRoles.Admin)]
 [Tags("Admin Zone")]
 public class AdminZoneController : ControllerBase
 {

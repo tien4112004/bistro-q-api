@@ -1,3 +1,4 @@
+using BistroQ.Core.Entities;
 using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Repositories;
 using BistroQ.Infrastructure.Data;
@@ -9,6 +10,7 @@ public class UnitOfWork : IUnitOfWork
 {
     public IProductRepository ProductRepository { get; }
     public IZoneRepository ZoneRepository { get; }
+    public ITableRepository TableRepository { get; }
     public BistroQContext Context { get; }
 
     private IDbContextTransaction? _transaction;
@@ -16,11 +18,13 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(
         BistroQContext context,
         IProductRepository productRepository,
-        IZoneRepository zoneRepository)
+        IZoneRepository zoneRepository, 
+        ITableRepository tableRepository)
     {
         Context = context;
         ProductRepository = productRepository;
         ZoneRepository = zoneRepository;
+        TableRepository = tableRepository;
     }
 
     public async Task<int> SaveChangesAsync()

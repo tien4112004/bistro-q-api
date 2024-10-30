@@ -11,13 +11,12 @@ namespace BistroQ.API.Controllers;
 
 [ApiController]
 [Route("api/Admin/[controller]")]
-[Authorize]
-[Tags("Admin Zone")]
-public class AdminZoneController : ControllerBase
+// [Authorize]
+public class ZoneController : ControllerBase
 {
     private readonly IZoneService _zoneService;
     
-    public AdminZoneController(IZoneService zoneService)
+    public ZoneController(IZoneService zoneService)
     {
         _zoneService = zoneService;
     }
@@ -29,7 +28,7 @@ public class AdminZoneController : ControllerBase
 
         return Ok(new PaginationResponseDto<IEnumerable<ZoneDto>>(zones, count, queryParams.Page, queryParams.Size));
     }
-
+    
     [HttpGet]
     [Route("{zoneId:int}")]
     public async Task<IActionResult> GetZone([FromRoute] int zoneId)
@@ -39,7 +38,7 @@ public class AdminZoneController : ControllerBase
         {
             throw new ResourceNotFoundException("Zone not found");
         }
-
+        
         return Ok(new ResponseDto<ZoneDto>(zone));
     }
 }

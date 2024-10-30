@@ -15,5 +15,5 @@ public partial class Table
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public virtual Zone? Zone { get; set; }
+    public Zone? Zone { get; set; }
 }

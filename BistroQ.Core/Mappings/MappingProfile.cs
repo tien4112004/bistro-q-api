@@ -1,5 +1,6 @@
 using AutoMapper;
 using BistroQ.Core.Dtos.Products;
+using BistroQ.Core.Dtos.Tables;
 using BistroQ.Core.Dtos.Zones;
 using BistroQ.Core.Entities;
 
@@ -21,7 +22,8 @@ public class MappingProfile : Profile
         CreateMap<CreateZoneRequestDto, Zone>().ConstructUsing((src, context) => new Zone());
         CreateMap<UpdateZoneRequestDto, Zone>().ConstructUsing((src, context) => new Zone());
         
-        
-        
+        CreateMap<Table, TableDto>().ReverseMap();
+        CreateMap<CreateTableRequestDto, Table>().ConstructUsing((src, context) => new Table());
+        CreateMap<UpdateTableRequestDto, Table>().ConstructUsing((src, context) => new Table());
     }
 }
