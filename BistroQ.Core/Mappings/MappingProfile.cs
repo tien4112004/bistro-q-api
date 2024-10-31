@@ -19,8 +19,10 @@ public class MappingProfile : Profile
             .ConstructUsing((src, context) => new Product());
         
         CreateMap<Zone, ZoneDto>().ReverseMap();
+        CreateMap<Zone, ZoneDetailDto>().ReverseMap();
         CreateMap<CreateZoneRequestDto, Zone>().ConstructUsing((src, context) => new Zone());
         CreateMap<UpdateZoneRequestDto, Zone>().ConstructUsing((src, context) => new Zone());
+        // CreateMap<ZoneDetailDto, Zone>().ConstructUsing((src, context) => new Zone());
         
         CreateMap<Table, TableDto>().ReverseMap();
         CreateMap<CreateTableRequestDto, Table>().ConstructUsing((src, context) => new Table());

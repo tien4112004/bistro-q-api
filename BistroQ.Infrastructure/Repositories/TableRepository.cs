@@ -28,4 +28,29 @@ public class TableRepository : GenericRepository<Table>, ITableRepository
 		
 		return count;
 	}
+	
+	// TODO: Change the implementation of this method
+	public async Task<int> GetNextTableNumberAsync(int zoneId)
+	{
+		var tableNumbers = await _context.Tables
+			.Where(t => t.ZoneId == zoneId)
+			.OrderBy(t => t.Number)
+			.Select(t => t.Number)
+			.ToListAsync();
+		
+		if (tableNumbers.Count == tableNumbers.Max())
+		{
+			return tableNumbers.Max().Value + 1;
+		}
+		
+		for (int i = 1; i <= tableNumbers.Count; i++)
+		{
+			if (tableNumbers[i - 1] != i)
+			{
+				return i;
+			}
+		}
+		
+		return tableNumbers.Count + 1;
+	}
 }

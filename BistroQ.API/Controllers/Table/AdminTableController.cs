@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BistroQ.API.Controllers;
 
 [ApiController]
-[Route("api/Admin/[controller]")]
+[Route("api/Admin/Table")]
 [Authorize(Roles = BistroRoles.Admin)]
 [Tags("Admin Table")]
 public class AdminTableController : ControllerBase
@@ -47,6 +47,7 @@ public class AdminTableController : ControllerBase
     public async Task<IActionResult> AddTable([FromBody] CreateTableRequestDto request)
     {
         Console.WriteLine(JsonSerializer.Serialize(request));
+        
         var table = await _tableService.AddAsync(request);
         
         return Ok(new ResponseDto<TableDto>(table));

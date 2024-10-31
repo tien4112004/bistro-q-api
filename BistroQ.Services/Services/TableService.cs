@@ -53,6 +53,9 @@ public class TableService : ITableService
     {
         var table = _mapper.Map<Table>(tableDto);
         
+        var tableNumber = await _unitOfWork.TableRepository.GetNextTableNumberAsync(table.ZoneId.Value);
+
+        table.Number = tableNumber;
         var createdTable = await _unitOfWork.TableRepository.AddAsync(table);
         await _unitOfWork.SaveChangesAsync();
 

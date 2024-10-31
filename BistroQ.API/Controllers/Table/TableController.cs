@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BistroQ.API.Controllers;
 
 [ApiController]
-[Route("api/Admin/[controller]")]
+[Route("api/[controller]")]
 [Authorize]
 public class TableController : ControllerBase
 {

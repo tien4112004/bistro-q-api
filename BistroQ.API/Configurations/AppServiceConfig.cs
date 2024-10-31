@@ -21,7 +21,7 @@ public static class AppServiceConfigExtension
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ITokenService, TokenService>();
-
+                        
         services.AddSingleton(new JwtSettings().ReadFromEnvironment());
 
         

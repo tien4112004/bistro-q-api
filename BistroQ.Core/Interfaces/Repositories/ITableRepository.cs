@@ -25,4 +25,11 @@ public interface ITableRepository : IGenericRepository<Table>
 	/// <param name="queryable">The prepared queryable after all filtering and sorting has been applied</param>
 	/// <returns>The count of tables matching the filter criteria</returns>
 	Task<int> GetTablesCountAsync(IQueryable<Table> queryable);
+	
+	/// <summary>
+	/// Retrieves the next available table number for a given zone
+	/// </summary>
+	/// <param name="zoneId">The identifier of zone to add table</param>
+	/// <returns>The table number that available</returns>
+	Task<int> GetNextTableNumberAsync(int zoneId);
 }

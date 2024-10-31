@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BistroQ.Core.Common.Builder;
+using BistroQ.Core.Dtos.Tables;
 using BistroQ.Core.Dtos.Zones;
 using BistroQ.Core.Entities;
 using BistroQ.Core.Exceptions;
@@ -81,5 +82,35 @@ public class ZoneService : IZoneService
         
         await _unitOfWork.ZoneRepository.DeleteAsync(existingZone);
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    // TODO: Change the implementation of this method
+    public async Task<ZoneDetailDto> AddTablesToZoneAsync(int zoneId, List<CreateTableRequestDto> tableDtos)
+    {
+        var zone = await _unitOfWork.ZoneRepository.GetByIdAsync(zoneId);
+        if (zone == null)
+        {
+            throw new ResourceNotFoundException("Zone not found");
+        }
+    
+        var tables = _mapper.Map<List<Table>>(tableDtos);
+        var usedNumbers = new HashSet<int>();
+    
+        foreach (var table in tables)
+        {
+            table.ZoneId = zoneId;
+            int tableNumber = await _unitOfWork.TableRepository.GetNextTableNumberAsync(zoneId);
+    
+            usedNumbers.Add(tableNumber);
+            table.Number = tableNumber;
+        }
+    
+        await _unitOfWork.TableRepository.AddRangeAsync(tables);
+        await _unitOfWork.SaveChangesAsync();
+    
+        var zoneDetailDto = _mapper.Map<ZoneDetailDto>(zone);
+        zoneDetailDto.Tables = _mapper.Map<List<TableDto>>(tables);
+    
+        return zoneDetailDto;
     }
 }

@@ -1,4 +1,6 @@
-﻿using BistroQ.Core.Dtos.Zones;
+﻿using BistroQ.Core.Dtos.Tables;
+using BistroQ.Core.Dtos.Zones;
+using BistroQ.Core.Entities;
 using BistroQ.Core.Exceptions;
 
 namespace BistroQ.Core.Interfaces.Services;
@@ -47,4 +49,12 @@ public interface IZoneService
     /// <param name="id">The identifier of zone to remove</param>
     /// <exception cref="ResourceNotFoundException">When zone with given id doesn't exist</exception>
     Task DeleteAsync(int id);
+
+    /// <summary>
+    /// Adds tables to a zone
+    /// </summary>
+    /// <param name="zoneId">The identifier of the zone to add tables to</param>
+    /// <param name="tableDtos">The collection of tables to add to the zone</param>
+    /// <returns>A task representing the asynchronous operation</returns>
+    Task<ZoneDetailDto> AddTablesToZoneAsync(int zoneId, List<CreateTableRequestDto> tableDtos);
 }
