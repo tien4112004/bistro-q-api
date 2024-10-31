@@ -8,14 +8,17 @@ namespace BistroQ.Infrastructure.UnitOfWork;
 public class UnitOfWork : IUnitOfWork
 {
     public IProductRepository ProductRepository { get; }
+    
+    public ICategoryRepository CategoryRepository { get; }
     public BistroQContext Context { get; }
 
     private IDbContextTransaction? _transaction;
     
-    public UnitOfWork(BistroQContext context,IProductRepository productRepository)
+    public UnitOfWork(BistroQContext context,IProductRepository productRepository, ICategoryRepository categoryRepository)
     {
         Context = context;
         ProductRepository = productRepository;
+        CategoryRepository = categoryRepository;
     }
 
     public async Task<int> SaveChangesAsync()

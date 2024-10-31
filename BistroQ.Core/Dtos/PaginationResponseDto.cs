@@ -8,7 +8,7 @@ public class PaginationResponseDto<T>
         Data = data;
         TotalItems = totalItems;
         CurrentPage = page;
-        TotalPages = (int)Math.Ceiling(totalItems / (double)size);
+        TotalPages = size != 0 ? (int)Math.Ceiling(totalItems / (double)size) : 0;
     }
     
     public bool Success { get; set; } = true;
