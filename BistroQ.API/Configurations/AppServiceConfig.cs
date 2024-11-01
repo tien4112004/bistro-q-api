@@ -14,6 +14,8 @@ public static class AppServiceConfigExtension
     {
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IZoneRepository, ZoneRepository>();
         services.AddScoped<IZoneService, ZoneService>();
         services.AddScoped<ITableRepository, TableRepository>();
@@ -23,7 +25,6 @@ public static class AppServiceConfigExtension
         services.AddScoped<ITokenService, TokenService>();
                         
         services.AddSingleton(new JwtSettings().ReadFromEnvironment());
-
         
         return services;
     }

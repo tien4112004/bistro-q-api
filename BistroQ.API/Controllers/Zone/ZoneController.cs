@@ -25,7 +25,6 @@ public class ZoneController : ControllerBase
     public async Task<IActionResult> GetZones([FromQuery] ZoneCollectionQueryParams queryParams)
     {
         var (zones, count) = await _zoneService.GetAllAsync(queryParams);
-
         return Ok(new PaginationResponseDto<IEnumerable<ZoneDto>>(zones, count, queryParams.Page, queryParams.Size));
     }
     
@@ -34,11 +33,6 @@ public class ZoneController : ControllerBase
     public async Task<IActionResult> GetZone([FromRoute] int zoneId)
     {
         var zone = await _zoneService.GetByIdAsync(zoneId);
-        if (zone == null)
-        {
-            throw new ResourceNotFoundException("Zone not found");
-        }
-        
         return Ok(new ResponseDto<ZoneDto>(zone));
     }
 }

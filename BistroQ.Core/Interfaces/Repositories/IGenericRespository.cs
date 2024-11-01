@@ -10,7 +10,7 @@ public interface IGenericRepository<T> where T : class
     /// Gets a queryable instance of the entity set
     /// </summary>
     /// <returns>An IQueryable of type T that can be further filtered, ordered, or projected</returns>
-    Task<IQueryable<T>> GetQueryable();
+    IQueryable<T> GetQueryable();
     
     /// <summary>
     /// Retrieves an entity by its identifier
@@ -23,6 +23,15 @@ public interface IGenericRepository<T> where T : class
     /// </remarks>
     Task<T?> GetByIdAsync(int id);
 
+    /// <summary>
+    /// Retrieves all entities in the repository
+    /// </summary>
+    /// <returns>An enumerable of all entities in the repository</returns>
+    /// <remarks>
+    /// Should be used with caution on large datasets
+    /// </remarks>
+    Task<IEnumerable<T>> GetAllAsync();
+    
     /// <summary>
     /// Adds a new entity to the repository
     /// </summary>

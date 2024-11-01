@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BistroQ.API.Controllers.Product;
 
 [ApiController]
-[Route("api/Admin/[controller]")]
+[Route("api/Admin/Product")]
 [Authorize(Roles = BistroRoles.Admin)]
 [Tags("Admin Product")]
 public class AdminProductController : ControllerBase

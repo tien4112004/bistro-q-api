@@ -9,8 +9,10 @@ namespace BistroQ.Infrastructure.UnitOfWork;
 public class UnitOfWork : IUnitOfWork
 {
     public IProductRepository ProductRepository { get; }
+    public ICategoryRepository CategoryRepository { get; }
     public IZoneRepository ZoneRepository { get; }
     public ITableRepository TableRepository { get; }
+    
     public BistroQContext Context { get; }
 
     private IDbContextTransaction? _transaction;
@@ -18,11 +20,13 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(
         BistroQContext context,
         IProductRepository productRepository,
+        ICategoryRepository categoryRepository,
         IZoneRepository zoneRepository, 
         ITableRepository tableRepository)
     {
         Context = context;
         ProductRepository = productRepository;
+        CategoryRepository = categoryRepository;
         ZoneRepository = zoneRepository;
         TableRepository = tableRepository;
     }

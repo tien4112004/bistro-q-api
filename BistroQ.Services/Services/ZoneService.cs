@@ -22,15 +22,19 @@ public class ZoneService : IZoneService
     
     public async Task<ZoneDto> GetByIdAsync(int id)
     {
-        var zones = await _unitOfWork.ZoneRepository.GetByIdAsync(id);
-
-        return _mapper.Map<ZoneDto>(zones);
+        var zone = await _unitOfWork.ZoneRepository.GetByIdAsync(id);
+        if (zone == null)
+        {
+            throw new ResourceNotFoundException("Zone not found");
+        }
+        
+        return _mapper.Map<ZoneDto>(zone);
     }
 
     public async Task<(IEnumerable<ZoneDto> Zones, int Count)> GetAllAsync(ZoneCollectionQueryParams queryParams)
     {
         var builder =
-            new ZoneQueryableBuilder(await _unitOfWork.ZoneRepository.GetQueryable())
+            new ZoneQueryableBuilder(_unitOfWork.ZoneRepository.GetQueryable())
                 .WithName(queryParams.Name);
         
         var count = await _unitOfWork.ZoneRepository.GetZonesCountAsync(builder.Build());

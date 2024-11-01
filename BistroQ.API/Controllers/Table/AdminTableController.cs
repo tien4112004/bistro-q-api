@@ -26,7 +26,6 @@ public class AdminTableController : ControllerBase
     public async Task<IActionResult> GetTables([FromQuery] TableCollectionQueryParams queryParams)
     {
         var (tables, count) = await _tableService.GetAllAsync(queryParams);
-
         return Ok(new PaginationResponseDto<IEnumerable<TableDto>>(tables, count, queryParams.Page, queryParams.Size));
     }
     
@@ -35,21 +34,13 @@ public class AdminTableController : ControllerBase
     public async Task<IActionResult> GetTable([FromRoute] int tableId)
     {
         var table = await _tableService.GetByIdAsync(tableId);
-        if (table == null)
-        {
-            throw new ResourceNotFoundException("Table not found");
-        }
-        
         return Ok(new ResponseDto<TableDto>(table));
     }
     
     [HttpPost]
     public async Task<IActionResult> AddTable([FromBody] CreateTableRequestDto request)
     {
-        Console.WriteLine(JsonSerializer.Serialize(request));
-        
         var table = await _tableService.AddAsync(request);
-        
         return Ok(new ResponseDto<TableDto>(table));
     }
     

@@ -15,8 +15,6 @@ public class TableRepository : GenericRepository<Table>, ITableRepository
 
 	public async Task<IEnumerable<Table>> GetTablesAsync(IQueryable<Table> queryable)
 	{	
-		Console.WriteLine("B");
-		Console.WriteLine(queryable.Expression);
 		var tables = await queryable.ToListAsync();
 		
 		return tables;

@@ -15,8 +15,6 @@ public class ZoneRepository : GenericRepository<Zone>, IZoneRepository
 
 	public async Task<IEnumerable<Zone>> GetZonesAsync(IQueryable<Zone> queryable)
 	{	
-		Console.WriteLine("B");
-		Console.WriteLine(queryable.Expression);
 		var zones = await queryable.ToListAsync();
 		
 		return zones;

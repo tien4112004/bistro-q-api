@@ -34,7 +34,7 @@ public class TableService : ITableService
     public async Task<(IEnumerable<TableDto> Tables, int Count)> GetAllAsync(TableCollectionQueryParams queryParams)
     {
         var builder =
-            new TableQueryableBuilder(await _unitOfWork.TableRepository.GetQueryable())
+            new TableQueryableBuilder(_unitOfWork.TableRepository.GetQueryable())
                 .WithZoneName(queryParams.ZoneName)
                 .WithZoneId(queryParams.ZoneId)
                 .WithSeatsCount(queryParams.SeatsCount);
