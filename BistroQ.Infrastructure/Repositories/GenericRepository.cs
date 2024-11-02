@@ -37,6 +37,12 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         var res = await _dbSet.AddAsync(entity);
         return res.Entity;
     }
+    
+    public async Task<IEnumerable<T>?> AddRangeAsync(IEnumerable<T> entities)
+    {
+        await _dbSet.AddRangeAsync(entities);
+        return entities.ToList();
+    }
 
     public async Task UpdateAsync(T oldEntity, T newEntity)
     {

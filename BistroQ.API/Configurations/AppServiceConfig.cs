@@ -16,9 +16,14 @@ public static class AppServiceConfigExtension
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped<ITokenService, TokenService>();
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IZoneRepository, ZoneRepository>();
+        services.AddScoped<IZoneService, ZoneService>();
+        services.AddScoped<ITableRepository, TableRepository>();
+        services.AddScoped<ITableService, TableService>();
         
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<ITokenService, TokenService>();
+                        
         services.AddSingleton(new JwtSettings().ReadFromEnvironment());
         
         return services;

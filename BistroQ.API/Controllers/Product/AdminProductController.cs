@@ -34,7 +34,7 @@ public class AdminProductController : ControllerBase
         var product = await _productService.GetByIdAsync(productId);
         return Ok(new ResponseDto<ProductDto>(product));
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> AddProduct([FromBody] CreateProductRequestDto request)
     {
