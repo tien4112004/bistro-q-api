@@ -1,5 +1,7 @@
 using AutoMapper;
 using BistroQ.Core.Dtos.Orders;
+using BistroQ.Core.Entities;
+using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Services;
 
@@ -16,27 +18,57 @@ public class OrderService : IOrderService
         _mapper = mapper;
     }
 
-    public Task<OrderDto> CreateOrder(CreateOrderRequestDto request)
+    public async Task<OrderDto> CreateOrder(int tableId)
+    {
+        var order = new Order
+        {
+            OrderId = Guid.NewGuid().ToString(),
+            TableId = tableId,
+            TotalAmount = 0,
+            StartTime = DateTime.Now,
+            EndTime = null,
+        };
+        
+        var table = await _unitOfWork.TableRepository.GetByIdAsync(tableId);
+        if (table == null)
+        {
+            throw new ResourceNotFoundException("Table not found");
+        }
+
+        var existingOrder = await _unitOfWork.OrderRepository.GetByTableIdAsync(tableId);
+        if (existingOrder != null)
+        {
+            throw new ConflictException("Order already exists");
+        }
+        
+        var createdOrder = await _unitOfWork.OrderRepository.AddAsync(order);
+        await _unitOfWork.SaveChangesAsync();
+        
+        return _mapper.Map<OrderDto>(createdOrder);
+    }
+
+    public async Task<OrderInDetailDto> GetOrder(int tableId)
+    {
+        var order =await _unitOfWork.OrderRepository.GetByTableIdAsync(tableId);
+        if (order == null)
+        {
+            throw new ResourceNotFoundException("Order not found");
+        }
+
+        return _mapper.Map<OrderInDetailDto>(order);
+    }
+
+    public Task<OrderInDetailDto> AddProductToOrder(int tableId, int productId)
     {
         throw new NotImplementedException();
     }
 
-    public Task<DetailOrderDto> GetOrder()
+    public Task<OrderInDetailDto> RemoveProductFromOrder(int tableId, int productId)
     {
         throw new NotImplementedException();
     }
 
-    public Task<DetailOrderDto> AddProductToOrder(int productId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<DetailOrderDto> RemoveProductFromOrder(int productId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<DetailOrderDto> UpdateProductQuantity(int productId)
+    public Task<OrderInDetailDto> UpdateProductQuantity(int tableId, int productId)
     {
         throw new NotImplementedException();
     }

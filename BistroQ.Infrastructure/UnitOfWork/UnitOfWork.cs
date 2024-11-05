@@ -13,6 +13,8 @@ public class UnitOfWork : IUnitOfWork
     public IZoneRepository ZoneRepository { get; }
     public ITableRepository TableRepository { get; }
     
+    public IOrderRepository OrderRepository { get; }
+    
     public BistroQContext Context { get; }
 
     private IDbContextTransaction? _transaction;
@@ -22,13 +24,15 @@ public class UnitOfWork : IUnitOfWork
         IProductRepository productRepository,
         ICategoryRepository categoryRepository,
         IZoneRepository zoneRepository, 
-        ITableRepository tableRepository)
+        ITableRepository tableRepository,
+        IOrderRepository orderRepository)
     {
         Context = context;
         ProductRepository = productRepository;
         CategoryRepository = categoryRepository;
         ZoneRepository = zoneRepository;
         TableRepository = tableRepository;
+        OrderRepository = orderRepository;
     }
 
     public async Task<int> SaveChangesAsync()

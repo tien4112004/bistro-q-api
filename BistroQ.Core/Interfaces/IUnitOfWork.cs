@@ -9,6 +9,7 @@ public interface IUnitOfWork
     ICategoryRepository CategoryRepository { get; }
     IZoneRepository ZoneRepository { get; }
     ITableRepository TableRepository { get; }
+    IOrderRepository OrderRepository { get; }
 
     Task<int> SaveChangesAsync();
     Task BeginTransactionAsync();

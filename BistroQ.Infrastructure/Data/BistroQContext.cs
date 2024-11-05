@@ -25,7 +25,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
     public virtual DbSet<NutritionFact> NutritionFacts { get; set; }
 
-    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<Order?> Orders { get; set; }
 
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
@@ -332,8 +332,53 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             {
                 RoleId = "4",
                 UserId = "4",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "5",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "6",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "7",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "8",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "9",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "10",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "11",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "12",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "13",
             }
-            );
+        );
 
         var listZone = new List<Zone>()
         {
@@ -389,12 +434,12 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             },
             new Order
             {
-                OrderId = "5", TableId = 1, StartTime = DateTime.Now, EndTime = null,
+                OrderId = "5", TableId = 3, StartTime = DateTime.Now, EndTime = null,
                 TotalAmount = 500
             },
             new Order
             {
-                OrderId = "6", TableId = 2, StartTime = DateTime.Now, EndTime = null,
+                OrderId = "6", TableId = 4, StartTime = DateTime.Now, EndTime = null,
                 TotalAmount = 600
             },
         };

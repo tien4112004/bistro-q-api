@@ -4,13 +4,13 @@ namespace BistroQ.Core.Interfaces.Services;
 
 public interface IOrderService 
 {
-    Task<OrderDto> CreateOrder(CreateOrderRequestDto request);
+    Task<OrderDto> CreateOrder(int tableId);
     
-    Task<DetailOrderDto> GetOrder();
+    Task<OrderInDetailDto> GetOrder(int tableId);
     
-    Task<DetailOrderDto> AddProductToOrder(int productId);
+    Task<OrderInDetailDto> AddProductToOrder(int tableId, int productId);
     
-    Task<DetailOrderDto> RemoveProductFromOrder(int productId);
+    Task<OrderInDetailDto> RemoveProductFromOrder(int tableId, int productId);
     
-    Task<DetailOrderDto> UpdateProductQuantity(int productId);
+    Task<OrderInDetailDto> UpdateProductQuantity(int tableId, int productId);
 }
