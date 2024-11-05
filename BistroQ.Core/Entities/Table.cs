@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using BistroQ.Infrastructure.Identity;
 
 namespace BistroQ.Core.Entities;
 
@@ -15,7 +16,8 @@ public partial class Table
     [Range(1, int.MaxValue)]
     public int? SeatsCount { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual AppUser? User { get; set; }
+    public virtual Order? Order { get; set; }
 
     public Zone? Zone { get; set; }
 }
