@@ -26,7 +26,7 @@ public class AdminTableController : ControllerBase
     public async Task<IActionResult> GetTables([FromQuery] TableCollectionQueryParams queryParams)
     {
         var (tables, count) = await _tableService.GetAllAsync(queryParams);
-        return Ok(new PaginationResponseDto<IEnumerable<TableDto>>(tables, count, queryParams.Page, queryParams.Size));
+        return Ok(new PaginationResponseDto<IEnumerable<TableDetailDto>>(tables, count, queryParams.Page, queryParams.Size));
     }
     
     [HttpGet]
