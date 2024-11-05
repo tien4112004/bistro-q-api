@@ -33,5 +33,7 @@ public class MappingProfile : Profile
         CreateMap<Table, TableDto>().ReverseMap();
         CreateMap<CreateTableRequestDto, Table>().ConstructUsing((src, context) => new Table());
         CreateMap<UpdateTableRequestDto, Table>().ConstructUsing((src, context) => new Table());
+        CreateMap<Table, TableDetailDto>().ForMember(dest => dest.ZoneName,
+            opt => opt.MapFrom(src => src.Zone == null ? null : src.Zone.Name));
     }
 }

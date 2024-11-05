@@ -31,7 +31,7 @@ public class TableService : ITableService
         return _mapper.Map<TableDto>(table);
     }
 
-    public async Task<(IEnumerable<TableDto> Tables, int Count)> GetAllAsync(TableCollectionQueryParams queryParams)
+    public async Task<(IEnumerable<TableDetailDto> Tables, int Count)> GetAllAsync(TableCollectionQueryParams queryParams)
     {
         var builder =
             new TableQueryableBuilder(_unitOfWork.TableRepository.GetQueryable())
@@ -46,7 +46,7 @@ public class TableService : ITableService
         
         var tables = await _unitOfWork.TableRepository.GetTablesAsync(builder.Build());
         await _unitOfWork.SaveChangesAsync();
-        return (_mapper.Map<IEnumerable<TableDto>>(tables), count);
+        return (_mapper.Map<IEnumerable<TableDetailDto>>(tables), count);
     }
 
     public async Task<TableDto> AddAsync(CreateTableRequestDto tableDto)

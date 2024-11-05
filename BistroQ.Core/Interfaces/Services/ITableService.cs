@@ -22,7 +22,7 @@ public interface ITableService
     /// </summary>
     /// <param name="queryParams">Parameters for filtering, sorting, and pagination</param>
     /// <returns>A tuple containing the collection of tables and total count</returns>
-    Task<(IEnumerable<TableDto> Tables, int Count)> GetAllAsync(TableCollectionQueryParams queryParams);
+    Task<(IEnumerable<TableDetailDto> Tables, int Count)> GetAllAsync(TableCollectionQueryParams queryParams);
     
     /// <summary>
     /// Creates a new table
