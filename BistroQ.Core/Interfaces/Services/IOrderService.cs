@@ -8,6 +8,8 @@ public interface IOrderService
     
     Task<OrderInDetailDto> GetOrder(int tableId);
     
+    Task DeleteOrder(int tableId);
+    
     Task<OrderInDetailDto> AddProductToOrder(int tableId, int productId);
     
     Task<OrderInDetailDto> RemoveProductFromOrder(int tableId, int productId);

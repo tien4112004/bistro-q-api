@@ -57,6 +57,18 @@ public class OrderService : IOrderService
 
         return _mapper.Map<OrderInDetailDto>(order);
     }
+    
+    public async Task DeleteOrder(int tableId)
+    {
+        var order = await _unitOfWork.OrderRepository.GetByTableIdAsync(tableId);
+        if (order == null)
+        {
+            throw new ResourceNotFoundException("Order not found");
+        }
+
+        await _unitOfWork.OrderRepository.DeleteAsync(order);
+        await _unitOfWork.SaveChangesAsync();
+    }
 
     public Task<OrderInDetailDto> AddProductToOrder(int tableId, int productId)
     {

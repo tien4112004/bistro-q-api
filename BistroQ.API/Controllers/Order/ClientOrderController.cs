@@ -42,6 +42,15 @@ public class ClientOrderController : ControllerBase
         var order = await _orderService.GetOrder(tableId);
         return Ok(new ResponseDto<OrderInDetailDto>(order));
     }
+    
+    [HttpDelete]
+    public async Task<IActionResult> DeleteOrder()
+    {
+        var tableId = await GetTableId();
+        
+         await _orderService.DeleteOrder(tableId);
+        return Ok(new ResponseDto<string>("Order deleted"));
+    }
         
     [HttpPost("Items/{productId:int}")]
     public async Task<IActionResult> AddProductToOrder([FromRoute] int productId)
