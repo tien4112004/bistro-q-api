@@ -13,5 +13,5 @@ public class OrderInDetailDto
 
     public int? TableId { get; set; }
     
-    public ICollection<OrderDetailDto> OrderDetails { get; set; } = new List<OrderDetailDto>();
+    public ICollection<OrderDetailWithProductDto> OrderDetails { get; set; } = new List<OrderDetailWithProductDto>();
 }
