@@ -14,5 +14,5 @@ public class OrderWithTableDto
 
     public int? TableId { get; set; }
 
-    public TableDto Table { get; set; } = null!;
+    public TableDetailDto Table { get; set; } = null!;
 }
