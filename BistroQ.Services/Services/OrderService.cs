@@ -69,6 +69,12 @@ public class OrderService : IOrderService
         await _unitOfWork.OrderRepository.DeleteAsync(order);
         await _unitOfWork.SaveChangesAsync();
     }
+    
+    public async Task<IEnumerable<OrderWithTableDto>> GetAllCurrentOrders()
+    {
+        var orders = await _unitOfWork.OrderRepository.GetAllCurrentOrdersAsync();
+        return _mapper.Map<IEnumerable<OrderWithTableDto>>(orders);
+    }
 
     public Task<OrderInDetailDto> AddProductToOrder(int tableId, int productId)
     {

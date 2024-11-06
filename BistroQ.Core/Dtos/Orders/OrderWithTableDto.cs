@@ -1,7 +1,8 @@
-using BistroQ.Core.Entities;
+using BistroQ.Core.Dtos.Tables;
+
 namespace BistroQ.Core.Dtos.Orders;
 
-public class OrderInDetailDto
+public class OrderWithTableDto
 {
     public string OrderId { get; set; } = null!;
 
@@ -12,5 +13,6 @@ public class OrderInDetailDto
     public DateTime? EndTime { get; set; }
 
     public int? TableId { get; set; }
-    public ICollection<OrderDetailWithProductDto> OrderDetails { get; set; } = new List<OrderDetailWithProductDto>();
+
+    public TableDto Table { get; set; } = null!;
 }

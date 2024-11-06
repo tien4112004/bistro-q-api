@@ -21,4 +21,12 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
             .ThenInclude(od => od.Product)
             .FirstOrDefaultAsync(o => o.TableId == tableId);
     }
+    
+    public async Task<IEnumerable<Order>> GetAllCurrentOrdersAsync()
+    {
+        return await _context.Orders
+            .Include(o => o.Table)
+            .Where(o => o.EndTime == null)
+            .ToListAsync();
+    }
 }
