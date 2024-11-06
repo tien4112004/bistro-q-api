@@ -25,7 +25,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
     public virtual DbSet<NutritionFact> NutritionFacts { get; set; }
 
-    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<Order?> Orders { get; set; }
 
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
@@ -47,7 +47,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 entityType.SetTableName(tableName.Substring(6));
             }
         }
-        
+
         modelBuilder
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
@@ -83,7 +83,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             entity.ToTable("Order");
 
             entity.HasIndex(e => e.TableId, "TableId");
-    
+
             entity.Property(e => e.OrderId).HasMaxLength(100);
             entity.Property(e => e.EndTime).HasColumnType("datetime");
             entity.Property(e => e.StartTime).HasColumnType("datetime");
@@ -124,7 +124,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
         modelBuilder.Entity<Product>(entity =>
         {
             entity.HasKey(e => e.ProductId).HasName("PRIMARY");
-            
+
             entity.ToTable("Product");
 
             entity.HasIndex(e => e.CategoryId, "CategoryId");
@@ -155,7 +155,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 .HasForeignKey(d => d.ZoneId)
                 .HasConstraintName("Table_ibfk_1")
                 .OnDelete(DeleteBehavior.SetNull);
-            
+
             entity.HasOne(d => d.User)
                 .WithOne(p => p.Table)
                 .HasForeignKey<AppUser>(d => d.TableId)
@@ -172,7 +172,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             entity.Property(e => e.ZoneId).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).HasMaxLength(100);
         });
-        
+
         var listRoles = new List<IdentityRole>()
         {
             new IdentityRole { Id = "1", Name = BistroRoles.Admin, NormalizedName = BistroRoles.Admin.ToUpper() },
@@ -180,9 +180,9 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             new IdentityRole { Id = "3", Name = BistroRoles.Cashier, NormalizedName = BistroRoles.Cashier.ToUpper() },
             new IdentityRole { Id = "4", Name = BistroRoles.Client, NormalizedName = BistroRoles.Client.ToUpper() }
         };
-        
+
         modelBuilder.Entity<IdentityRole>().HasData(listRoles);
-        
+
         var hasher = new PasswordHasher<AppUser>();
         modelBuilder.Entity<AppUser>().HasData(new AppUser
             {
@@ -332,8 +332,53 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             {
                 RoleId = "4",
                 UserId = "4",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "5",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "6",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "7",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "8",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "9",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "10",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "11",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "12",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "13",
             }
-            );
+        );
 
         var listZone = new List<Zone>()
         {
@@ -342,7 +387,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             new Zone { ZoneId = 3, Name = "Outside" },
             new Zone { ZoneId = 4, Name = "VIP" }
         };
-        
+
         modelBuilder.Entity<Zone>().HasData(listZone);
 
         var listTable = new List<Table>()
@@ -358,8 +403,127 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             new Table { TableId = 9, ZoneId = 3, Number = 1, SeatsCount = 3 },
             new Table { TableId = 10, ZoneId = 3, Number = 2, SeatsCount = 2 },
         };
-        
+
         modelBuilder.Entity<Table>().HasData(listTable);
+
+        var listCategory = new List<Category>()
+        {
+            new Category { CategoryId = 1, Name = "Drink" },
+            new Category { CategoryId = 2, Name = "Food" },
+            new Category { CategoryId = 3, Name = "Dessert" }
+        };
+
+        modelBuilder.Entity<Category>().HasData(listCategory);
+
+        var listProduct = new List<Product>()
+        {
+            new Product
+            {
+                ProductId = 1, CategoryId = 1, Name = "Coca Cola", Price = 10, DiscountPrice = null, Unit = "Can"
+            },
+            new Product
+            {
+                ProductId = 2, CategoryId = 1, Name = "Pepsi", Price = 10, DiscountPrice = null, Unit = "Can"
+            },
+            new Product
+            {
+                ProductId = 3, CategoryId = 1, Name = "Fanta", Price = 10, DiscountPrice = null, Unit = "Can"
+            },
+            new Product
+            {
+                ProductId = 4, CategoryId = 2, Name = "Pizza", Price = 100, DiscountPrice = null, Unit = "Piece"
+            },
+            new Product
+            {
+                ProductId = 5, CategoryId = 2, Name = "Hamburger", Price = 50, DiscountPrice = null, Unit = "Piece"
+            },
+            new Product
+            {
+                ProductId = 6, CategoryId = 2, Name = "Spaghetti", Price = 80, DiscountPrice = null, Unit = "Plate"
+            },
+            new Product
+            {
+                ProductId = 7, CategoryId = 3, Name = "Ice Cream", Price = 20, DiscountPrice = null, Unit = "Cup"
+            },
+            new Product
+            {
+                ProductId = 8, CategoryId = 3, Name = "Cake", Price = 30, DiscountPrice = null, Unit = "Piece"
+            },
+            new Product
+            {
+                ProductId = 9, CategoryId = 3, Name = "Pudding", Price = 25, DiscountPrice = null, Unit = "Cup"
+            }
+        };
+
+        modelBuilder.Entity<Product>().HasData(listProduct);
+
+        var listOrderDetail = new List<OrderDetail>()
+        {
+            new OrderDetail
+            {
+                OrderDetailId = "1",
+                OrderId = "1",
+                ProductId = 1,
+                Quantity = 2,
+                PriceAtPurchase = 10
+            },
+            new OrderDetail
+            {
+                OrderDetailId = "2",
+                OrderId = "1",
+                ProductId = 2,
+                Quantity = 1,
+                PriceAtPurchase = 10
+            },
+            new OrderDetail
+            {
+                OrderDetailId = "3",
+                OrderId = "2",
+                ProductId = 3,
+                Quantity = 3,
+                PriceAtPurchase = 10
+            },
+            new OrderDetail
+            {
+                OrderDetailId = "4",
+                OrderId = "3",
+                ProductId = 4,
+                Quantity = 1,
+                PriceAtPurchase = 100
+            },
+            new OrderDetail
+            {
+                OrderDetailId = "5",
+                OrderId = "3",
+                ProductId = 5,
+                Quantity = 2,
+                PriceAtPurchase = 50
+            },
+            new OrderDetail
+            {
+                OrderDetailId = "6",
+                OrderId = "4",
+                ProductId = 6,
+                Quantity = 1,
+                PriceAtPurchase = 80
+            },
+            new OrderDetail
+            {
+                OrderDetailId = "7",
+                OrderId = "5",
+                ProductId = 7,
+                Quantity = 2,
+                PriceAtPurchase = 20
+            },
+            new OrderDetail
+            {
+                OrderDetailId = "8",
+                OrderId = "6",
+                ProductId = 8,
+                Quantity = 1,
+                PriceAtPurchase = 30
+            }
+        };
 
         var listOrder = new List<Order>()
         {
@@ -367,37 +531,39 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             {
                 OrderId = "1", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
                 EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = 100
+                TotalAmount = listOrderDetail.Where(od => od.OrderId == "1").Sum(od => od.Quantity * od.PriceAtPurchase)
             },
             new Order
             {
                 OrderId = "2", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
                 EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = 200
+                TotalAmount = listOrderDetail.Where(od => od.OrderId == "2").Sum(od => od.Quantity * od.PriceAtPurchase)
             },
             new Order
             {
                 OrderId = "3", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
                 EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = 300
+                TotalAmount = listOrderDetail.Where(od => od.OrderId == "3").Sum(od => od.Quantity * od.PriceAtPurchase)
             },
             new Order
             {
-                OrderId = "4", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
-                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = 400
+                OrderId = "4", TableId = 2, StartTime = DateTime.Now, EndTime = null,
+                TotalAmount = listOrderDetail.Where(od => od.OrderId == "4").Sum(od => od.Quantity * od.PriceAtPurchase)
             },
             new Order
             {
-                OrderId = "5", TableId = 1, StartTime = DateTime.Now, EndTime = null,
-                TotalAmount = 500
+                OrderId = "5", TableId = 3, StartTime = DateTime.Now, EndTime = null,
+                TotalAmount = listOrderDetail.Where(od => od.OrderId == "5").Sum(od => od.Quantity * od.PriceAtPurchase)
             },
             new Order
             {
-                OrderId = "6", TableId = 2, StartTime = DateTime.Now, EndTime = null,
-                TotalAmount = 600
-            },
+                OrderId = "6", TableId = 4, StartTime = DateTime.Now, EndTime = null,
+                TotalAmount = listOrderDetail.Where(od => od.OrderId == "6").Sum(od => od.Quantity * od.PriceAtPurchase)
+            }
         };
+        
+        modelBuilder.Entity<OrderDetail>().HasData(listOrderDetail);
+        modelBuilder.Entity<Order>().HasData(listOrder);
         
         OnModelCreatingPartial(modelBuilder);
     }

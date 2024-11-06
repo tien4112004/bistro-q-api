@@ -1,5 +1,6 @@
 using AutoMapper;
 using BistroQ.Core.Dtos.Category;
+using BistroQ.Core.Dtos.Orders;
 using BistroQ.Core.Dtos.Products;
 using BistroQ.Core.Dtos.Tables;
 using BistroQ.Core.Dtos.Zones;
@@ -35,5 +36,12 @@ public class MappingProfile : Profile
         CreateMap<UpdateTableRequestDto, Table>().ConstructUsing((src, context) => new Table());
         CreateMap<Table, TableDetailDto>().ForMember(dest => dest.ZoneName,
             opt => opt.MapFrom(src => src.Zone == null ? null : src.Zone.Name));
+        
+        CreateMap<Order, OrderDto>().ReverseMap();
+        CreateMap<Order, OrderInDetailDto>().ForMember(v => v.OrderDetails, 
+            opt => opt.MapFrom(src => src.OrderDetails));
+        CreateMap<Order, OrderWithTableDto>();
+        CreateMap<OrderDetail, OrderDetailDto>().ReverseMap();
+        CreateMap<OrderDetail, OrderDetailWithProductDto>();
     }
 }
