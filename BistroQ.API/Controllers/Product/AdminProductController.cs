@@ -43,6 +43,12 @@ public class AdminProductController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddProduct([FromForm] CreateProductMultipartRequestDto request)
     {
+        ProductResponseDto product;
+        if (request.Image == null)
+        {
+            product = await _productService.AddAsync(request.Product, null);
+            return Ok(new ResponseDto<ProductResponseDto>(product));
+        }
         using var stream = request.Image.OpenReadStream();
         var imageRequest = new ImageRequestDto
         {
@@ -50,7 +56,8 @@ public class AdminProductController : ControllerBase
             Data = stream,
             ContentType = request.Image.ContentType
         };
-        var product = await _productService.AddAsync(request.Product, imageRequest);
+        
+        product = await _productService.AddAsync(request.Product, imageRequest);
         return Ok(new ResponseDto<ProductResponseDto>(product));
     }
     
@@ -73,6 +80,8 @@ public class AdminProductController : ControllerBase
             Data = stream,
             ContentType = image.ContentType
         };
+        
+        
         var updatedProduct = await _productService.UpdateImageAsync(productId, imageRequest);
         return Ok(new ResponseDto<ProductResponseDto>(updatedProduct));
     }

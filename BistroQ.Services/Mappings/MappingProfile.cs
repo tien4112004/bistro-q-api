@@ -1,5 +1,6 @@
 using AutoMapper;
 using BistroQ.Core.Dtos.Category;
+using BistroQ.Core.Dtos.Image;
 using BistroQ.Core.Dtos.Products;
 using BistroQ.Core.Dtos.Tables;
 using BistroQ.Core.Dtos.Zones;
@@ -20,6 +21,9 @@ public class MappingProfile : Profile
             .ConstructUsing((src, context) => new Product());
         CreateMap<Product, ProductResponseDto>()
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom<ImageUrlResolver>());
+
+        CreateMap<ImageRequestDto, Image>()
+            .ConstructUsing((src, context) => new Image());
         
         CreateMap<Category, CategoryDto>().ReverseMap();
         CreateMap<Category, CategoryDetailDto>()

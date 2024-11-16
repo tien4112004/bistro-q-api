@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Amazon;
 using Amazon.CloudFront;
 using Amazon.Extensions.NETCore.Setup;

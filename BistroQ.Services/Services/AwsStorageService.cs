@@ -26,10 +26,11 @@ public class AwsStorageService : ICloudStorageService
                 BucketName = _awsSettings.BucketName,
                 Key = key,
                 InputStream = fileStream,
-                ContentType = contentType
+                ContentType = contentType,
             };
 
-            await _s3Client.PutObjectAsync(putRequest);
+            var a = await _s3Client.PutObjectAsync(putRequest);
+            Console.WriteLine(a.HttpStatusCode); // 200
         }
         catch (AmazonS3Exception ex)
         {

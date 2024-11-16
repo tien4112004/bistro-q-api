@@ -8,6 +8,7 @@ using BistroQ.Core.Entities;
 using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Services;
+using BistroQ.Services.Helpers;
 using Microsoft.AspNetCore.Http;
 
 namespace BistroQ.Services.Services;
@@ -73,18 +74,27 @@ public class ProductService : IProductService
         try
         {
             var createdProduct = await _unitOfWork.ProductRepository.AddAsync(product);
+            if (createdProduct == null)
+            {
+                throw new Exception("Failed to create product");
+            }
 
             if (image != null)
             {
                 var newImage = _mapper.Map<Image>(image);
+                var createdImage = await _unitOfWork.ImageRepository.AddAsync(newImage);
+                if (createdImage == null)
+                {
+                    throw new Exception("Failed to create image");
+                }
+       
                 await _cloudStorageService.UploadFileAsync(
                     image.Data, 
-                    newImage.ImageId.ToString(), 
-                    newImage.ContentType);
-        
-                createdProduct.ImageId = newImage.ImageId;
-        
-                await _unitOfWork.ImageRepository.AddAsync(newImage);
+                    createdImage.ImageId + ContentTypeValue.GetExtension(createdImage.ContentType), 
+                    createdImage.ContentType);
+
+                
+                createdProduct.ImageId = createdImage.ImageId;
             }
 
             await _unitOfWork.SaveChangesAsync();
@@ -138,7 +148,7 @@ public class ProductService : IProductService
         {
             await _cloudStorageService.UploadFileAsync(
                 image.Data, 
-                existingImage.ImageId.ToString(), 
+                existingImage.ImageId + ContentTypeValue.GetExtension(image.ContentType), 
                 image.ContentType);
 
             existingImage.ContentType = image.ContentType;

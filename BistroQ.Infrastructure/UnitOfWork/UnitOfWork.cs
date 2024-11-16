@@ -24,13 +24,15 @@ public class UnitOfWork : IUnitOfWork
         IProductRepository productRepository,
         ICategoryRepository categoryRepository,
         IZoneRepository zoneRepository, 
-        ITableRepository tableRepository)
+        ITableRepository tableRepository,
+        IImageRepository imageRepository)
     {
         Context = context;
         ProductRepository = productRepository;
         CategoryRepository = categoryRepository;
         ZoneRepository = zoneRepository;
         TableRepository = tableRepository;
+        ImageRepository = imageRepository;
     }
 
     public async Task<int> SaveChangesAsync()
