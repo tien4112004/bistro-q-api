@@ -1,4 +1,4 @@
-namespace BistroQ.Core.Common.Settings;
+using BistroQ.Core.Interfaces;
 
 public class JwtSettings 
 {

@@ -13,7 +13,8 @@ builder.Services.AddDatabaseConfig()
     .AddIdentityConfig()
     .AddSwaggerConfig()
     .AddAuthenticationConfig()
-    .AddAppServiceConfig();
+    .AddAppServiceConfig()
+    .AddAwsS3Config();
 
 builder.Services.AddAuthorization();
 

@@ -30,6 +30,8 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
+    
+    public virtual DbSet<Image> Images { get; set; }
 
     public virtual DbSet<Table> Tables { get; set; }
 
@@ -139,6 +141,12 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("Product_ibfk_1")
                 .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasOne(d => d.Image)
+                .WithOne(p => p.Product)
+                .HasForeignKey<Image>(d => d.ProductId)
+                .HasConstraintName("Product_ibfk_2")
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<Table>(entity =>
@@ -171,6 +179,15 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
             entity.Property(e => e.ZoneId).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).HasMaxLength(100);
+        });
+        
+        modelBuilder.Entity<Image>(entity =>
+        {
+            entity.HasKey(e => e.ImageId).HasName("PRIMARY");
+
+            entity.ToTable("Image");
+
+            entity.Property(e => e.ImageId).ValueGeneratedOnAdd();
         });
         
         var listRoles = new List<IdentityRole>()
