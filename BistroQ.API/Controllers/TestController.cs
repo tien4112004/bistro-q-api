@@ -14,10 +14,4 @@ public class TestController : ControllerBase
         _cloudStorageService = cloudStorageService;
     }
     
-    [HttpGet]
-    public async Task<IActionResult> Get()
-    {
-        var result = await _cloudStorageService.GeneratePresignedUrlAsync("3a8886a5-ff98-43e6-8d50-baef26bafb41.jpg", new TimeSpan(0, 5, 0));
-        return Ok(result);
-    }
 }

@@ -1,8 +1,8 @@
 namespace BistroQ.Core.Dtos.Products;
 
-public class ProductDto
+public class ProductResponseDto 
 {
-    public int? ProductId { get; set; }
+    public int ProductId { get; set; }
 
     public string? Name { get; set; }
 
@@ -13,6 +13,6 @@ public class ProductDto
     public string? Unit { get; set; }
 
     public decimal? DiscountPrice { get; set; }
-    
-    public Guid? ImageId { get; set; }
+   
+    public string? ImageUrl { get; set; }
 }

@@ -20,6 +20,8 @@ public static class AppServiceConfigExtension
         services.AddScoped<IZoneService, ZoneService>();
         services.AddScoped<ITableRepository, TableRepository>();
         services.AddScoped<ITableService, TableService>();
+        services.AddScoped<IImageRepository, ImageRepository>();
+        services.AddScoped<IFileService, FileService>();
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ITokenService, TokenService>();

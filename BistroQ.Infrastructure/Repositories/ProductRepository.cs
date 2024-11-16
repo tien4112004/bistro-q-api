@@ -30,4 +30,13 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         
         return count;
     }
+    
+    public new async Task<Product?> GetByIdAsync(int productId)
+    {
+        var product = await _context.Products
+            .Include(p => p.Image)
+            .FirstOrDefaultAsync(p => p.ProductId == productId);
+        
+        return product;
+    }
 }

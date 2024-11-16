@@ -9,11 +9,11 @@ DotNetEnv.Env.Load();
 
 builder.Services.AddDatabaseConfig()
     .AddApiConfig()
-    .AddAutoMapperConfig()
     .AddIdentityConfig()
-    .AddSwaggerConfig()
     .AddAuthenticationConfig()
     .AddAppServiceConfig()
+    .AddSwaggerConfig()
+    .AddAutoMapperConfig()
     .AddAwsS3Config();
 
 builder.Services.AddAuthorization();

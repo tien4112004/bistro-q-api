@@ -1,5 +1,7 @@
+using BistroQ.Core.Dtos.Image;
 using BistroQ.Core.Dtos.Products;
 using BistroQ.Core.Exceptions;
+using Microsoft.AspNetCore.Http;
 
 namespace BistroQ.Core.Interfaces.Services;
 
@@ -15,7 +17,7 @@ public interface IProductService
     /// <param name="id">The product identifier</param>
     /// <returns>The product DTO if found</returns>
     /// <exception cref="ResourceNotFoundException">When product with given id doesn't exist</exception>
-    Task<ProductDto> GetByIdAsync(int id);
+    Task<ProductResponseDto> GetByIdAsync(int id);
     
     /// <summary>
     /// Retrieves a filtered, sorted, and paginated collection of products
@@ -29,8 +31,9 @@ public interface IProductService
     /// Creates a new product
     /// </summary>
     /// <param name="productDto">The product creation data</param>
+    /// <param name="image">The image file of the product</param>
     /// <returns>The newly created product DTO</returns>
-    Task<ProductDto> AddAsync(CreateProductRequestDto productDto);
+    Task<ProductResponseDto> AddAsync(CreateProductRequestDto productDto, ImageRequestDto? image);
     
     /// <summary>
     /// Updates an existing product
@@ -40,6 +43,8 @@ public interface IProductService
     /// <returns>The updated product DTO</returns>
     /// <exception cref="ResourceNotFoundException">When product with given id doesn't exist</exception>
     Task<ProductDto> UpdateAsync(int id, UpdateProductRequestDto productDto);
+    
+    Task<ProductResponseDto> UpdateImageAsync(int id, ImageRequestDto image);
     
     /// <summary>
     /// Removes a product

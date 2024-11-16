@@ -13,6 +13,8 @@ public class UnitOfWork : IUnitOfWork
     public IZoneRepository ZoneRepository { get; }
     public ITableRepository TableRepository { get; }
     
+    public IImageRepository ImageRepository { get; }
+    
     public BistroQContext Context { get; }
 
     private IDbContextTransaction? _transaction;

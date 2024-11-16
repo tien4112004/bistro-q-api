@@ -18,12 +18,8 @@ public class MappingProfile : Profile
             .ConstructUsing((src, context) => new Product());
         CreateMap<UpdateProductRequestDto, Product>()
             .ConstructUsing((src, context) => new Product());
-<<<<<<< Updated upstream:BistroQ.Core/Mappings/MappingProfile.cs
-=======
         CreateMap<Product, ProductResponseDto>()
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom<ImageUrlResolver>());
-            
->>>>>>> Stashed changes:BistroQ.Services/Mappings/MappingProfile.cs
         
         CreateMap<Category, CategoryDto>().ReverseMap();
         CreateMap<Category, CategoryDetailDto>()
