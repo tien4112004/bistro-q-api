@@ -144,7 +144,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
             entity.HasOne(d => d.Image)
                 .WithOne(p => p.Product)
-                .HasForeignKey<Image>(d => d.ProductId)
+                .HasForeignKey<Product>(d => d.ImageId)
                 .HasConstraintName("Product_ibfk_2")
                 .OnDelete(DeleteBehavior.SetNull);
         });
@@ -415,6 +415,123 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 TotalAmount = 600
             },
         };
+        
+        var listCategories = new Category[]
+        {
+            new Category
+            {
+                CategoryId = 1, Name = "Dry"
+            },
+            new Category
+            {
+                CategoryId = 2, Name = "Broth-based"
+            },
+        };
+
+        var listProducts = new Product[]
+        {
+            new Product
+            {
+                ProductId = 1, Name = "Bun Bo Hue", Price = 50000, DiscountPrice = 0, Unit = "Bowl", CategoryId = 2,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000001")
+            },
+            new Product
+            {
+                ProductId = 2, Name = "Pho", Price = 50000, DiscountPrice = 0, Unit = "Bowl", CategoryId = 2,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000002")
+            },
+            new Product
+            {
+                ProductId = 3, Name = "Banh Mi", Price = 25000, DiscountPrice = 0, Unit = "Piece", CategoryId = 1,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000003")
+            },
+            new Product
+            {
+                ProductId = 4, Name = "Banh Xeo", Price = 35000, DiscountPrice = 0, Unit = "Piece", CategoryId = 1,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000004")
+            },
+            new Product
+            {
+                ProductId = 5, Name = "Banh Canh", Price = 40000, DiscountPrice = 0, Unit = "Bowl", CategoryId = 2,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000005")
+            },
+            new Product
+            {
+                ProductId = 6, Name = "Banh Cuon", Price = 30000, DiscountPrice = 0, Unit = "Plate", CategoryId = 1,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000006")
+            },
+            new Product
+            {
+                ProductId = 7, Name = "Com Chien", Price = 25000, DiscountPrice = 0, Unit = "Plate", CategoryId = 1,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000007")
+            },
+            new Product
+            {
+                ProductId = 8, Name = "Bun Rieu", Price = 45000, DiscountPrice = 0, Unit = "Bowl", CategoryId = 2,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000008")
+            },
+            new Product
+            {
+                ProductId = 9, Name = "Bun Thit Nuong", Price = 40000, DiscountPrice = 0, Unit = "Bowl", CategoryId = 2,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000009")
+            },
+            new Product
+            {
+                ProductId = 10, Name = "Mi Xao", Price = 45000, DiscountPrice = 0, Unit = "Plate", CategoryId = 1,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000010")
+            },
+        };
+
+        var listImages = new Image[]
+        {
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000001"), ContentType = "image/jpeg", Name = "bun-bo-hue.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000002"), ContentType = "image/jpeg", Name = "pho.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000003"), ContentType = "image/jpeg", Name = "banh-mi.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000004"), ContentType = "image/jpeg", Name = "banh-xeo.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000005"), ContentType = "image/jpeg", Name = "banh-canh.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000006"), ContentType = "image/jpeg", Name = "banh-cuon.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000007"), ContentType = "image/jpeg", Name = "com-chien.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000008"), ContentType = "image/jpeg", Name = "bun-rieu.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000009"), ContentType = "image/jpeg", Name = "bun-thit-nuong.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000010"), ContentType = "image/jpeg", Name = "mi-xao.jpg",
+            },
+        };
+        
+        modelBuilder.Entity<Category>().HasData(listCategories);
+        
+        modelBuilder.Entity<Image>().HasData(listImages);
+
+        modelBuilder.Entity<Product>().HasData(listProducts);
+        
         
         OnModelCreatingPartial(modelBuilder);
     }
