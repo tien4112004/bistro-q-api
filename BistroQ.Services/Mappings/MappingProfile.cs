@@ -22,8 +22,11 @@ public class MappingProfile : Profile
         CreateMap<Product, ProductResponseDto>()
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom<ImageUrlResolver>());
 
+        CreateMap<ImageDto, Image>();
         CreateMap<ImageRequestDto, Image>()
             .ConstructUsing((src, context) => new Image());
+        CreateMap<ImageRequestDto, ImageDto>();
+        
         
         CreateMap<Category, CategoryDto>().ReverseMap();
         CreateMap<Category, CategoryDetailDto>()

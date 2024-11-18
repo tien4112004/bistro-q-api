@@ -129,6 +129,7 @@ public class ProductService : IProductService
 
     public async Task<ProductResponseDto> UpdateImageAsync(int productId, ImageRequestDto image)
     {
+        
         var existingProduct = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
         if (existingProduct == null)
         {
@@ -136,27 +137,25 @@ public class ProductService : IProductService
         }
         
         var existingImage = await _unitOfWork.ImageRepository.GetByProductIdAsync(productId);
-
         if (existingImage == null)
         {
             throw new ResourceNotFoundException("Image not found");
         }
         
         await _unitOfWork.BeginTransactionAsync();
-
         try
         {
+            var updatedImage = _mapper.Map<Image>(image);
+            updatedImage.ImageId = existingImage.ImageId;
+            
+            await _unitOfWork.ImageRepository.UpdateAsync(existingImage, updatedImage);
+            
             await _cloudStorageService.UploadFileAsync(
                 image.Data, 
                 existingImage.ImageId + ContentTypeValue.GetExtension(image.ContentType), 
                 image.ContentType);
-
-            existingImage.ContentType = image.ContentType;
-            existingImage.Name = image.Name;
-
-            await _unitOfWork.ImageRepository.UpdateAsync(existingImage, _mapper.Map<Image>(image));
+            
             await _unitOfWork.SaveChangesAsync();
-
             await _unitOfWork.CommitTransactionAsync();
         }
         catch
@@ -176,8 +175,25 @@ public class ProductService : IProductService
         {
             throw new ResourceNotFoundException("Product not found");
         }
-        
-        await _unitOfWork.ProductRepository.DeleteAsync(existingProduct);
-        await _unitOfWork.SaveChangesAsync();
+
+        await _unitOfWork.BeginTransactionAsync();
+        try
+        {
+            var existingImage = await _unitOfWork.ImageRepository.GetByProductIdAsync(productId);
+            if (existingImage != null)
+            {
+                await _cloudStorageService.DeleteFileAsync(existingImage.ImageId + ContentTypeValue.GetExtension(existingImage.ContentType));
+                await _unitOfWork.ImageRepository.DeleteAsync(existingImage);
+            }
+
+            await _unitOfWork.ProductRepository.DeleteAsync(existingProduct);
+            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.CommitTransactionAsync();
+        }
+        catch
+        {
+            await _unitOfWork.RollbackTransactionAsync();
+            throw;
+        }
     }
 }
