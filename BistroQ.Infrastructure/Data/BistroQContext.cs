@@ -25,13 +25,11 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
     public virtual DbSet<NutritionFact> NutritionFacts { get; set; }
 
-    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<Order?> Orders { get; set; }
 
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
-    
-    public virtual DbSet<Image> Images { get; set; }
 
     public virtual DbSet<Table> Tables { get; set; }
 
@@ -349,6 +347,51 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             {
                 RoleId = "4",
                 UserId = "4",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "5",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "6",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "7",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "8",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "9",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "10",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "11",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "12",
+            },
+            new IdentityUserRole<string>
+            {
+                RoleId = "4",
+                UserId = "13",
             }
             );
 
@@ -378,44 +421,6 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
         
         modelBuilder.Entity<Table>().HasData(listTable);
 
-        var listOrder = new List<Order>()
-        {
-            new Order
-            {
-                OrderId = "1", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
-                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = 100
-            },
-            new Order
-            {
-                OrderId = "2", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
-                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = 200
-            },
-            new Order
-            {
-                OrderId = "3", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
-                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = 300
-            },
-            new Order
-            {
-                OrderId = "4", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
-                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = 400
-            },
-            new Order
-            {
-                OrderId = "5", TableId = 1, StartTime = DateTime.Now, EndTime = null,
-                TotalAmount = 500
-            },
-            new Order
-            {
-                OrderId = "6", TableId = 2, StartTime = DateTime.Now, EndTime = null,
-                TotalAmount = 600
-            },
-        };
-        
         var listCategories = new Category[]
         {
             new Category
@@ -526,12 +531,123 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             },
         };
         
+        
+        var listOrderDetail = new List<OrderDetail>()
+        {
+            new OrderDetail
+            {
+                OrderDetailId = "1",
+                OrderId = "1",
+                ProductId = 1,
+                Quantity = 2,
+                PriceAtPurchase = 10
+            },
+            new OrderDetail
+            {
+                OrderDetailId = "2",
+                OrderId = "1",
+                ProductId = 2,
+                Quantity = 1,
+                PriceAtPurchase = 10
+            },
+            new OrderDetail
+            {
+                OrderDetailId = "3",
+                OrderId = "2",
+                ProductId = 3,
+                Quantity = 3,
+                PriceAtPurchase = 10
+            },
+            new OrderDetail
+            {
+                OrderDetailId = "4",
+                OrderId = "3",
+                ProductId = 4,
+                Quantity = 1,
+                PriceAtPurchase = 100
+            },
+            new OrderDetail
+            {
+                OrderDetailId = "5",
+                OrderId = "3",
+                ProductId = 5,
+                Quantity = 2,
+                PriceAtPurchase = 50
+            },
+            new OrderDetail
+            {
+                OrderDetailId = "6",
+                OrderId = "4",
+                ProductId = 6,
+                Quantity = 1,
+                PriceAtPurchase = 80
+            },
+            new OrderDetail
+            {
+                OrderDetailId = "7",
+                OrderId = "5",
+                ProductId = 7,
+                Quantity = 2,
+                PriceAtPurchase = 20
+            },
+            new OrderDetail
+            {
+                OrderDetailId = "8",
+                OrderId = "6",
+                ProductId = 8,
+                Quantity = 1,
+                PriceAtPurchase = 30
+            }
+        };
+
+        var listOrder = new List<Order>()
+        {
+            new Order
+            {
+                OrderId = "1", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
+                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
+                TotalAmount = 100
+            },
+            new Order
+            {
+                OrderId = "2", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
+                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
+                TotalAmount = 200
+            },
+            new Order
+            {
+                OrderId = "3", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
+                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
+                TotalAmount = 300
+            },
+            new Order
+            {
+                OrderId = "4", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
+                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
+                TotalAmount = 400
+            },
+            new Order
+            {
+                OrderId = "5", TableId = 1, StartTime = DateTime.Now, EndTime = null,
+                TotalAmount = 500
+            },
+            new Order
+            {
+                OrderId = "6", TableId = 2, StartTime = DateTime.Now, EndTime = null,
+                TotalAmount = 600
+            },
+        };
+        
+        
         modelBuilder.Entity<Category>().HasData(listCategories);
         
         modelBuilder.Entity<Image>().HasData(listImages);
 
         modelBuilder.Entity<Product>().HasData(listProducts);
         
+        modelBuilder.Entity<OrderDetail>().HasData(listOrderDetail);
+        
+        modelBuilder.Entity<Order>().HasData(listOrder);
         
         OnModelCreatingPartial(modelBuilder);
     }

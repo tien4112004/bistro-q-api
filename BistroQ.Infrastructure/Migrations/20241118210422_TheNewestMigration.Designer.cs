@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BistroQ.Infrastructure.Migrations
 {
     [DbContext(typeof(BistroQContext))]
-    [Migration("20241105163246_UpdateDbAndSeedDataForZoneTable")]
-    partial class UpdateDbAndSeedDataForZoneTable
+    [Migration("20241118210422_TheNewestMigration")]
+    partial class TheNewestMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,100 @@ namespace BistroQ.Infrastructure.Migrations
                         .HasName("PRIMARY");
 
                     b.ToTable("Category", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            Name = "Dry"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            Name = "Broth-based"
+                        });
+                });
+
+            modelBuilder.Entity("BistroQ.Core.Entities.Image", b =>
+                {
+                    b.Property<Guid>("ImageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("ImageId")
+                        .HasName("PRIMARY");
+
+                    b.ToTable("Image", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            ContentType = "image/jpeg",
+                            Name = "bun-bo-hue.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000002"),
+                            ContentType = "image/jpeg",
+                            Name = "pho.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000003"),
+                            ContentType = "image/jpeg",
+                            Name = "banh-mi.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000004"),
+                            ContentType = "image/jpeg",
+                            Name = "banh-xeo.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000005"),
+                            ContentType = "image/jpeg",
+                            Name = "banh-canh.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000006"),
+                            ContentType = "image/jpeg",
+                            Name = "banh-cuon.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000007"),
+                            ContentType = "image/jpeg",
+                            Name = "com-chien.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000008"),
+                            ContentType = "image/jpeg",
+                            Name = "bun-rieu.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000009"),
+                            ContentType = "image/jpeg",
+                            Name = "bun-thit-nuong.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000010"),
+                            ContentType = "image/jpeg",
+                            Name = "mi-xao.jpg"
+                        });
                 });
 
             modelBuilder.Entity("BistroQ.Core.Entities.NutritionFact", b =>
@@ -87,6 +181,50 @@ namespace BistroQ.Infrastructure.Migrations
                     b.HasIndex(new[] { "TableId" }, "TableId");
 
                     b.ToTable("Order", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            OrderId = "1",
+                            EndTime = new DateTime(2024, 10, 1, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new DateTime(2024, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TotalAmount = 100m
+                        },
+                        new
+                        {
+                            OrderId = "2",
+                            EndTime = new DateTime(2024, 10, 1, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new DateTime(2024, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TotalAmount = 200m
+                        },
+                        new
+                        {
+                            OrderId = "3",
+                            EndTime = new DateTime(2024, 10, 1, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new DateTime(2024, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TotalAmount = 300m
+                        },
+                        new
+                        {
+                            OrderId = "4",
+                            EndTime = new DateTime(2024, 10, 1, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartTime = new DateTime(2024, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TotalAmount = 400m
+                        },
+                        new
+                        {
+                            OrderId = "5",
+                            StartTime = new DateTime(2024, 11, 19, 4, 4, 21, 158, DateTimeKind.Local).AddTicks(5895),
+                            TableId = 1,
+                            TotalAmount = 500m
+                        },
+                        new
+                        {
+                            OrderId = "6",
+                            StartTime = new DateTime(2024, 11, 19, 4, 4, 21, 158, DateTimeKind.Local).AddTicks(5919),
+                            TableId = 2,
+                            TotalAmount = 600m
+                        });
                 });
 
             modelBuilder.Entity("BistroQ.Core.Entities.OrderDetail", b =>
@@ -117,6 +255,72 @@ namespace BistroQ.Infrastructure.Migrations
                     b.HasIndex(new[] { "ProductId" }, "ProductId");
 
                     b.ToTable("OrderDetail", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            OrderDetailId = "1",
+                            OrderId = "1",
+                            PriceAtPurchase = 10m,
+                            ProductId = 1,
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            OrderDetailId = "2",
+                            OrderId = "1",
+                            PriceAtPurchase = 10m,
+                            ProductId = 2,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            OrderDetailId = "3",
+                            OrderId = "2",
+                            PriceAtPurchase = 10m,
+                            ProductId = 3,
+                            Quantity = 3
+                        },
+                        new
+                        {
+                            OrderDetailId = "4",
+                            OrderId = "3",
+                            PriceAtPurchase = 100m,
+                            ProductId = 4,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            OrderDetailId = "5",
+                            OrderId = "3",
+                            PriceAtPurchase = 50m,
+                            ProductId = 5,
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            OrderDetailId = "6",
+                            OrderId = "4",
+                            PriceAtPurchase = 80m,
+                            ProductId = 6,
+                            Quantity = 1
+                        },
+                        new
+                        {
+                            OrderDetailId = "7",
+                            OrderId = "5",
+                            PriceAtPurchase = 20m,
+                            ProductId = 7,
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            OrderDetailId = "8",
+                            OrderId = "6",
+                            PriceAtPurchase = 30m,
+                            ProductId = 8,
+                            Quantity = 1
+                        });
                 });
 
             modelBuilder.Entity("BistroQ.Core.Entities.Product", b =>
@@ -134,6 +338,9 @@ namespace BistroQ.Infrastructure.Migrations
                         .HasPrecision(10)
                         .HasColumnType("decimal(10)");
 
+                    b.Property<Guid?>("ImageId")
+                        .HasColumnType("char(36)");
+
                     b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
@@ -149,9 +356,114 @@ namespace BistroQ.Infrastructure.Migrations
                     b.HasKey("ProductId")
                         .HasName("PRIMARY");
 
+                    b.HasIndex("ImageId")
+                        .IsUnique();
+
                     b.HasIndex(new[] { "CategoryId" }, "CategoryId");
 
                     b.ToTable("Product", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            CategoryId = 2,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000001"),
+                            Name = "Bun Bo Hue",
+                            Price = 50000m,
+                            Unit = "Bowl"
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            CategoryId = 2,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000002"),
+                            Name = "Pho",
+                            Price = 50000m,
+                            Unit = "Bowl"
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            CategoryId = 1,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000003"),
+                            Name = "Banh Mi",
+                            Price = 25000m,
+                            Unit = "Piece"
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            CategoryId = 1,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000004"),
+                            Name = "Banh Xeo",
+                            Price = 35000m,
+                            Unit = "Piece"
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            CategoryId = 2,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000005"),
+                            Name = "Banh Canh",
+                            Price = 40000m,
+                            Unit = "Bowl"
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            CategoryId = 1,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000006"),
+                            Name = "Banh Cuon",
+                            Price = 30000m,
+                            Unit = "Plate"
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            CategoryId = 1,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000007"),
+                            Name = "Com Chien",
+                            Price = 25000m,
+                            Unit = "Plate"
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            CategoryId = 2,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000008"),
+                            Name = "Bun Rieu",
+                            Price = 45000m,
+                            Unit = "Bowl"
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            CategoryId = 2,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000009"),
+                            Name = "Bun Thit Nuong",
+                            Price = 40000m,
+                            Unit = "Bowl"
+                        },
+                        new
+                        {
+                            ProductId = 10,
+                            CategoryId = 1,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000010"),
+                            Name = "Mi Xao",
+                            Price = 45000m,
+                            Unit = "Plate"
+                        });
                 });
 
             modelBuilder.Entity("BistroQ.Core.Entities.Table", b =>
@@ -371,15 +683,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ed595309-814c-42de-b4bc-5ac14b698fd0",
+                            ConcurrencyStamp = "0fae9efa-f49d-4abb-9bfb-56ffd21ece24",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDC+Mw4qvsh+kldPHwx3lmGq1uXNsUQqHSxbL+SVu71qSfFFROwtB2SCyjtnPXgrMQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBJcUz1tbJOwH1BF7or4HGxIomGo+YR6D0kreJSZGW1FnbYfF0CDySKx0jC6fErP1g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8f5553b9-4482-409e-a9e8-8acd80f06303",
+                            SecurityStamp = "4535f0b5-39f8-4305-9082-91de28f392f6",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
@@ -387,15 +699,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5a81c7ed-e427-4ca4-9df5-f7c53b845324",
+                            ConcurrencyStamp = "5acafa97-7453-46e0-a82f-432920f60cd7",
                             Email = "kitchen@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "KITCHEN@GMAIL.COM",
                             NormalizedUserName = "KITCHEN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAy5husKhkqBhxtVZqSKq92Uk/XPIqu/pQVfyPrjq0hQqXa5dxJ3OnrqicXoThDbJg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMF9J7kRglpgU1CT/ew5ToUDvp5pen/sm46CE70ynin8z0q0BNHhCpqwaFq9TS3BBA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8290cb7b-7de3-429b-af24-8d4336e5c7f2",
+                            SecurityStamp = "2ecea54b-2161-4be0-b7dc-065aa6cc37f5",
                             TwoFactorEnabled = false,
                             UserName = "kitchen"
                         },
@@ -403,15 +715,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "90b50e3b-8c3c-4c95-a265-9071d9cfeba4",
+                            ConcurrencyStamp = "f2b39d72-3a49-4efb-8835-d09438ee70b1",
                             Email = "cashier@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CASHIER@GMAIL.COM",
                             NormalizedUserName = "CASHIER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEWbEc5T86c7GtL1t0o3cxl7Rou1vFaHJr5sLaAZGFPa4hqN9JQb/2IzZDz+Z62T/w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMl3U+yWWOlUnxlolBVl8ssvcnUo4ckzD7hw7h5Zq2wYAKuf1yzJGnbxTNMdYlcFSA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6f1bd74e-60cc-4110-b4a8-195d06a551eb",
+                            SecurityStamp = "931fdb90-b526-4b5c-8b64-b7bed3f3dafd",
                             TwoFactorEnabled = false,
                             UserName = "cashier"
                         },
@@ -419,15 +731,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7d47c1fd-3f1c-4817-9b2a-7fa02fa27666",
+                            ConcurrencyStamp = "043b9af3-8a61-4a2d-bea8-8453b2261b1b",
                             Email = "client1@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT1@GMAIL.COM",
                             NormalizedUserName = "CLIENT1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIUZLD3PLKihgOQp2x9rJPJRKCQSu8C1Bx+qKDOEjf0a1qYpIxMXXsCtqHz6aOcVgg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFZCIj8WyfCjirLVmBtIKDxe7AFZLkCakp0wZz70hQb/kBG5q6ec7Ht2FfRfY53YRg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b717e721-9ab2-4224-b52d-7f1c8995edb0",
+                            SecurityStamp = "b41a22b0-9820-4a0b-abb3-a763f38507b9",
                             TableId = 1,
                             TwoFactorEnabled = false,
                             UserName = "client1"
@@ -436,15 +748,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8dafd1b6-cda5-4634-9569-65f86f142031",
+                            ConcurrencyStamp = "71187aa4-575c-4ea9-be04-dc45f51ff662",
                             Email = "client2@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT2@GMAIL.COM",
                             NormalizedUserName = "CLIENT2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJmK3bxRWJ2EDcWvW36NpQ3tiI1umCKlSW1lOuS93klFf4l/Uvv1XWKZd9z530lysQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIh7267DiVTaWx0IfEc+fdX9KAOY4u/h/qiqqF9rPPBviAd0Syw+YT6R+CVzW8FHMQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5bb34194-4c69-4c2c-ab43-9f2e27b91dae",
+                            SecurityStamp = "128206c9-178b-4a86-941f-99d37941431d",
                             TableId = 2,
                             TwoFactorEnabled = false,
                             UserName = "client2"
@@ -453,15 +765,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cb6a48d9-980c-44e3-bcf2-d44906a66183",
+                            ConcurrencyStamp = "ea571012-0eab-4db0-91c8-094c79da804c",
                             Email = "client3@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT3@GMAIL.COM",
                             NormalizedUserName = "CLIENT3",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPHYz1s4edyUbszPWoQgkjWUAo9zwhqdEfpVzxMn6ku55VkQ3bw9LcJzF9wlTpUu4A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMQtzvEkM/l/qadi3bPSj4hoqnmZ6t70I7ymHzxkQx66gcEqJDvVqNUDnG20N2Oe9g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5ab0d3da-f87a-45cc-b6d9-0e6ad44f80df",
+                            SecurityStamp = "320b7417-c012-4f6a-be4c-9f848a62cd93",
                             TableId = 3,
                             TwoFactorEnabled = false,
                             UserName = "client3"
@@ -470,15 +782,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bd8630df-3663-481a-9433-c61bfac4adf7",
+                            ConcurrencyStamp = "9cd3a22b-a126-481f-af71-0dc7e5ec3006",
                             Email = "client4@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT4@GMAIL.COM",
                             NormalizedUserName = "CLIENT4",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGmORxxT3gad8FZEeG6Y3jch8ch4CQ32G4kqyrsFkeC3MfxKE1D3aB6Q9aom2mM1Qg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECfCvp9439Z+b7Kuo1AvmaM0e1wsIjmLJX8yQVa/Hk5aGcIWHVuvg0iZrYQHj8Aaeg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "db52ce87-c94c-4df0-aa9a-e5a8d1d5cce7",
+                            SecurityStamp = "0af1ac90-96e9-4d6f-8c07-e4d9dfaee9bb",
                             TableId = 4,
                             TwoFactorEnabled = false,
                             UserName = "client4"
@@ -487,15 +799,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3946efcf-b4a9-47ff-bae3-f093827fbbfd",
+                            ConcurrencyStamp = "5629a938-9b77-4550-8872-9bf748412c7f",
                             Email = "client5@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT5@GMAIL.COM",
                             NormalizedUserName = "CLIENT5",
-                            PasswordHash = "AQAAAAIAAYagAAAAELOuqbKov4Y2XA4jBfiMLK9RYho79iQUhwOr5JRRgP1AayyeMErSdBuwnt+hlfugRA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOLj3OygQXflTSzOaVmNcgTPFDGwb6gwOSJtGfxGrc3G8YILG+azQwMS1B6IDS7gkA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "85ae4640-99c4-4d74-93b1-c8b66adbdf78",
+                            SecurityStamp = "6b495c32-64be-4e95-acf5-30d2349bb311",
                             TableId = 5,
                             TwoFactorEnabled = false,
                             UserName = "client5"
@@ -504,15 +816,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cca1cc3d-4f5d-48ae-a5a3-698987d9b521",
+                            ConcurrencyStamp = "1d688381-3f94-437b-92c1-46bbe355450c",
                             Email = "client6@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT6@GMAIL.COM",
                             NormalizedUserName = "CLIENT6",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPySHT5pPExXbrtRiwQfQ6uTH2bEZbKMkfBUzXmR5Lqa/8bYYbDRh77+0I+sTJOsNw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIDzE5RWY4K0U1xNfzyylrREuqp9thU10BPOObLjdFUa9LxfcK23UWs1Yvd4UZ7Q3w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "95f25081-c810-4eb7-a82a-a63c2a4d0133",
+                            SecurityStamp = "35012b35-e188-4e8c-bcf0-09afc7f146e3",
                             TableId = 6,
                             TwoFactorEnabled = false,
                             UserName = "client6"
@@ -521,15 +833,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "10",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e3ea5f85-2c8f-4ad5-9e58-1b4f63fe8224",
+                            ConcurrencyStamp = "a058ae4c-0fe4-4f13-bbb1-2173ffd2f255",
                             Email = "client7@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT7@GMAIL.COM",
                             NormalizedUserName = "CLIENT7",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJlVd/N/PhaRonZuudFVvlBYcRONKfql8dsKi4j8Zl59ZsOeUmXGdggbCVa/Q10g2w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGAUhEKX/ascxhqYFts4IQ8CrDI2tSECf+kfNnA3xjJLLZFB/ia8Ck2dPrPlG6RwQQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "71cff7a8-9e13-45f8-8b11-8e528e60e32c",
+                            SecurityStamp = "fd4d079b-7418-4265-aba7-2fd6004e9673",
                             TableId = 7,
                             TwoFactorEnabled = false,
                             UserName = "client7"
@@ -538,15 +850,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "11",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4e6e3098-3abb-4c2c-a835-fbcc2130b768",
+                            ConcurrencyStamp = "baf37111-b24f-4ebf-9458-f1adb35f0fee",
                             Email = "client8@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT8@GMAIL.COM",
                             NormalizedUserName = "CLIENT8",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFhtuqTz++J/fo56/oF+QMN2r/kztOHj7AdYpUDwN1vv5d7SteqsFQEonEwDtTOsfA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ22o2db7gbsvMGDMsKOGucIFNk0R9kx5xNRPpwUecqELMiEIStXP/ZvQ7NMqQzTug==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7da41a5c-21e3-4f6e-a7da-9b9f048e766d",
+                            SecurityStamp = "515a8f1a-b137-49e5-99f8-c56cc2a2242d",
                             TableId = 8,
                             TwoFactorEnabled = false,
                             UserName = "client8"
@@ -555,15 +867,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "12",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "34a49433-51ce-46b0-9824-6e04c9e91c0e",
+                            ConcurrencyStamp = "de1476e8-bf39-4ba9-acf8-bd199b9a4161",
                             Email = "client9@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT9@GMAIL.COM",
                             NormalizedUserName = "CLIENT9",
-                            PasswordHash = "AQAAAAIAAYagAAAAEM0Uod9CKp/Ofp5NTvYpaH067+NmYYj9yy1GInHkX2yDjrChyhB3nodC8UnutnOq0g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDTTH39d7p/vM3cVth2qMJM+zlBjixTUigDQms8/6IKMvWbP926xMY+wKO9U0Nqpyw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "22b1dace-7e5f-45f0-b438-b82e7e2c15dc",
+                            SecurityStamp = "31c6f807-3b8d-4fcd-a4ba-98ac00c3d7c9",
                             TableId = 9,
                             TwoFactorEnabled = false,
                             UserName = "client9"
@@ -572,15 +884,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "13",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b5c3aff7-5a0f-480f-8cc5-15c3a2c61bf1",
+                            ConcurrencyStamp = "d019ae99-dec2-40af-836d-34c91d67afff",
                             Email = "client10@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT10@GMAIL.COM",
                             NormalizedUserName = "CLIENT10",
-                            PasswordHash = "AQAAAAIAAYagAAAAEC3H8vq3G4t0UyQoVvxIZwPiyLU2qOqC7Ofqwl23ynDyyBJw2RnVnjsqKNNqgsdK0Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFjqF905qnENNEYT4tGNq7fOoy79SiBZCfmA287feirQplFUOvnh1j5AfZX3NQ6RFw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b129ed7c-d92b-4b18-bf6c-cd7c619712c4",
+                            SecurityStamp = "fe951268-4c5e-4db0-858d-f8853c32bba1",
                             TableId = 10,
                             TwoFactorEnabled = false,
                             UserName = "client10"
@@ -745,6 +1057,51 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             UserId = "4",
                             RoleId = "4"
+                        },
+                        new
+                        {
+                            UserId = "5",
+                            RoleId = "4"
+                        },
+                        new
+                        {
+                            UserId = "6",
+                            RoleId = "4"
+                        },
+                        new
+                        {
+                            UserId = "7",
+                            RoleId = "4"
+                        },
+                        new
+                        {
+                            UserId = "8",
+                            RoleId = "4"
+                        },
+                        new
+                        {
+                            UserId = "9",
+                            RoleId = "4"
+                        },
+                        new
+                        {
+                            UserId = "10",
+                            RoleId = "4"
+                        },
+                        new
+                        {
+                            UserId = "11",
+                            RoleId = "4"
+                        },
+                        new
+                        {
+                            UserId = "12",
+                            RoleId = "4"
+                        },
+                        new
+                        {
+                            UserId = "13",
+                            RoleId = "4"
                         });
                 });
 
@@ -816,7 +1173,15 @@ namespace BistroQ.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("Product_ibfk_1");
 
+                    b.HasOne("BistroQ.Core.Entities.Image", "Image")
+                        .WithOne("Product")
+                        .HasForeignKey("BistroQ.Core.Entities.Product", "ImageId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("Product_ibfk_2");
+
                     b.Navigation("Category");
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("BistroQ.Core.Entities.Table", b =>
@@ -895,6 +1260,11 @@ namespace BistroQ.Infrastructure.Migrations
             modelBuilder.Entity("BistroQ.Core.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("BistroQ.Core.Entities.Image", b =>
+                {
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("BistroQ.Core.Entities.Order", b =>

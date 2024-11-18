@@ -15,6 +15,8 @@ public class UnitOfWork : IUnitOfWork
     
     public IImageRepository ImageRepository { get; }
     
+    public IOrderRepository OrderRepository { get; }
+    
     public BistroQContext Context { get; }
 
     private IDbContextTransaction? _transaction;
@@ -25,13 +27,15 @@ public class UnitOfWork : IUnitOfWork
         ICategoryRepository categoryRepository,
         IZoneRepository zoneRepository, 
         ITableRepository tableRepository,
-        IImageRepository imageRepository)
+        IImageRepository imageRepository,
+        IOrderRepository orderRepository)
     {
         Context = context;
         ProductRepository = productRepository;
         CategoryRepository = categoryRepository;
         ZoneRepository = zoneRepository;
         TableRepository = tableRepository;
+        OrderRepository = orderRepository;
         ImageRepository = imageRepository;
     }
 
