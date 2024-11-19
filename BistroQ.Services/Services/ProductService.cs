@@ -1,11 +1,15 @@
+using System.IO.Compression;
 using System.Text.Json;
 using AutoMapper;
 using BistroQ.Core.Common.Builder;
+using BistroQ.Core.Dtos.Image;
 using BistroQ.Core.Dtos.Products;
 using BistroQ.Core.Entities;
 using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Services;
+using BistroQ.Services.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace BistroQ.Services.Services;
 
@@ -13,14 +17,16 @@ public class ProductService : IProductService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly ICloudStorageService _cloudStorageService;
     
-    public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
+    public ProductService(IUnitOfWork unitOfWork, IMapper mapper, ICloudStorageService cloudStorageService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _cloudStorageService = cloudStorageService;
     }
 
-    public async Task<ProductDto> GetByIdAsync(int productId)
+    public async Task<ProductResponseDto> GetByIdAsync(int productId)
     {
         var product = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
         if(product == null)
@@ -28,7 +34,7 @@ public class ProductService : IProductService
             throw new ResourceNotFoundException("Product not found");
         }
         
-        return _mapper.Map<ProductDto>(product);
+        return _mapper.Map<ProductResponseDto>(product);
     }
 
     public async Task<(IEnumerable<ProductDto> Products, int Count)> GetAllAsync(ProductCollectionQueryParams queryParams)
@@ -51,7 +57,7 @@ public class ProductService : IProductService
         return (_mapper.Map<IEnumerable<ProductDto>>(products), count);
     }
 
-    public async Task<ProductDto> AddAsync(CreateProductRequestDto productDto)
+    public async Task<ProductResponseDto> AddAsync(CreateProductRequestDto productDto, ImageRequestDto? image)
     {
         var product = _mapper.Map<Product>(productDto);
 
@@ -64,10 +70,42 @@ public class ProductService : IProductService
             }
         }
 
-        var createdProduct = await _unitOfWork.ProductRepository.AddAsync(product);
+        await _unitOfWork.BeginTransactionAsync();
+        try
+        {
+            var createdProduct = await _unitOfWork.ProductRepository.AddAsync(product);
+            if (createdProduct == null)
+            {
+                throw new Exception("Failed to create product");
+            }
 
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<ProductDto>(createdProduct);
+            if (image != null)
+            {
+                var newImage = _mapper.Map<Image>(image);
+                var createdImage = await _unitOfWork.ImageRepository.AddAsync(newImage);
+                if (createdImage == null)
+                {
+                    throw new Exception("Failed to create image");
+                }
+       
+                await _cloudStorageService.UploadFileAsync(
+                    image.Data, 
+                    createdImage.ImageId + ContentTypeValue.GetExtension(createdImage.ContentType), 
+                    createdImage.ContentType);
+
+                
+                createdProduct.ImageId = createdImage.ImageId;
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.CommitTransactionAsync();
+            return _mapper.Map<ProductResponseDto>(createdProduct);
+        }
+        catch
+        {
+            await _unitOfWork.RollbackTransactionAsync();
+            throw;
+        }
     }
 
     public async Task<ProductDto> UpdateAsync(int productId, UpdateProductRequestDto productDto)
@@ -89,6 +127,47 @@ public class ProductService : IProductService
         return _mapper.Map<ProductDto>(updatedProduct);
     }
 
+    public async Task<ProductResponseDto> UpdateImageAsync(int productId, ImageRequestDto image)
+    {
+        
+        var existingProduct = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
+        if (existingProduct == null)
+        {
+            throw new ResourceNotFoundException("Product not found");
+        }
+        
+        var existingImage = await _unitOfWork.ImageRepository.GetByProductIdAsync(productId);
+        if (existingImage == null)
+        {
+            throw new ResourceNotFoundException("Image not found");
+        }
+        
+        await _unitOfWork.BeginTransactionAsync();
+        try
+        {
+            var updatedImage = _mapper.Map<Image>(image);
+            updatedImage.ImageId = existingImage.ImageId;
+            
+            await _unitOfWork.ImageRepository.UpdateAsync(existingImage, updatedImage);
+            
+            await _cloudStorageService.UploadFileAsync(
+                image.Data, 
+                existingImage.ImageId + ContentTypeValue.GetExtension(image.ContentType), 
+                image.ContentType);
+            
+            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.CommitTransactionAsync();
+        }
+        catch
+        {
+            await _unitOfWork.RollbackTransactionAsync();
+            throw;
+        }
+
+        var updatedProduct = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
+        return _mapper.Map<ProductResponseDto>(updatedProduct);
+    }
+
     public async Task DeleteAsync(int productId)
     {
         var existingProduct = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
@@ -96,8 +175,25 @@ public class ProductService : IProductService
         {
             throw new ResourceNotFoundException("Product not found");
         }
-        
-        await _unitOfWork.ProductRepository.DeleteAsync(existingProduct);
-        await _unitOfWork.SaveChangesAsync();
+
+        await _unitOfWork.BeginTransactionAsync();
+        try
+        {
+            var existingImage = await _unitOfWork.ImageRepository.GetByProductIdAsync(productId);
+            if (existingImage != null)
+            {
+                await _cloudStorageService.DeleteFileAsync(existingImage.ImageId + ContentTypeValue.GetExtension(existingImage.ContentType));
+                await _unitOfWork.ImageRepository.DeleteAsync(existingImage);
+            }
+
+            await _unitOfWork.ProductRepository.DeleteAsync(existingProduct);
+            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.CommitTransactionAsync();
+        }
+        catch
+        {
+            await _unitOfWork.RollbackTransactionAsync();
+            throw;
+        }
     }
 }

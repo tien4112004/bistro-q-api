@@ -6,11 +6,8 @@ using Microsoft.EntityFrameworkCore;
 namespace BistroQ.Infrastructure.Repositories;
 public class TableRepository : GenericRepository<Table>, ITableRepository
 {
-	private readonly BistroQContext _context;
-	
 	public TableRepository(BistroQContext context) : base(context)
 	{
-		_context = context;
 	}
 
 	public async Task<IEnumerable<Table>> GetTablesAsync(IQueryable<Table> queryable)
@@ -31,7 +28,7 @@ public class TableRepository : GenericRepository<Table>, ITableRepository
 	// TODO: Change the implementation of this method
 	public async Task<int> GetNextTableNumberAsync(int zoneId)
 	{
-		var tableNumbers = await _context.Tables
+		var tableNumbers = await DbSet
 			.Where(t => t.ZoneId == zoneId)
 			.OrderBy(t => t.Number)
 			.Select(t => t.Number)

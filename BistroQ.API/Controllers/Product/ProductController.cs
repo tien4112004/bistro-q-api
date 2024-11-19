@@ -30,6 +30,6 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> GetProduct([FromRoute] int productId)
     {
         var product = await _productService.GetByIdAsync(productId);
-        return Ok(new ResponseDto<ProductDto>(product));
+        return Ok(new ResponseDto<ProductResponseDto>(product));
     }
 }

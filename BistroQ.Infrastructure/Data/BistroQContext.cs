@@ -47,7 +47,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 entityType.SetTableName(tableName.Substring(6));
             }
         }
-
+        
         modelBuilder
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
@@ -83,7 +83,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             entity.ToTable("Order");
 
             entity.HasIndex(e => e.TableId, "TableId");
-
+    
             entity.Property(e => e.OrderId).HasMaxLength(100);
             entity.Property(e => e.EndTime).HasColumnType("datetime");
             entity.Property(e => e.StartTime).HasColumnType("datetime");
@@ -124,7 +124,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
         modelBuilder.Entity<Product>(entity =>
         {
             entity.HasKey(e => e.ProductId).HasName("PRIMARY");
-
+            
             entity.ToTable("Product");
 
             entity.HasIndex(e => e.CategoryId, "CategoryId");
@@ -138,6 +138,12 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("Product_ibfk_1")
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasOne(d => d.Image)
+                .WithOne(p => p.Product)
+                .HasForeignKey<Product>(d => d.ImageId)
+                .HasConstraintName("Product_ibfk_2")
                 .OnDelete(DeleteBehavior.SetNull);
         });
 
@@ -155,7 +161,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 .HasForeignKey(d => d.ZoneId)
                 .HasConstraintName("Table_ibfk_1")
                 .OnDelete(DeleteBehavior.SetNull);
-
+            
             entity.HasOne(d => d.User)
                 .WithOne(p => p.Table)
                 .HasForeignKey<AppUser>(d => d.TableId)
@@ -172,7 +178,16 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             entity.Property(e => e.ZoneId).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).HasMaxLength(100);
         });
+        
+        modelBuilder.Entity<Image>(entity =>
+        {
+            entity.HasKey(e => e.ImageId).HasName("PRIMARY");
 
+            entity.ToTable("Image");
+
+            entity.Property(e => e.ImageId).ValueGeneratedOnAdd();
+        });
+        
         var listRoles = new List<IdentityRole>()
         {
             new IdentityRole { Id = "1", Name = BistroRoles.Admin, NormalizedName = BistroRoles.Admin.ToUpper() },
@@ -180,9 +195,9 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             new IdentityRole { Id = "3", Name = BistroRoles.Cashier, NormalizedName = BistroRoles.Cashier.ToUpper() },
             new IdentityRole { Id = "4", Name = BistroRoles.Client, NormalizedName = BistroRoles.Client.ToUpper() }
         };
-
+        
         modelBuilder.Entity<IdentityRole>().HasData(listRoles);
-
+        
         var hasher = new PasswordHasher<AppUser>();
         modelBuilder.Entity<AppUser>().HasData(new AppUser
             {
@@ -378,7 +393,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 RoleId = "4",
                 UserId = "13",
             }
-        );
+            );
 
         var listZone = new List<Zone>()
         {
@@ -387,7 +402,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             new Zone { ZoneId = 3, Name = "Outside" },
             new Zone { ZoneId = 4, Name = "VIP" }
         };
-
+        
         modelBuilder.Entity<Zone>().HasData(listZone);
 
         var listTable = new List<Table>()
@@ -403,60 +418,120 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             new Table { TableId = 9, ZoneId = 3, Number = 1, SeatsCount = 3 },
             new Table { TableId = 10, ZoneId = 3, Number = 2, SeatsCount = 2 },
         };
-
+        
         modelBuilder.Entity<Table>().HasData(listTable);
 
-        var listCategory = new List<Category>()
+        var listCategories = new Category[]
         {
-            new Category { CategoryId = 1, Name = "Drink" },
-            new Category { CategoryId = 2, Name = "Food" },
-            new Category { CategoryId = 3, Name = "Dessert" }
+            new Category
+            {
+                CategoryId = 1, Name = "Dry"
+            },
+            new Category
+            {
+                CategoryId = 2, Name = "Broth-based"
+            },
         };
 
-        modelBuilder.Entity<Category>().HasData(listCategory);
-
-        var listProduct = new List<Product>()
+        var listProducts = new Product[]
         {
             new Product
             {
-                ProductId = 1, CategoryId = 1, Name = "Coca Cola", Price = 10, DiscountPrice = null, Unit = "Can"
+                ProductId = 1, Name = "Bun Bo Hue", Price = 50000, DiscountPrice = 0, Unit = "Bowl", CategoryId = 2,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000001")
             },
             new Product
             {
-                ProductId = 2, CategoryId = 1, Name = "Pepsi", Price = 10, DiscountPrice = null, Unit = "Can"
+                ProductId = 2, Name = "Pho", Price = 50000, DiscountPrice = 0, Unit = "Bowl", CategoryId = 2,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000002")
             },
             new Product
             {
-                ProductId = 3, CategoryId = 1, Name = "Fanta", Price = 10, DiscountPrice = null, Unit = "Can"
+                ProductId = 3, Name = "Banh Mi", Price = 25000, DiscountPrice = 0, Unit = "Piece", CategoryId = 1,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000003")
             },
             new Product
             {
-                ProductId = 4, CategoryId = 2, Name = "Pizza", Price = 100, DiscountPrice = null, Unit = "Piece"
+                ProductId = 4, Name = "Banh Xeo", Price = 35000, DiscountPrice = 0, Unit = "Piece", CategoryId = 1,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000004")
             },
             new Product
             {
-                ProductId = 5, CategoryId = 2, Name = "Hamburger", Price = 50, DiscountPrice = null, Unit = "Piece"
+                ProductId = 5, Name = "Banh Canh", Price = 40000, DiscountPrice = 0, Unit = "Bowl", CategoryId = 2,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000005")
             },
             new Product
             {
-                ProductId = 6, CategoryId = 2, Name = "Spaghetti", Price = 80, DiscountPrice = null, Unit = "Plate"
+                ProductId = 6, Name = "Banh Cuon", Price = 30000, DiscountPrice = 0, Unit = "Plate", CategoryId = 1,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000006")
             },
             new Product
             {
-                ProductId = 7, CategoryId = 3, Name = "Ice Cream", Price = 20, DiscountPrice = null, Unit = "Cup"
+                ProductId = 7, Name = "Com Chien", Price = 25000, DiscountPrice = 0, Unit = "Plate", CategoryId = 1,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000007")
             },
             new Product
             {
-                ProductId = 8, CategoryId = 3, Name = "Cake", Price = 30, DiscountPrice = null, Unit = "Piece"
+                ProductId = 8, Name = "Bun Rieu", Price = 45000, DiscountPrice = 0, Unit = "Bowl", CategoryId = 2,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000008")
             },
             new Product
             {
-                ProductId = 9, CategoryId = 3, Name = "Pudding", Price = 25, DiscountPrice = null, Unit = "Cup"
-            }
+                ProductId = 9, Name = "Bun Thit Nuong", Price = 40000, DiscountPrice = 0, Unit = "Bowl", CategoryId = 2,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000009")
+            },
+            new Product
+            {
+                ProductId = 10, Name = "Mi Xao", Price = 45000, DiscountPrice = 0, Unit = "Plate", CategoryId = 1,
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000010")
+            },
         };
 
-        modelBuilder.Entity<Product>().HasData(listProduct);
-
+        var listImages = new Image[]
+        {
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000001"), ContentType = "image/jpeg", Name = "bun-bo-hue.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000002"), ContentType = "image/jpeg", Name = "pho.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000003"), ContentType = "image/jpeg", Name = "banh-mi.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000004"), ContentType = "image/jpeg", Name = "banh-xeo.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000005"), ContentType = "image/jpeg", Name = "banh-canh.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000006"), ContentType = "image/jpeg", Name = "banh-cuon.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000007"), ContentType = "image/jpeg", Name = "com-chien.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000008"), ContentType = "image/jpeg", Name = "bun-rieu.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000009"), ContentType = "image/jpeg", Name = "bun-thit-nuong.jpg",
+            },
+            new Image
+            {
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000010"), ContentType = "image/jpeg", Name = "mi-xao.jpg",
+            },
+        };
+        
+        
         var listOrderDetail = new List<OrderDetail>()
         {
             new OrderDetail
@@ -531,38 +606,47 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             {
                 OrderId = "1", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
                 EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = listOrderDetail.Where(od => od.OrderId == "1").Sum(od => od.Quantity * od.PriceAtPurchase)
+                TotalAmount = 100
             },
             new Order
             {
                 OrderId = "2", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
                 EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = listOrderDetail.Where(od => od.OrderId == "2").Sum(od => od.Quantity * od.PriceAtPurchase)
+                TotalAmount = 200
             },
             new Order
             {
                 OrderId = "3", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
                 EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = listOrderDetail.Where(od => od.OrderId == "3").Sum(od => od.Quantity * od.PriceAtPurchase)
+                TotalAmount = 300
             },
             new Order
             {
-                OrderId = "4", TableId = 2, StartTime = DateTime.Now, EndTime = null,
-                TotalAmount = listOrderDetail.Where(od => od.OrderId == "4").Sum(od => od.Quantity * od.PriceAtPurchase)
+                OrderId = "4", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
+                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
+                TotalAmount = 400
             },
             new Order
             {
-                OrderId = "5", TableId = 3, StartTime = DateTime.Now, EndTime = null,
-                TotalAmount = listOrderDetail.Where(od => od.OrderId == "5").Sum(od => od.Quantity * od.PriceAtPurchase)
+                OrderId = "5", TableId = 1, StartTime = DateTime.Now, EndTime = null,
+                TotalAmount = 500
             },
             new Order
             {
-                OrderId = "6", TableId = 4, StartTime = DateTime.Now, EndTime = null,
-                TotalAmount = listOrderDetail.Where(od => od.OrderId == "6").Sum(od => od.Quantity * od.PriceAtPurchase)
-            }
+                OrderId = "6", TableId = 2, StartTime = DateTime.Now, EndTime = null,
+                TotalAmount = 600
+            },
         };
         
+        
+        modelBuilder.Entity<Category>().HasData(listCategories);
+        
+        modelBuilder.Entity<Image>().HasData(listImages);
+
+        modelBuilder.Entity<Product>().HasData(listProducts);
+        
         modelBuilder.Entity<OrderDetail>().HasData(listOrderDetail);
+        
         modelBuilder.Entity<Order>().HasData(listOrder);
         
         OnModelCreatingPartial(modelBuilder);

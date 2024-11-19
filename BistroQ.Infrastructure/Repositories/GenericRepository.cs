@@ -7,52 +7,52 @@ namespace BistroQ.Infrastructure.Repositories;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
-    private readonly BistroQContext _context;
-    private readonly DbSet<T> _dbSet;
+    protected readonly BistroQContext Context;
+    protected readonly DbSet<T> DbSet;
     
     public GenericRepository(BistroQContext context)
     {
-        _context = context;
-        _dbSet = context.Set<T>();
+        Context = context;
+        DbSet = context.Set<T>();
     }
 
     public IQueryable<T> GetQueryable()
     {
-        return _dbSet.AsQueryable();
+        return DbSet.AsQueryable();
     }
     
     public async Task<IEnumerable<T>> GetAllAsync()
     {
-        return await _dbSet.ToListAsync();
+        return await DbSet.ToListAsync();
     }
 
     public async Task<T?> GetByIdAsync(int id)
     {
-        var res = await _dbSet.FindAsync(id);
+        var res = await DbSet.FindAsync(id);
         return res;
     }
     
     public async Task<T?> AddAsync(T entity)
     {
-        var res = await _dbSet.AddAsync(entity);
+        var res = await DbSet.AddAsync(entity);
         return res.Entity;
     }
     
     public async Task<IEnumerable<T>?> AddRangeAsync(IEnumerable<T> entities)
     {
-        await _dbSet.AddRangeAsync(entities);
+        await DbSet.AddRangeAsync(entities);
         return entities.ToList();
     }
 
-    public async Task UpdateAsync(T oldEntity, T newEntity)
+    public Task UpdateAsync(T oldEntity, T newEntity)
     {
-        _context.Entry(oldEntity).CurrentValues.SetValues(newEntity);
-        await Task.CompletedTask;
+        Context.Entry(oldEntity).CurrentValues.SetValues(newEntity);
+        return Task.CompletedTask;
     }
 
     public async Task DeleteAsync(T entity)
     {
-        _dbSet.Remove(entity);
+        DbSet.Remove(entity);
         await Task.CompletedTask;
     }
 }

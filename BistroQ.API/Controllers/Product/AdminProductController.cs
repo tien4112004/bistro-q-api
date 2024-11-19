@@ -1,9 +1,12 @@
 using BistroQ.Core.Dtos;
+using BistroQ.Core.Dtos.Image;
 using BistroQ.Core.Dtos.Products;
 using BistroQ.Core.Enums;
 using BistroQ.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using Newtonsoft.Json;
 
 namespace BistroQ.API.Controllers.Product;
 
@@ -14,10 +17,12 @@ namespace BistroQ.API.Controllers.Product;
 public class AdminProductController : ControllerBase
 {
     private readonly IProductService _productService;
+    private readonly IFileService _fileService;
     
-    public AdminProductController(IProductService productService)
+    public AdminProductController(IProductService productService, IFileService fileService)
     {
         _productService = productService;
+        _fileService = fileService;
     }
     
     [HttpGet]
@@ -32,14 +37,28 @@ public class AdminProductController : ControllerBase
     public async Task<IActionResult> GetProduct([FromRoute] int productId)
     {
         var product = await _productService.GetByIdAsync(productId);
-        return Ok(new ResponseDto<ProductDto>(product));
+        return Ok(new ResponseDto<ProductResponseDto>(product));
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddProduct([FromBody] CreateProductRequestDto request)
+    public async Task<IActionResult> AddProduct([FromForm] CreateProductMultipartRequestDto request)
     {
-        var product = await _productService.AddAsync(request);
-        return Ok(new ResponseDto<ProductDto>(product));
+        ProductResponseDto product;
+        if (request.Image == null)
+        {
+            product = await _productService.AddAsync(request.Product, null);
+            return Ok(new ResponseDto<ProductResponseDto>(product));
+        }
+        using var stream = request.Image.OpenReadStream();
+        var imageRequest = new ImageRequestDto
+        {
+            Name = request.Image.FileName,
+            Data = stream,
+            ContentType = request.Image.ContentType
+        };
+        
+        product = await _productService.AddAsync(request.Product, imageRequest);
+        return Ok(new ResponseDto<ProductResponseDto>(product));
     }
     
     [HttpPut]
@@ -48,6 +67,23 @@ public class AdminProductController : ControllerBase
     {
         var updatedProduct = await _productService.UpdateAsync(productId, productDto);
         return Ok(new ResponseDto<ProductDto>(updatedProduct));
+    }
+    
+    [HttpPatch]
+    [Route("{productId:int}")]
+    public async Task<IActionResult> UpdateProductImage([FromRoute] int productId, IFormFile image)
+    {
+        using var stream = image.OpenReadStream();
+        var imageRequest = new ImageRequestDto
+        {
+            Name = image.FileName,
+            Data = stream,
+            ContentType = image.ContentType
+        };
+        
+        
+        var updatedProduct = await _productService.UpdateImageAsync(productId, imageRequest);
+        return Ok(new ResponseDto<ProductResponseDto>(updatedProduct));
     }
     
     [HttpDelete]

@@ -13,6 +13,8 @@ public class UnitOfWork : IUnitOfWork
     public IZoneRepository ZoneRepository { get; }
     public ITableRepository TableRepository { get; }
     
+    public IImageRepository ImageRepository { get; }
+    
     public IOrderRepository OrderRepository { get; }
     
     public BistroQContext Context { get; }
@@ -25,6 +27,7 @@ public class UnitOfWork : IUnitOfWork
         ICategoryRepository categoryRepository,
         IZoneRepository zoneRepository, 
         ITableRepository tableRepository,
+        IImageRepository imageRepository,
         IOrderRepository orderRepository)
     {
         Context = context;
@@ -33,6 +36,7 @@ public class UnitOfWork : IUnitOfWork
         ZoneRepository = zoneRepository;
         TableRepository = tableRepository;
         OrderRepository = orderRepository;
+        ImageRepository = imageRepository;
     }
 
     public async Task<int> SaveChangesAsync()

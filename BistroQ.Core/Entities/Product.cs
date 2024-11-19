@@ -18,8 +18,12 @@ public class Product
     public string? Unit { get; set; }
 
     public decimal? DiscountPrice { get; set; }
-
+    
+    public Guid? ImageId { get; set; }
+    
     public virtual Category? Category { get; set; }
+
+    public virtual Image? Image { get; set; }
 
     public virtual NutritionFact? NutritionFact { get; set; }
 
