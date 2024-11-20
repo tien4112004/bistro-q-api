@@ -46,7 +46,8 @@ public class MappingProfile : Profile
         CreateMap<CreateTableRequestDto, Table>().ConstructUsing((src, context) => new Table());
         CreateMap<UpdateTableRequestDto, Table>().ConstructUsing((src, context) => new Table());
         CreateMap<Table, TableDetailDto>().ForMember(dest => dest.ZoneName,
-            opt => opt.MapFrom(src => src.Zone == null ? null : src.Zone.Name));
+            opt => opt.MapFrom(src => src.Zone == null ? null : src.Zone.Name))
+            .ForMember(dest => dest.IsOccupied, opt => opt.MapFrom(src => src.Order != null));
         
         CreateMap<Order, OrderDto>().ReverseMap();
         CreateMap<Order, OrderInDetailDto>().ForMember(v => v.OrderDetails, 

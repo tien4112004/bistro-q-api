@@ -35,6 +35,7 @@ public class TableService : ITableService
     {
         var builder =
             new TableQueryableBuilder(_unitOfWork.TableRepository.GetQueryable())
+                .JoinOrders()
                 .WithZoneName(queryParams.ZoneName)
                 .WithZoneId(queryParams.ZoneId)
                 .WithSeatsCount(queryParams.SeatsCount);

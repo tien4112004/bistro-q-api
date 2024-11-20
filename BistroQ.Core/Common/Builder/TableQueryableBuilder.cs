@@ -33,6 +33,12 @@ public class TableQueryableBuilder : BaseQueryableBuilder<Table>
                                          && z.Zone.Name.ToUpper().Contains(zoneName.ToUpper()));        
         return this;
     }
+    
+    public TableQueryableBuilder JoinOrders()
+    {
+        Queryable = Queryable.Include(t => t.Order);
+        return this;
+    }
 
     public TableQueryableBuilder ApplyPaging(int page, int size)
     {
