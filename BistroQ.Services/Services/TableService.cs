@@ -49,6 +49,21 @@ public class TableService : ITableService
         await _unitOfWork.SaveChangesAsync();
         return (_mapper.Map<IEnumerable<TableDetailDto>>(tables), count);
     }
+    
+    public async Task<IEnumerable<TableDetailDto>> GetOccupiedTablesAsync(int zoneId)
+    {
+        var builder =
+            new TableQueryableBuilder(_unitOfWork.TableRepository.GetQueryable())
+                .JoinOrders()
+                .WithZoneId(zoneId);
+        
+        var tables = await _unitOfWork.TableRepository.GetTablesAsync(builder.Build());
+        
+        var result = _mapper.Map<IEnumerable<TableDetailDto>>(tables)
+            .Where(t => t.IsOccupied == true);
+        
+        return result;
+    }
 
     public async Task<TableDto> AddAsync(CreateTableRequestDto tableDto)
     {

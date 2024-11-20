@@ -24,6 +24,8 @@ public interface ITableService
     /// <returns>A tuple containing the collection of tables and total count</returns>
     Task<(IEnumerable<TableDetailDto> Tables, int Count)> GetAllAsync(TableCollectionQueryParams queryParams);
     
+    Task<IEnumerable<TableDetailDto>> GetOccupiedTablesAsync(int zoneId);
+    
     /// <summary>
     /// Creates a new table
     /// </summary>
