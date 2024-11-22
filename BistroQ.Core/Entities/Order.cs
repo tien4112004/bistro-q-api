@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BistroQ.Core.Enums;
 
 namespace BistroQ.Core.Entities;
 
@@ -12,10 +13,14 @@ public class Order
     public DateTime? StartTime { get; set; }
 
     public DateTime? EndTime { get; set; }
+    
+    public string Status { get; set; } = OrderStatus.InProgress;
 
+    public int PeopleCount { get; set; }
+    
     public int? TableId { get; set; }
 
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public virtual ICollection<OrderItem> OrderDetails { get; set; } = new List<OrderItem>();
 
     public virtual Table? Table { get; set; }
 }

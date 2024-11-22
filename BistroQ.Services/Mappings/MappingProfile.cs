@@ -52,7 +52,7 @@ public class MappingProfile : Profile
         CreateMap<Order, OrderInDetailDto>().ForMember(v => v.OrderDetails, 
             opt => opt.MapFrom(src => src.OrderDetails));
         CreateMap<Order, OrderWithTableDto>();
-        CreateMap<OrderDetail, OrderDetailDto>().ReverseMap();
-        CreateMap<OrderDetail, OrderDetailWithProductDto>();
+        CreateMap<OrderItem, OrderDetailDto>().ReverseMap();
+        CreateMap<OrderItem, OrderDetailWithProductDto>();
     }
 }
