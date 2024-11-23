@@ -27,5 +27,5 @@ public class Product
 
     public virtual NutritionFact? NutritionFact { get; set; }
 
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public virtual ICollection<OrderItem> OrderDetails { get; set; } = new List<OrderItem>();
 }

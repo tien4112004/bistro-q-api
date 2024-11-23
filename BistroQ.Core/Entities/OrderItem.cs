@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using BistroQ.Core.Enums;
 
 namespace BistroQ.Core.Entities;
 
-public class OrderDetail
+public class OrderItem
 {
-    public string OrderDetailId { get; set; } = null!;
+    public string OrderItemId { get; set; } = null!;
 
     public string? OrderId { get; set; }
 
     public int? ProductId { get; set; }
 
     public int? Quantity { get; set; }
+    
+    public string Status { get; set; } = OrderItemStatus.InProgress;
 
     public decimal? PriceAtPurchase { get; set; }
 

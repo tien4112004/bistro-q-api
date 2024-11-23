@@ -28,7 +28,7 @@ public interface IOrderService
     /// Assumes only one active order per table exists.
     /// Consider using orderId instead of tableId for more flexibility.
     /// </remarks>
-    Task<OrderInDetailDto> GetOrder(int tableId);
+    Task<DetailOrderDto> GetOrder(int tableId);
     
     /// <summary>
     /// Deletes an order associated with a specific table.
@@ -60,7 +60,7 @@ public interface IOrderService
     /// Consider adding quantity parameter.
     /// Should validate product availability and pricing.
     /// </remarks>
-    Task<OrderInDetailDto> AddProductToOrder(int tableId, int productId);
+    Task<DetailOrderDto> AddProductToOrder(int tableId, int productId);
     
     /// <summary>
     /// Removes a product from an existing order.
@@ -72,7 +72,7 @@ public interface IOrderService
     /// Should validate if the product can be removed (e.g., not already prepared).
     /// Consider handling quantity for multiple instances of the same product.
     /// </remarks>
-    Task<OrderInDetailDto> RemoveProductFromOrder(int tableId, int productId);
+    Task<DetailOrderDto> RemoveProductFromOrder(int tableId, int productId);
     
     /// <summary>
     /// Updates the quantity of a product in an existing order.
@@ -84,5 +84,5 @@ public interface IOrderService
     /// Missing quantity parameter - should be added.
     /// Should validate if quantity update is allowed (e.g., kitchen status).
     /// </remarks>
-    Task<OrderInDetailDto> UpdateProductQuantity(int tableId, int productId);
+    Task<DetailOrderDto> UpdateProductQuantity(int tableId, int productId);
 }

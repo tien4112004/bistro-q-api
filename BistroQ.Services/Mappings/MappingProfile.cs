@@ -50,10 +50,10 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.IsOccupied, opt => opt.MapFrom(src => src.Order != null));
         
         CreateMap<Order, OrderDto>().ReverseMap();
-        CreateMap<Order, OrderInDetailDto>().ForMember(v => v.OrderDetails, 
+        CreateMap<Order, DetailOrderDto>().ForMember(v => v.OrderDetails, 
             opt => opt.MapFrom(src => src.OrderDetails));
         CreateMap<Order, OrderWithTableDto>();
-        CreateMap<OrderDetail, OrderDetailDto>().ReverseMap();
-        CreateMap<OrderDetail, OrderDetailWithProductDto>();
+        CreateMap<OrderItem, OrderItemDto>().ReverseMap();
+        CreateMap<OrderItem, OrderItemWithProductDto>();
     }
 }
