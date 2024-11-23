@@ -12,5 +12,5 @@ public class DetailOrderDto
     public DateTime? EndTime { get; set; }
 
     public int? TableId { get; set; }
-    public ICollection<OrderItemWithProductDto> OrderDetails { get; set; } = new List<OrderItemWithProductDto>();
+    public ICollection<OrderItemWithProductDto> OrderItems { get; set; } = new List<OrderItemWithProductDto>();
 }

@@ -17,8 +17,9 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
     public async Task<Order?> GetByTableIdAsync(int tableId)
     {
         return await _context.Orders
-            .Include(o => o.OrderDetails)
+            .Include(o => o.OrderItems)
             .ThenInclude(od => od.Product)
+            .ThenInclude(p => p.Image)
             .FirstOrDefaultAsync(o => o.TableId == tableId);
     }
     
