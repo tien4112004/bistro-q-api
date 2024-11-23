@@ -55,7 +55,7 @@ public class OrderService : IOrderService
             throw new ResourceNotFoundException("Order not found");
         }
         
-        order.OrderDetails = _mapper.Map<List<OrderItem>>(order.OrderDetails);
+        order.OrderItems = _mapper.Map<List<OrderItem>>(order.OrderItems);
 
         return _mapper.Map<DetailOrderDto>(order);
     }

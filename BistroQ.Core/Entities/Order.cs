@@ -20,7 +20,7 @@ public class Order
     
     public int? TableId { get; set; }
 
-    public virtual ICollection<OrderItem> OrderDetails { get; set; } = new List<OrderItem>();
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
     public virtual Table? Table { get; set; }
 }

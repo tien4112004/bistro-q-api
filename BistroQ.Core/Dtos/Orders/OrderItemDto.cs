@@ -2,7 +2,7 @@ namespace BistroQ.Core.Dtos.Orders;
 
 public class OrderItemDto
 {
-    public string OrderDetailId { get; set; } = null!;
+    public string OrderItemId { get; set; } = null!;
 
     public string? OrderId { get; set; }
 

@@ -27,7 +27,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
     public virtual DbSet<Order?> Orders { get; set; }
 
-    public virtual DbSet<OrderItem> OrderDetails { get; set; }
+    public virtual DbSet<OrderItem> OrderItems { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
 
@@ -100,7 +100,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
         {
             entity.HasKey(e => e.OrderItemId).HasName("PRIMARY");
 
-            entity.ToTable("OrderDetail");
+            entity.ToTable("OrderItem");
 
             entity.HasIndex(e => e.OrderId, "OrderId");
 
@@ -110,14 +110,14 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             entity.Property(e => e.OrderId).HasMaxLength(100);
             entity.Property(e => e.PriceAtPurchase).HasPrecision(10);
 
-            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.OrderId)
-                .HasConstraintName("OrderDetail_ibfk_1")
+                .HasConstraintName("OrderItem_ibfk_1")
                 .OnDelete(DeleteBehavior.Cascade);
 
-            entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
+            entity.HasOne(d => d.Product).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("OrderDetail_ibfk_2")
+                .HasConstraintName("OrderItem_ibfk_2")
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
