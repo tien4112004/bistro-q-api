@@ -40,7 +40,7 @@ public class ClientOrderController : ControllerBase
         var tableId = await GetTableId();
         
         var order = await _orderService.GetOrder(tableId);
-        return Ok(new ResponseDto<OrderInDetailDto>(order));
+        return Ok(new ResponseDto<DetailOrderDto>(order));
     }
     
     [HttpDelete]

@@ -49,10 +49,10 @@ public class MappingProfile : Profile
             opt => opt.MapFrom(src => src.Zone == null ? null : src.Zone.Name));
         
         CreateMap<Order, OrderDto>().ReverseMap();
-        CreateMap<Order, OrderInDetailDto>().ForMember(v => v.OrderDetails, 
+        CreateMap<Order, DetailOrderDto>().ForMember(v => v.OrderDetails, 
             opt => opt.MapFrom(src => src.OrderDetails));
         CreateMap<Order, OrderWithTableDto>();
-        CreateMap<OrderItem, OrderDetailDto>().ReverseMap();
-        CreateMap<OrderItem, OrderDetailWithProductDto>();
+        CreateMap<OrderItem, OrderItemDto>().ReverseMap();
+        CreateMap<OrderItem, OrderItemWithProductDto>();
     }
 }
