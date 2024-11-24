@@ -34,6 +34,6 @@ public class CashierOrderController : ControllerBase
     public async Task<IActionResult> GetOrder([FromRoute] int tableId)
     {
         var order = await _orderService.GetOrder(tableId);
-        return Ok(new ResponseDto<OrderInDetailDto>(order));
+        return Ok(new ResponseDto<DetailOrderDto>(order));
     }
 }

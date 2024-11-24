@@ -47,7 +47,7 @@ public class OrderService : IOrderService
         return _mapper.Map<OrderDto>(createdOrder);
     }
 
-    public async Task<OrderInDetailDto> GetOrder(int tableId)
+    public async Task<DetailOrderDto> GetOrder(int tableId)
     {
         var order =await _unitOfWork.OrderRepository.GetByTableIdAsync(tableId);
         if (order == null)
@@ -55,9 +55,9 @@ public class OrderService : IOrderService
             throw new ResourceNotFoundException("Order not found");
         }
         
-        order.OrderDetails = _mapper.Map<List<OrderDetail>>(order.OrderDetails);
+        order.OrderItems = _mapper.Map<List<OrderItem>>(order.OrderItems);
 
-        return _mapper.Map<OrderInDetailDto>(order);
+        return _mapper.Map<DetailOrderDto>(order);
     }
     
     public async Task DeleteOrder(int tableId)
@@ -78,17 +78,17 @@ public class OrderService : IOrderService
         return _mapper.Map<IEnumerable<OrderWithTableDto>>(orders);
     }
 
-    public Task<OrderInDetailDto> AddProductToOrder(int tableId, int productId)
+    public Task<DetailOrderDto> AddProductToOrder(int tableId, int productId)
     {
         throw new NotImplementedException();
     }
 
-    public Task<OrderInDetailDto> RemoveProductFromOrder(int tableId, int productId)
+    public Task<DetailOrderDto> RemoveProductFromOrder(int tableId, int productId)
     {
         throw new NotImplementedException();
     }
 
-    public Task<OrderInDetailDto> UpdateProductQuantity(int tableId, int productId)
+    public Task<DetailOrderDto> UpdateProductQuantity(int tableId, int productId)
     {
         throw new NotImplementedException();
     }

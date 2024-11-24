@@ -27,7 +27,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
     public virtual DbSet<Order?> Orders { get; set; }
 
-    public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+    public virtual DbSet<OrderItem> OrderItems { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
 
@@ -47,7 +47,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 entityType.SetTableName(tableName.Substring(6));
             }
         }
-        
+
         modelBuilder
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
@@ -83,7 +83,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             entity.ToTable("Order");
 
             entity.HasIndex(e => e.TableId, "TableId");
-    
+
             entity.Property(e => e.OrderId).HasMaxLength(100);
             entity.Property(e => e.EndTime).HasColumnType("datetime");
             entity.Property(e => e.StartTime).HasColumnType("datetime");
@@ -96,35 +96,35 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 .OnDelete(DeleteBehavior.SetNull);
         });
 
-        modelBuilder.Entity<OrderDetail>(entity =>
+        modelBuilder.Entity<OrderItem>(entity =>
         {
-            entity.HasKey(e => e.OrderDetailId).HasName("PRIMARY");
+            entity.HasKey(e => e.OrderItemId).HasName("PRIMARY");
 
-            entity.ToTable("OrderDetail");
+            entity.ToTable("OrderItem");
 
             entity.HasIndex(e => e.OrderId, "OrderId");
 
             entity.HasIndex(e => e.ProductId, "ProductId");
 
-            entity.Property(e => e.OrderDetailId).HasMaxLength(100);
+            entity.Property(e => e.OrderItemId).HasMaxLength(100);
             entity.Property(e => e.OrderId).HasMaxLength(100);
             entity.Property(e => e.PriceAtPurchase).HasPrecision(10);
 
-            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.OrderId)
-                .HasConstraintName("OrderDetail_ibfk_1")
+                .HasConstraintName("OrderItem_ibfk_1")
                 .OnDelete(DeleteBehavior.Cascade);
 
-            entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
+            entity.HasOne(d => d.Product).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("OrderDetail_ibfk_2")
+                .HasConstraintName("OrderItem_ibfk_2")
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
             entity.HasKey(e => e.ProductId).HasName("PRIMARY");
-            
+
             entity.ToTable("Product");
 
             entity.HasIndex(e => e.CategoryId, "CategoryId");
@@ -161,7 +161,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 .HasForeignKey(d => d.ZoneId)
                 .HasConstraintName("Table_ibfk_1")
                 .OnDelete(DeleteBehavior.SetNull);
-            
+
             entity.HasOne(d => d.User)
                 .WithOne(p => p.Table)
                 .HasForeignKey<AppUser>(d => d.TableId)
@@ -178,7 +178,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             entity.Property(e => e.ZoneId).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).HasMaxLength(100);
         });
-        
+
         modelBuilder.Entity<Image>(entity =>
         {
             entity.HasKey(e => e.ImageId).HasName("PRIMARY");
@@ -187,7 +187,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
             entity.Property(e => e.ImageId).ValueGeneratedOnAdd();
         });
-        
+
         var listRoles = new List<IdentityRole>()
         {
             new IdentityRole { Id = "1", Name = BistroRoles.Admin, NormalizedName = BistroRoles.Admin.ToUpper() },
@@ -195,9 +195,9 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             new IdentityRole { Id = "3", Name = BistroRoles.Cashier, NormalizedName = BistroRoles.Cashier.ToUpper() },
             new IdentityRole { Id = "4", Name = BistroRoles.Client, NormalizedName = BistroRoles.Client.ToUpper() }
         };
-        
+
         modelBuilder.Entity<IdentityRole>().HasData(listRoles);
-        
+
         var hasher = new PasswordHasher<AppUser>();
         modelBuilder.Entity<AppUser>().HasData(new AppUser
             {
@@ -393,7 +393,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 RoleId = "4",
                 UserId = "13",
             }
-            );
+        );
 
         var listZone = new List<Zone>()
         {
@@ -402,8 +402,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             new Zone { ZoneId = 3, Name = "Outside" },
             new Zone { ZoneId = 4, Name = "VIP" }
         };
-        
-        modelBuilder.Entity<Zone>().HasData(listZone);
+
 
         var listTable = new List<Table>()
         {
@@ -418,8 +417,6 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             new Table { TableId = 9, ZoneId = 3, Number = 1, SeatsCount = 3 },
             new Table { TableId = 10, ZoneId = 3, Number = 2, SeatsCount = 2 },
         };
-        
-        modelBuilder.Entity<Table>().HasData(listTable);
 
         var listCategories = new Category[]
         {
@@ -491,112 +488,220 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
         {
             new Image
             {
-                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000001"), ContentType = "image/jpeg", Name = "bun-bo-hue.jpg",
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000001"), ContentType = "image/jpeg",
+                Name = "bun-bo-hue.jpg",
             },
             new Image
             {
-                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000002"), ContentType = "image/jpeg", Name = "pho.jpg",
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000002"), ContentType = "image/jpeg",
+                Name = "pho.jpg",
             },
             new Image
             {
-                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000003"), ContentType = "image/jpeg", Name = "banh-mi.jpg",
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000003"), ContentType = "image/jpeg",
+                Name = "banh-mi.jpg",
             },
             new Image
             {
-                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000004"), ContentType = "image/jpeg", Name = "banh-xeo.jpg",
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000004"), ContentType = "image/jpeg",
+                Name = "banh-xeo.jpg",
             },
             new Image
             {
-                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000005"), ContentType = "image/jpeg", Name = "banh-canh.jpg",
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000005"), ContentType = "image/jpeg",
+                Name = "banh-canh.jpg",
             },
             new Image
             {
-                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000006"), ContentType = "image/jpeg", Name = "banh-cuon.jpg",
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000006"), ContentType = "image/jpeg",
+                Name = "banh-cuon.jpg",
             },
             new Image
             {
-                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000007"), ContentType = "image/jpeg", Name = "com-chien.jpg",
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000007"), ContentType = "image/jpeg",
+                Name = "com-chien.jpg",
             },
             new Image
             {
-                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000008"), ContentType = "image/jpeg", Name = "bun-rieu.jpg",
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000008"), ContentType = "image/jpeg",
+                Name = "bun-rieu.jpg",
             },
             new Image
             {
-                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000009"), ContentType = "image/jpeg", Name = "bun-thit-nuong.jpg",
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000009"), ContentType = "image/jpeg",
+                Name = "bun-thit-nuong.jpg",
             },
             new Image
             {
-                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000010"), ContentType = "image/jpeg", Name = "mi-xao.jpg",
+                ImageId = Guid.Parse("00000000-0000-0000-0000-000000000010"), ContentType = "image/jpeg",
+                Name = "mi-xao.jpg",
             },
         };
-        
-        
-        var listOrderDetail = new List<OrderDetail>()
+
+        var listOrderDetail = new List<OrderItem>()
         {
-            new OrderDetail
+            new OrderItem
             {
-                OrderDetailId = "1",
+                OrderItemId = "101",
                 OrderId = "1",
                 ProductId = 1,
+                Status = OrderItemStatus.InProgress,
                 Quantity = 2,
-                PriceAtPurchase = 10
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 1).Price
             },
-            new OrderDetail
+            new OrderItem
             {
-                OrderDetailId = "2",
+                OrderItemId = "102",
                 OrderId = "1",
                 ProductId = 2,
+                Status = OrderItemStatus.InProgress,
                 Quantity = 1,
-                PriceAtPurchase = 10
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 2).Price
             },
-            new OrderDetail
+            new OrderItem
             {
-                OrderDetailId = "3",
+                OrderItemId = "103",
+                OrderId = "1",
+                ProductId = 3,
+                Status = OrderItemStatus.InProgress,
+                Quantity = 1,                
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 3).Price
+            },
+            new OrderItem
+            {
+                OrderItemId = "104",
+                OrderId = "1",
+                ProductId = 4,
+                Status = OrderItemStatus.Pending,
+                Quantity = 2,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 4).Price
+            },
+            new OrderItem
+            {
+                OrderItemId = "105",
+                OrderId = "1",
+                Status = OrderItemStatus.Completed,
+                ProductId = 5,
+                Quantity = 1,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 5).Price
+            },
+            new OrderItem
+            {
+                OrderItemId = "106",
+                OrderId = "1",
+                ProductId = 6,
+                Status = OrderItemStatus.Pending,
+                Quantity = 3,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 6).Price
+            },
+            new OrderItem
+            {
+                OrderItemId = "107",
+                OrderId = "1",
+                ProductId = 7,
+                Status =  OrderItemStatus.InProgress,
+                Quantity = 1,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 7).Price
+            },
+            new OrderItem
+            {
+                OrderItemId = "108",
+                OrderId = "1",
+                ProductId = 8,
+                Status =  OrderItemStatus.InProgress,
+                Quantity = 2,                
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 8).Price
+            },
+            new OrderItem
+            {
+                OrderItemId = "201",
                 OrderId = "2",
                 ProductId = 3,
+                Status = OrderItemStatus.Completed,  // Completed: First items ordered
                 Quantity = 3,
-                PriceAtPurchase = 10
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 3).Price
             },
-            new OrderDetail
+            new OrderItem
             {
-                OrderDetailId = "4",
+                OrderItemId = "202",
+                OrderId = "2",
+                ProductId = 4,
+                Status = OrderItemStatus.Completed,  
+                Quantity = 2,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 4).Price
+            },
+            new OrderItem
+            {
+                OrderItemId = "203",
+                OrderId = "2",
+                ProductId = 5,
+                Status = OrderItemStatus.InProgress,
+                Quantity = 1,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 5).Price
+            },
+            new OrderItem
+            {
+                OrderItemId = "204",
+                OrderId = "2",
+                ProductId = 6,
+                Status = OrderItemStatus.Pending,
+                Quantity = 1,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 6).Price
+            },
+            new OrderItem
+            {
+                OrderItemId = "205",
+                OrderId = "2",
+                ProductId = 7,
+                Status = OrderItemStatus.Pending, 
+                Quantity = 2,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 7).Price
+            },
+
+            new OrderItem
+            {
+                OrderItemId = "301",
                 OrderId = "3",
                 ProductId = 4,
                 Quantity = 1,
-                PriceAtPurchase = 100
+                Status = OrderItemStatus.InProgress, 
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 4).Price
             },
-            new OrderDetail
+            new OrderItem
             {
-                OrderDetailId = "5",
+                OrderItemId = "302",
                 OrderId = "3",
                 ProductId = 5,
                 Quantity = 2,
-                PriceAtPurchase = 50
+                Status = OrderItemStatus.Completed,  
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 5).Price
             },
-            new OrderDetail
+            new OrderItem
             {
-                OrderDetailId = "6",
+                OrderItemId = "401",
                 OrderId = "4",
                 ProductId = 6,
                 Quantity = 1,
-                PriceAtPurchase = 80
+                Status = OrderItemStatus.Completed,  
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 6).Price
             },
-            new OrderDetail
+            new OrderItem
             {
-                OrderDetailId = "7",
+                OrderItemId = "501",
                 OrderId = "5",
                 ProductId = 7,
                 Quantity = 2,
-                PriceAtPurchase = 20
+                Status = OrderItemStatus.Completed,  
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 7).Price
             },
-            new OrderDetail
+            new OrderItem
             {
-                OrderDetailId = "8",
+                OrderItemId = "601",
                 OrderId = "6",
                 ProductId = 8,
                 Quantity = 1,
-                PriceAtPurchase = 30
+                Status = OrderItemStatus.Completed,  
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 8).Price
             }
         };
 
@@ -604,51 +709,66 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
         {
             new Order
             {
-                OrderId = "1", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
-                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = 100
+                OrderId = "1", TableId = 1, StartTime = DateTime.Now,
+                PeopleCount = 5,
+                EndTime = null,
+                Status = OrderStatus.InProgress,
+                TotalAmount = listOrderDetail.Where(od => od.OrderId == "1").Sum(od => od.PriceAtPurchase * od.Quantity)
             },
             new Order
             {
-                OrderId = "2", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
-                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = 200
+                OrderId = "2", TableId = 6, StartTime = DateTime.Now,
+                PeopleCount = 2,
+                EndTime = null,
+                Status = OrderStatus.InProgress,
+                TotalAmount = listOrderDetail.Where(od => od.OrderId == "2").Sum(od => od.PriceAtPurchase * od.Quantity)
             },
             new Order
             {
-                OrderId = "3", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
-                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = 300
+                OrderId = "3", TableId = 2, StartTime = DateTime.Now,
+                PeopleCount = 4,
+                EndTime = null,
+                Status = OrderStatus.InProgress,
+                TotalAmount = listOrderDetail.Where(od => od.OrderId == "3").Sum(od => od.PriceAtPurchase * od.Quantity)
             },
             new Order
             {
                 OrderId = "4", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
                 EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
-                TotalAmount = 400
+                Status = OrderStatus.Completed,
+                TotalAmount = listOrderDetail.Where(od => od.OrderId == "4").Sum(od => od.PriceAtPurchase * od.Quantity)
             },
             new Order
             {
-                OrderId = "5", TableId = 1, StartTime = DateTime.Now, EndTime = null,
-                TotalAmount = 500
+                OrderId = "5", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
+                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
+                Status = OrderStatus.Completed,
+                TotalAmount = listOrderDetail.Where(od => od.OrderId == "5").Sum(od => od.PriceAtPurchase * od.Quantity)
             },
             new Order
             {
-                OrderId = "6", TableId = 2, StartTime = DateTime.Now, EndTime = null,
-                TotalAmount = 600
+                OrderId = "6", TableId = null, StartTime = new DateTime(2024, 10, 1, 12, 0, 0),
+                EndTime = new DateTime(2024, 10, 1, 13, 0, 0),
+                Status = OrderStatus.Completed,
+                TotalAmount = listOrderDetail.Where(od => od.OrderId == "6").Sum(od => od.PriceAtPurchase * od.Quantity)
             },
         };
+
+
+        modelBuilder.Entity<Table>().HasData(listTable);
         
-        
+        modelBuilder.Entity<Zone>().HasData(listZone);
+
         modelBuilder.Entity<Category>().HasData(listCategories);
-        
+
         modelBuilder.Entity<Image>().HasData(listImages);
 
         modelBuilder.Entity<Product>().HasData(listProducts);
-        
-        modelBuilder.Entity<OrderDetail>().HasData(listOrderDetail);
-        
+
+        modelBuilder.Entity<OrderItem>().HasData(listOrderDetail);
+
         modelBuilder.Entity<Order>().HasData(listOrder);
-        
+
         OnModelCreatingPartial(modelBuilder);
     }
 
