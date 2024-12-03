@@ -66,12 +66,12 @@ public class ClientOrderController : ControllerBase
     
     [HttpDelete]
     [Route("Items")]
-    public async Task<IActionResult> RemoveProductFromOrder([FromRoute] int productId)
+    public async Task<IActionResult> RemoveProductsFromOrder([FromBody] IEnumerable<RemoveOrderItemRequestDto> orderItems)
     {
         var tableId = await GetTableId();
         
-        var order = await _orderService.RemoveProductFromOrder(tableId, productId);
-        return Ok();
+        var cancelledItems = await _orderService.CancelOrderItems(tableId, orderItems);
+        return Ok(new ResponseDto<IEnumerable<OrderItemDto>>(cancelledItems));
     }
     
     [HttpPatch("Items")]

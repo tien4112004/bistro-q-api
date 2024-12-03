@@ -14,5 +14,7 @@ public class OrderItemWithProductDto
 
     public decimal? PriceAtPurchase { get; set; }
     
+    public string Status { get; set; } 
+    
     public ProductResponseDto? Product { get; set; }
 }

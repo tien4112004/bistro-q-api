@@ -35,6 +35,4 @@ public interface IOrderRepository : IGenericRepository<Order>
     /// Consider adding filters for specific order statuses.
     /// </remarks>
     Task<IEnumerable<Order>> GetAllCurrentOrdersAsync();
-    
-    Task<IEnumerable<OrderItem>> AddProductsToOrderAsync(string orderId, IEnumerable<CreateOrderItemRequestDto> orderItems); 
 }

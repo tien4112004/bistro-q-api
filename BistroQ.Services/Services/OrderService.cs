@@ -90,16 +90,57 @@ public class OrderService : IOrderService
             throw new ResourceNotFoundException("Order not found");
         }
         
-        var addedItems = await _unitOfWork.OrderRepository.AddProductsToOrderAsync(order.OrderId, orderItems);
-        var addedItemsDto = _mapper.Map<IEnumerable<OrderItemDto>>(addedItems);
+        List<OrderItem> addedItems = new List<OrderItem>();
+        
+        foreach (var item in orderItems)
+        {
+            var product = await _unitOfWork.ProductRepository.GetByIdAsync(item.ProductId);
+            if (product == null)
+            {
+                throw new ResourceNotFoundException("Product not found");
+            }
+            
+            var orderItem = new OrderItem
+            {
+                OrderId = order.OrderId,
+                ProductId = item.ProductId,
+                Quantity = item.Quantity,
+                PriceAtPurchase = product.DiscountPrice ?? product.Price,
+            };
+            
+            var addedItem = await _unitOfWork.OrderItemRepository.AddAsync(orderItem);
+            addedItems.Add(addedItem);
+        }
+        
         await _unitOfWork.SaveChangesAsync();
+        var addedItemsDto = _mapper.Map<IEnumerable<OrderItemDto>>(addedItems);
 
         return addedItemsDto;
     }
-
-    public Task<DetailOrderDto> RemoveProductFromOrder(int tableId, int productId)
+    
+    public async Task<IEnumerable<OrderItemDto>> CancelOrderItems(int tableId, [FromBody] IEnumerable<RemoveOrderItemRequestDto> orderItems)
     {
-        throw new NotImplementedException();
+        var order = await _unitOfWork.OrderRepository.GetByTableIdAsync(tableId);
+        if (order == null)
+        {
+            throw new ResourceNotFoundException("Order not found");
+        }
+        
+        List<OrderItem> removedItems = new List<OrderItem>();
+        foreach (var item in orderItems)
+        {
+            var orderItem = order.OrderItems.FirstOrDefault(oi => oi.OrderItemId == item.OrderItemId);
+            if (orderItem == null)
+            {
+                throw new ResourceNotFoundException("OrderItem not found");
+            }
+            
+            await _unitOfWork.OrderItemRepository.DeleteAsync(orderItem);
+            removedItems.Add(orderItem);
+        }
+        await _unitOfWork.SaveChangesAsync();
+    
+        return _mapper.Map<IEnumerable<OrderItemDto>>(removedItems);
     }
 
     public Task<DetailOrderDto> UpdateProductQuantity(int tableId, int productId)

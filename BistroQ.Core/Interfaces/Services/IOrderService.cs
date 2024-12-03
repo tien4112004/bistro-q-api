@@ -55,25 +55,15 @@ public interface IOrderService
     /// Adds a product to an existing order.
     /// </summary>
     /// <param name="tableId">The unique identifier of the table.</param>
-    /// <param name="requests">The list of products that needs to add.</param>
+    /// <param name="orderItems">The list of products that needs to add.</param>
     /// <returns>Updated order details including the new product.</returns>
     /// <remarks>
     /// Consider adding quantity parameter.
     /// Should validate product availability and pricing.
     /// </remarks>
-    Task<IEnumerable<OrderItemDto>> AddProductsToOrder(int tableId, [FromBody] IEnumerable<CreateOrderItemRequestDto> orderITems);
-    
-    /// <summary>
-    /// Removes a product from an existing order.
-    /// </summary>
-    /// <param name="tableId">The unique identifier of the table.</param>
-    /// <param name="productId">The unique identifier of the product to remove.</param>
-    /// <returns>Updated order details without the removed product.</returns>
-    /// <remarks>
-    /// Should validate if the product can be removed (e.g., not already prepared).
-    /// Consider handling quantity for multiple instances of the same product.
-    /// </remarks>
-    Task<DetailOrderDto> RemoveProductFromOrder(int tableId, int productId);
+    Task<IEnumerable<OrderItemDto>> AddProductsToOrder(int tableId, [FromBody] IEnumerable<CreateOrderItemRequestDto> orderItems);
+
+    Task<IEnumerable<OrderItemDto>> CancelOrderItems(int tableId, [FromBody] IEnumerable<RemoveOrderItemRequestDto> orderItems);
     
     /// <summary>
     /// Updates the quantity of a product in an existing order.
