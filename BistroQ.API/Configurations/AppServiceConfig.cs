@@ -1,4 +1,3 @@
-using BistroQ.Core.Common.Settings;
 using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Repositories;
 using BistroQ.Core.Interfaces.Services;
@@ -24,6 +23,7 @@ public static class AppServiceConfigExtension
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IOrderItemRepository, OrderItemRepository>();
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ITokenService, TokenService>();
