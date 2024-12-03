@@ -28,11 +28,11 @@ public class ClientOrderController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> CreateOrder()
+    public async Task<IActionResult> CreateOrder(int peopleCount)
     {
         var tableId = await GetTableId();
         
-        var order = await _orderService.CreateOrder(tableId);
+        var order = await _orderService.CreateOrder(tableId, peopleCount);
         return Ok(new ResponseDto<OrderDto>(order));
     }
     
@@ -53,6 +53,15 @@ public class ClientOrderController : ControllerBase
          await _orderService.DeleteOrder(tableId);
         return Ok(new ResponseDto<string>("Order deleted"));
     }
+    
+    [HttpPatch("PeopleCount")]
+    public async Task<IActionResult> UpdatePeopleCount([FromQuery] int peopleCount)
+    {
+        var tableId = await GetTableId();
+        
+        var order = await _orderService.UpdatePeopleCount(tableId, peopleCount);
+        return Ok(new ResponseDto<OrderDto>(order));
+    }
         
     [HttpPost("Items")]
     public async Task<IActionResult> AddProductsToOrder([FromBody] IEnumerable<CreateOrderItemRequestDto> orderItems)
@@ -72,15 +81,6 @@ public class ClientOrderController : ControllerBase
         
         var cancelledItems = await _orderService.CancelOrderItems(tableId, orderItems);
         return Ok(new ResponseDto<IEnumerable<OrderItemDto>>(cancelledItems));
-    }
-    
-    [HttpPatch("Items")]
-    public async Task<IActionResult> UpdateProductQuantity([FromRoute] int productId)
-    {
-        var tableId = await GetTableId();
-        
-        var order = await _orderService.UpdateProductQuantity(tableId, productId);
-        return Ok();
     }
     
     private async Task<int> GetTableId()

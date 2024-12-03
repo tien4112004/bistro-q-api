@@ -18,7 +18,7 @@ public interface IOrderService
     /// <remarks>
     /// Consider whether multiple active orders per table should be allowed.
     /// </remarks>
-    Task<OrderDto> CreateOrder(int tableId);
+    Task<OrderDto> CreateOrder(int tableId, int peopleCount);
     
     /// <summary>
     /// Retrieves detailed information about the current order for a specific table.
@@ -75,5 +75,5 @@ public interface IOrderService
     /// Missing quantity parameter - should be added.
     /// Should validate if quantity update is allowed (e.g., kitchen status).
     /// </remarks>
-    Task<DetailOrderDto> UpdateProductQuantity(int tableId, int productId);
+    Task<OrderDto> UpdatePeopleCount(int tableId, int peopleCount);
 }

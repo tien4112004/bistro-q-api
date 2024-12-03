@@ -20,7 +20,7 @@ public class OrderService : IOrderService
         _mapper = mapper;
     }
 
-    public async Task<OrderDto> CreateOrder(int tableId)
+    public async Task<OrderDto> CreateOrder(int tableId, int peopleCount)
     {
         var order = new Order
         {
@@ -29,6 +29,7 @@ public class OrderService : IOrderService
             TotalAmount = 0,
             StartTime = DateTime.Now,
             EndTime = null,
+            PeopleCount = peopleCount,
         };
         
         var table = await _unitOfWork.TableRepository.GetByIdAsync(tableId);
@@ -143,8 +144,19 @@ public class OrderService : IOrderService
         return _mapper.Map<IEnumerable<OrderItemDto>>(removedItems);
     }
 
-    public Task<DetailOrderDto> UpdateProductQuantity(int tableId, int productId)
+    public async Task<OrderDto> UpdatePeopleCount(int tableId, int peopleCount)
     {
-        throw new NotImplementedException();
+        var order = await _unitOfWork.OrderRepository.GetByTableIdAsync(tableId);
+        if (order == null)
+        {
+            throw new ResourceNotFoundException("Order not found");
+        }
+        
+        var updatedOrder = order;
+        updatedOrder.PeopleCount = peopleCount;
+        await _unitOfWork.OrderRepository.UpdateAsync(order, updatedOrder);
+        await _unitOfWork.SaveChangesAsync();
+
+        return _mapper.Map<OrderDto>(updatedOrder);
     }
 }
