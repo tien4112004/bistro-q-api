@@ -1,3 +1,4 @@
+using System.Collections;
 using BistroQ.Core.Dtos;
 using BistroQ.Core.Dtos.Orders;
 using BistroQ.Core.Enums;
@@ -52,17 +53,17 @@ public class ClientOrderController : ControllerBase
         return Ok(new ResponseDto<string>("Order deleted"));
     }
         
-    [HttpPost("Items/{productId:int}")]
-    public async Task<IActionResult> AddProductToOrder([FromRoute] int productId)
+    [HttpPost("Items")]
+    public async Task<IActionResult> AddProductsToOrder([FromBody] IEnumerable<CreateOrderItemRequestDto> orderItems)
     {
         var tableId = await GetTableId();
         
-        var order = await _orderService.AddProductToOrder(tableId, productId);
+        var order = await _orderService.AddProductsToOrder(tableId, orderItems);
         return Ok();
     }
     
     [HttpDelete]
-    [Route("Items/{productId:int}")]
+    [Route("Items")]
     public async Task<IActionResult> RemoveProductFromOrder([FromRoute] int productId)
     {
         var tableId = await GetTableId();
@@ -71,7 +72,7 @@ public class ClientOrderController : ControllerBase
         return Ok();
     }
     
-    [HttpPatch("Items/{productId:int}")]
+    [HttpPatch("Items")]
     public async Task<IActionResult> UpdateProductQuantity([FromRoute] int productId)
     {
         var tableId = await GetTableId();

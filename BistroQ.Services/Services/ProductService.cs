@@ -41,10 +41,9 @@ public class ProductService : IProductService
     {
         var builder = 
             new ProductQueryableBuilder(_unitOfWork.ProductRepository.GetQueryable())
+            .WithCategoryId(queryParams.CategoryId)
             .WithName(queryParams.Name)
-            .WithPrice(queryParams.Price)
-            .WithUnit(queryParams.Unit)
-            .WithDiscountPrice(queryParams.DiscountPrice);
+            .WithPrice(queryParams.Price);
         
         var count = await _unitOfWork.ProductRepository.GetProductsCountAsync(builder.Build());
 

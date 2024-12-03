@@ -1,5 +1,6 @@
 using BistroQ.Core.Dtos.Orders;
 using BistroQ.Core.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BistroQ.Core.Interfaces.Services;
 
@@ -54,13 +55,13 @@ public interface IOrderService
     /// Adds a product to an existing order.
     /// </summary>
     /// <param name="tableId">The unique identifier of the table.</param>
-    /// <param name="productId">The unique identifier of the product to add.</param>
+    /// <param name="requests">The list of products that needs to add.</param>
     /// <returns>Updated order details including the new product.</returns>
     /// <remarks>
     /// Consider adding quantity parameter.
     /// Should validate product availability and pricing.
     /// </remarks>
-    Task<DetailOrderDto> AddProductToOrder(int tableId, int productId);
+    Task<Order> AddProductsToOrder(int tableId, [FromBody] IEnumerable<CreateOrderItemRequestDto> orderITems);
     
     /// <summary>
     /// Removes a product from an existing order.

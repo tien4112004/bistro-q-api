@@ -1,0 +1,39 @@
+.
+├── BistroQ.API
+│   ├── Configurations
+│   ├── Controllers
+│   │   ├── Auth
+│   │   ├── Category
+│   │   ├── Product
+│   │   ├── Table
+│   │   └── Zone
+│   ├── Middlewares
+│   └── Properties
+├── BistroQ.Core
+│   ├── Common
+│   │   ├── Builder
+│   │   └── Settings
+│   ├── Dtos
+│   │   ├── Auth
+│   │   ├── Category
+│   │   ├── Products
+│   │   ├── Tables
+│   │   └── Zones
+│   ├── Entities
+│   ├── Enums
+│   ├── Exceptions
+│   ├── Interfaces
+│   │   ├── Repositories
+│   │   └── Services
+│   ├── Mappings
+│   └── Specifications
+├── BistroQ.Infrastructure
+│   ├── Data
+│   ├── Migrations
+│   ├── Repositories
+│   └── UnitOfWork
+├── BistroQ.Services
+│   └── Services
+└── bistro-q-api
+
+36 directories

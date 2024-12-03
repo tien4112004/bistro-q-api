@@ -1,9 +1,11 @@
+using System.Runtime.InteropServices.Marshalling;
 using AutoMapper;
 using BistroQ.Core.Dtos.Orders;
 using BistroQ.Core.Entities;
 using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BistroQ.Services.Services;
 
@@ -78,9 +80,20 @@ public class OrderService : IOrderService
         return _mapper.Map<IEnumerable<OrderWithTableDto>>(orders);
     }
 
-    public Task<DetailOrderDto> AddProductToOrder(int tableId, int productId)
+    public async Task<Order> AddProductsToOrder(
+        int tableId, 
+        [FromBody] IEnumerable<CreateOrderItemRequestDto> orderItems)
     {
-        throw new NotImplementedException();
+        var order = await _unitOfWork.OrderRepository.GetByTableIdAsync(tableId);
+        if (order == null)
+        {
+            throw new ResourceNotFoundException("Order not found");
+        }
+        
+        var updatedOrder = await _unitOfWork.OrderRepository.AddProductsToOrderAsync(order.OrderId, orderItems);
+        await _unitOfWork.SaveChangesAsync();
+
+        return updatedOrder;
     }
 
     public Task<DetailOrderDto> RemoveProductFromOrder(int tableId, int productId)
