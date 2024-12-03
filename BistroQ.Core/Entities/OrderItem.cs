@@ -6,7 +6,7 @@ namespace BistroQ.Core.Entities;
 
 public class OrderItem
 {
-    public string OrderItemId { get; set; } = null!;
+    public string OrderItemId { get; set; } = Guid.NewGuid().ToString();
 
     public string? OrderId { get; set; }
 

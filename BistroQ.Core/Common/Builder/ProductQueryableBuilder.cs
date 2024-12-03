@@ -28,7 +28,7 @@ public class ProductQueryableBuilder : BaseQueryableBuilder<Product>
     {
         if (price == null) return this;
         
-        Queryable = Queryable.Where(p => p.Price == price);
+        Queryable = Queryable.Where(p => p.Price < price || p.DiscountPrice < price);
         return this;
     }
     
@@ -37,14 +37,6 @@ public class ProductQueryableBuilder : BaseQueryableBuilder<Product>
         if (unit == null) return this;
         
         Queryable = Queryable.Where(p => p.Unit != null && p.Unit.Contains(unit));
-        return this;
-    }
-    
-    public ProductQueryableBuilder WithDiscountPrice(decimal? discountPrice)
-    {
-        if (discountPrice == null) return this;
-        
-        Queryable = Queryable.Where(p => p.DiscountPrice == discountPrice);
         return this;
     }
 

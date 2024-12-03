@@ -6,6 +6,7 @@ using BistroQ.Core.Enums;
 using BistroQ.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace BistroQ.Infrastructure.Data;
@@ -19,6 +20,18 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
     public BistroQContext(DbContextOptions<BistroQContext> options)
         : base(options)
     {
+    }
+    
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? throw new ArgumentException("Connection string is not set");
+            optionsBuilder.UseMySql(
+                connectionString, 
+                new MySqlServerVersion(new Version(8, 0, 21)),
+                b => b.MigrationsAssembly("BistroQ.Infrastructure"));
+        }
     }
 
     public virtual DbSet<Category> Categories { get; set; }
@@ -84,7 +97,10 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
             entity.HasIndex(e => e.TableId, "TableId");
 
-            entity.Property(e => e.OrderId).HasMaxLength(100);
+            entity.Property(e => e.OrderId).
+                HasMaxLength(100).
+                ValueGeneratedOnAdd().                
+                HasDefaultValueSql("UUID()");
             entity.Property(e => e.EndTime).HasColumnType("datetime");
             entity.Property(e => e.StartTime).HasColumnType("datetime");
             entity.Property(e => e.TotalAmount).HasPrecision(10);
@@ -106,7 +122,10 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
             entity.HasIndex(e => e.ProductId, "ProductId");
 
-            entity.Property(e => e.OrderItemId).HasMaxLength(100);
+            entity.Property(e => e.OrderItemId).
+                HasMaxLength(100).
+                ValueGeneratedOnAdd().
+                HasDefaultValueSql("UUID()");
             entity.Property(e => e.OrderId).HasMaxLength(100);
             entity.Property(e => e.PriceAtPurchase).HasPrecision(10);
 
