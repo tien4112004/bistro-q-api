@@ -80,7 +80,7 @@ public class OrderService : IOrderService
         return _mapper.Map<IEnumerable<OrderWithTableDto>>(orders);
     }
 
-    public async Task<Order> AddProductsToOrder(
+    public async Task<IEnumerable<OrderItemDto>> AddProductsToOrder(
         int tableId, 
         [FromBody] IEnumerable<CreateOrderItemRequestDto> orderItems)
     {
@@ -90,10 +90,11 @@ public class OrderService : IOrderService
             throw new ResourceNotFoundException("Order not found");
         }
         
-        var updatedOrder = await _unitOfWork.OrderRepository.AddProductsToOrderAsync(order.OrderId, orderItems);
+        var addedItems = await _unitOfWork.OrderRepository.AddProductsToOrderAsync(order.OrderId, orderItems);
+        var addedItemsDto = _mapper.Map<IEnumerable<OrderItemDto>>(addedItems);
         await _unitOfWork.SaveChangesAsync();
 
-        return updatedOrder;
+        return addedItemsDto;
     }
 
     public Task<DetailOrderDto> RemoveProductFromOrder(int tableId, int productId)

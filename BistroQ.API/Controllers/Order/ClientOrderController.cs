@@ -1,6 +1,7 @@
 using System.Collections;
 using BistroQ.Core.Dtos;
 using BistroQ.Core.Dtos.Orders;
+using BistroQ.Core.Entities;
 using BistroQ.Core.Enums;
 using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces.Services;
@@ -57,9 +58,10 @@ public class ClientOrderController : ControllerBase
     public async Task<IActionResult> AddProductsToOrder([FromBody] IEnumerable<CreateOrderItemRequestDto> orderItems)
     {
         var tableId = await GetTableId();
-        
-        var order = await _orderService.AddProductsToOrder(tableId, orderItems);
-        return Ok();
+    
+        var addedItems = await _orderService.AddProductsToOrder(tableId, orderItems);
+    
+        return Ok(new ResponseDto<IEnumerable<OrderItemDto>>(addedItems));
     }
     
     [HttpDelete]

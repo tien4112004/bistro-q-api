@@ -36,5 +36,5 @@ public interface IOrderRepository : IGenericRepository<Order>
     /// </remarks>
     Task<IEnumerable<Order>> GetAllCurrentOrdersAsync();
     
-    Task<Order?> AddProductsToOrderAsync(string orderId, IEnumerable<CreateOrderItemRequestDto> orderItems); 
+    Task<IEnumerable<OrderItem>> AddProductsToOrderAsync(string orderId, IEnumerable<CreateOrderItemRequestDto> orderItems); 
 }

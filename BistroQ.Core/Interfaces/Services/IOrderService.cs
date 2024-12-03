@@ -61,7 +61,7 @@ public interface IOrderService
     /// Consider adding quantity parameter.
     /// Should validate product availability and pricing.
     /// </remarks>
-    Task<Order> AddProductsToOrder(int tableId, [FromBody] IEnumerable<CreateOrderItemRequestDto> orderITems);
+    Task<IEnumerable<OrderItemDto>> AddProductsToOrder(int tableId, [FromBody] IEnumerable<CreateOrderItemRequestDto> orderITems);
     
     /// <summary>
     /// Removes a product from an existing order.

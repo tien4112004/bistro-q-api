@@ -33,12 +33,19 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
             .ToListAsync();
     }
     
-    public async Task<Order?> AddProductsToOrderAsync(string orderId, IEnumerable<CreateOrderItemRequestDto> orderItems)
+    public async Task<IEnumerable<OrderItem>> AddProductsToOrderAsync(string orderId, IEnumerable<CreateOrderItemRequestDto> orderItems)
     {
         var order = await _context.Orders
             .Include(o => o.OrderItems)
             .FirstOrDefaultAsync(o => o.OrderId == orderId);
-
+    
+        if (order == null)
+        {
+            throw new ResourceNotFoundException("Order not found");
+        }
+    
+        var addedItems = new List<OrderItem>();
+    
         foreach (var item in orderItems)
         {
             var product = await _context.Products.FindAsync(item.ProductId);
@@ -46,7 +53,7 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
             {
                 throw new ResourceNotFoundException("Product not found");
             }
-            
+    
             var orderItem = new OrderItem
             {
                 OrderId = order.OrderId,
@@ -54,13 +61,13 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
                 Quantity = item.Quantity,
                 PriceAtPurchase = product.DiscountPrice ?? product.Price,
             };
-
-            order.OrderItems.Add(orderItem);
+    
+            _context.OrderItems.Add(orderItem);
+            addedItems.Add(orderItem);
         }
-
-        _context.Orders.Update(order);
+    
         await _context.SaveChangesAsync();
-
-        return order;
+    
+        return addedItems;
     }
 }
