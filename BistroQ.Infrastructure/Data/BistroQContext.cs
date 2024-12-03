@@ -80,6 +80,8 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
         {
             entity.HasKey(e => e.OrderId).HasName("PRIMARY");
 
+            entity.Property(e => e.OrderId).ValueGeneratedOnAdd();
+            
             entity.ToTable("Order");
 
             entity.HasIndex(e => e.TableId, "TableId");
@@ -99,6 +101,8 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
         modelBuilder.Entity<OrderItem>(entity =>
         {
             entity.HasKey(e => e.OrderItemId).HasName("PRIMARY");
+            
+            entity.Property(e => e.OrderItemId).ValueGeneratedOnAdd();
 
             entity.ToTable("OrderItem");
 

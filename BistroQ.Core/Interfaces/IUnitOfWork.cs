@@ -11,6 +11,8 @@ public interface IUnitOfWork
     ITableRepository TableRepository { get; }
     IOrderRepository OrderRepository { get; }
     IImageRepository ImageRepository { get; }
+    
+    IOrderItemRepository OrderItemRepository { get; }
 
     Task<int> SaveChangesAsync();
     Task BeginTransactionAsync();
