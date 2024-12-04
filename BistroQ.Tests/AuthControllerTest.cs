@@ -3,9 +3,14 @@ using BistroQ.Core.Dtos;
 using BistroQ.Core.Dtos.Auth;
 using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces.Services;
+using BistroQ.Domain.Dtos;
 using BistroQ.Infrastructure.Identity;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
@@ -24,9 +29,31 @@ public class AuthControllerTests
 	{
 		_mockTokenService = new Mock<ITokenService>();
 		_mockUserManager = new Mock<UserManager<AppUser>>(
-			new Mock<IUserStore<AppUser>>().Object, null, null, null, null, null, null, null, null);
+			new Mock<IUserStore<AppUser>>().Object,
+			null,
+			new Mock<IPasswordHasher<AppUser>>().Object,
+			new IUserValidator<AppUser>[0],
+			new IPasswordValidator<AppUser>[0],
+			new UpperInvariantLookupNormalizer(),
+			new IdentityErrorDescriber(),
+			null,
+			new Mock<ILogger<UserManager<AppUser>>>().Object);
+
+		var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+		var mockClaimsPrincipalFactory = new Mock<IUserClaimsPrincipalFactory<AppUser>>();
+		var mockOptions = new Mock<IOptions<IdentityOptions>>();
+		var mockLogger = new Mock<ILogger<SignInManager<AppUser>>>();
+		var mockSchemeProvider = new Mock<IAuthenticationSchemeProvider>();
+		var mockUserConfirmation = new Mock<IUserConfirmation<AppUser>>();
+
 		_mockSignInManager = new Mock<SignInManager<AppUser>>(
-			_mockUserManager.Object, null, null, null, null, null, null);
+			_mockUserManager.Object,
+			mockHttpContextAccessor.Object,
+			mockClaimsPrincipalFactory.Object,
+			mockOptions.Object,
+			mockLogger.Object,
+			mockSchemeProvider.Object,
+			mockUserConfirmation.Object);
 
 		_authController = new AuthController(
 			_mockTokenService.Object,
@@ -54,12 +81,11 @@ public class AuthControllerTests
 
 		// Assert
 		Assert.IsNotNull(result);
-		var response = result.Value as ResponseDto<object>;
+		var response = result.Value as ResponseDto<LoginResponseDto>;
 		Assert.IsNotNull(response);
-		dynamic data = response.Data;
-		Assert.AreEqual("access_token", data.AccessToken);
-		Assert.AreEqual("refresh_token", data.RefreshToken);
-		Assert.AreEqual("User", data.Role);
+		Assert.AreEqual("access_token", response.Data.AccessToken);
+		Assert.AreEqual("refresh_token", response.Data.RefreshToken);
+		Assert.AreEqual("User", response.Data.Role);
 	}
 
 	[TestMethod]
@@ -109,8 +135,8 @@ public class AuthControllerTests
 		Assert.IsNotNull(result);
 		var response = result.Value as ResponseDto<object>;
 		Assert.IsNotNull(response);
-		dynamic data = response.Data;
-		Assert.AreEqual("new_access_token", data.AccessToken);
+		var accessToken = response.Data?.GetType().GetProperty("AccessToken")?.GetValue(response.Data, null);
+		Assert.AreEqual("new_access_token", accessToken);
 	}
 
 	[TestMethod]
