@@ -86,7 +86,7 @@ public class ClientOrderControllerTests
 	}
 
 	[TestMethod]
-	public async Task CreateOrder_Failure()
+	public async Task CreateOrder_ThrowsException_WhenOrderCreationFails()
 	{
 		// Arrange
 		var user = new AppUser { Id = "user_id", TableId = 1 };
@@ -133,7 +133,7 @@ public class ClientOrderControllerTests
 	}
 
 	[TestMethod]
-	public async Task GetOrder_Failure()
+	public async Task GetOrder_ThrowsException_WhenOrderRetrievalFails()
 	{
 		// Arrange
 		var user = new AppUser { Id = "user_id", TableId = 1 };
@@ -179,7 +179,7 @@ public class ClientOrderControllerTests
 	}
 
 	[TestMethod]
-	public async Task DeleteOrder_Failure()
+	public async Task DeleteOrder_ThrowsException_WhenOrderDeletionFails()
 	{
 		// Arrange
 		var user = new AppUser { Id = "user_id", TableId = 1 };
@@ -241,7 +241,7 @@ public class ClientOrderControllerTests
 	}
 
 	[TestMethod]
-	public async Task UpdatePeopleCount_Failure()
+	public async Task UpdatePeopleCount_ThrowsException_WhenUpdateFails()
 	{
 		// Arrange
 		var user = new AppUser { Id = "user_id", TableId = 1 };
@@ -296,15 +296,15 @@ public class ClientOrderControllerTests
 	}
 
 	[TestMethod]
-	public async Task AddProductsToOrder_Failure()
+	public async Task AddProductsToOrder_ThrowsException_WhenAddProductsFails()
 	{
 		// Arrange
 		var user = new AppUser { Id = "user_id", TableId = 1 };
 		SetupUserManager(user);
 		var orderItems = new List<CreateOrderItemRequestDto>
-		{
-			new CreateOrderItemRequestDto { ProductId = 1, Quantity = 2 }
-		};
+			{
+				new CreateOrderItemRequestDto { ProductId = 1, Quantity = 2 }
+			};
 		_mockOrderService.Setup(x => x.AddProductsToOrder(1, orderItems)).ThrowsAsync(new Exception("Add products failed"));
 
 		// Act & Assert
@@ -342,6 +342,25 @@ public class ClientOrderControllerTests
 	}
 
 	[TestMethod]
+	public async Task RemoveProductsFromOrder_RemoveNotExistsItem()
+	{
+		// Arrange
+		var user = new AppUser { Id = "user_id", TableId = 1 };
+		SetupUserManager(user);
+		var orderItems = new List<RemoveOrderItemRequestDto>
+	{
+		new RemoveOrderItemRequestDto { OrderItemId = "nonexistent_item" }
+	};
+		_mockOrderService.Setup(x => x.CancelOrderItems(1, orderItems)).ThrowsAsync(new KeyNotFoundException("Order item not found"));
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<KeyNotFoundException>(async () =>
+		{
+			await _clientOrderController.RemoveProductsFromOrder(orderItems);
+		});
+	}
+
+	[TestMethod]
 	public async Task RemoveProductsFromOrder_Unauthorized()
 	{
 		// Arrange
@@ -355,15 +374,15 @@ public class ClientOrderControllerTests
 	}
 
 	[TestMethod]
-	public async Task RemoveProductsFromOrder_Failure()
+	public async Task RemoveProductsFromOrder_ThrowsException_WhenRemoveProductsFails()
 	{
 		// Arrange
 		var user = new AppUser { Id = "user_id", TableId = 1 };
 		SetupUserManager(user);
 		var orderItems = new List<RemoveOrderItemRequestDto>
-		{
-			new RemoveOrderItemRequestDto { OrderItemId = "item1" }
-		};
+			{
+				new RemoveOrderItemRequestDto { OrderItemId = "item1" }
+			};
 		_mockOrderService.Setup(x => x.CancelOrderItems(1, orderItems)).ThrowsAsync(new Exception("Remove products failed"));
 
 		// Act & Assert
