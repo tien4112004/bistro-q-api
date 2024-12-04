@@ -42,7 +42,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task GetCategories_Failure()
+		public async Task GetCategories_ThrowsException_WhenRetrievalFails()
 		{
 			// Arrange
 			_mockCategoryService.Setup(x => x.GetCategoriesAsync()).ThrowsAsync(new Exception("Failed to get categories"));
@@ -55,7 +55,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task GetCategories_Unauthorized()
+		public async Task GetCategories_ThrowsUnauthorizedException_WhenUnauthorized()
 		{
 			// Arrange
 			_mockCategoryService.Setup(x => x.GetCategoriesAsync()).ThrowsAsync(new UnauthorizedException("Unauthorized"));
@@ -68,7 +68,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task GetCategories_ArgumentException()
+		public async Task GetCategories_ThrowsArgumentException_WhenInvalidArgument()
 		{
 			// Arrange
 			_mockCategoryService.Setup(x => x.GetCategoriesAsync()).ThrowsAsync(new ArgumentException("Invalid argument"));
@@ -98,7 +98,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task GetCategory_Failure()
+		public async Task GetCategory_ThrowsException_WhenRetrievalFails()
 		{
 			// Arrange
 			_mockCategoryService.Setup(x => x.GetCategoryByIdAsync(1)).ThrowsAsync(new Exception("Failed to get category"));
@@ -111,7 +111,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task GetCategory_Unauthorized()
+		public async Task GetCategory_ThrowsUnauthorizedException_WhenUnauthorized()
 		{
 			// Arrange
 			_mockCategoryService.Setup(x => x.GetCategoryByIdAsync(1)).ThrowsAsync(new UnauthorizedException("Unauthorized"));
@@ -124,7 +124,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task GetCategory_ArgumentException()
+		public async Task GetCategory_ThrowsArgumentException_WhenInvalidArgument()
 		{
 			// Arrange
 			_mockCategoryService.Setup(x => x.GetCategoryByIdAsync(1)).ThrowsAsync(new ArgumentException("Invalid argument"));
@@ -155,7 +155,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task AddProductsToCategory_Failure()
+		public async Task AddProductsToCategory_ThrowsException_WhenAddProductsFails()
 		{
 			// Arrange
 			var productIds = new List<int> { 1, 2, 3 };
@@ -169,7 +169,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task AddProductsToCategory_Unauthorized()
+		public async Task AddProductsToCategory_ThrowsUnauthorizedException_WhenUnauthorized()
 		{
 			// Arrange
 			var productIds = new List<int> { 1, 2, 3 };
@@ -183,7 +183,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task AddProductsToCategory_ArgumentException()
+		public async Task AddProductsToCategory_ThrowsArgumentException_WhenInvalidArgument()
 		{
 			// Arrange
 			var productIds = new List<int> { 1, 2, 3 };
@@ -215,7 +215,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task AddCategory_Failure()
+		public async Task AddCategory_ThrowsException_WhenCreationFails()
 		{
 			// Arrange
 			var request = new CreateCategoryRequestDto { Name = "NewCategory" };
@@ -229,7 +229,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task AddCategory_Unauthorized()
+		public async Task AddCategory_ThrowsUnauthorizedException_WhenUnauthorized()
 		{
 			// Arrange
 			var request = new CreateCategoryRequestDto { Name = "NewCategory" };
@@ -243,7 +243,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task AddCategory_ArgumentException()
+		public async Task AddCategory_ThrowsArgumentException_WhenInvalidArgument()
 		{
 			// Arrange
 			var request = new CreateCategoryRequestDto { Name = "NewCategory" };
@@ -275,7 +275,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task UpdateCategory_Failure()
+		public async Task UpdateCategory_ThrowsException_WhenUpdateFails()
 		{
 			// Arrange
 			var request = new UpdateCategoryRequestDto { Name = "UpdatedCategory" };
@@ -289,7 +289,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task UpdateCategory_Unauthorized()
+		public async Task UpdateCategory_ThrowsUnauthorizedException_WhenUnauthorized()
 		{
 			// Arrange
 			var request = new UpdateCategoryRequestDto { Name = "UpdatedCategory" };
@@ -303,7 +303,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task UpdateCategory_ArgumentException()
+		public async Task UpdateCategory_ThrowsArgumentException_WhenInvalidArgument()
 		{
 			// Arrange
 			var request = new UpdateCategoryRequestDto { Name = "UpdatedCategory" };
@@ -333,7 +333,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task DeleteCategory_Failure()
+		public async Task DeleteCategory_ThrowsException_WhenDeletionFails()
 		{
 			// Arrange
 			_mockCategoryService.Setup(x => x.DeleteCategoryAsync(1)).ThrowsAsync(new Exception("Failed to delete category"));
@@ -346,7 +346,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task DeleteCategory_Unauthorized()
+		public async Task DeleteCategory_ThrowsUnauthorizedException_WhenUnauthorized()
 		{
 			// Arrange
 			_mockCategoryService.Setup(x => x.DeleteCategoryAsync(1)).ThrowsAsync(new UnauthorizedException("Unauthorized"));
@@ -359,7 +359,7 @@ namespace BistroQ.Tests.Controllers
 		}
 
 		[TestMethod]
-		public async Task DeleteCategory_ArgumentException()
+		public async Task DeleteCategory_ThrowsArgumentException_WhenInvalidArgument()
 		{
 			// Arrange
 			_mockCategoryService.Setup(x => x.DeleteCategoryAsync(1)).ThrowsAsync(new ArgumentException("Invalid argument"));
