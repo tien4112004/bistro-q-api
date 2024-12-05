@@ -14,6 +14,12 @@ dotnet ef database update --project BistroQ.Infrastructure --startup-project Bis
 
 ## Run the test
 
+### Using `dotnet` CLI
+
 ```bash
 dotnet test
 ```
+
+### Using Visual Studio/Jetbrains Rider
+
+Run the test using the Test Explorer/Test Runner in the IDE.
