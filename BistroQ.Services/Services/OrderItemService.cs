@@ -6,6 +6,7 @@ using BistroQ.Core.Enums;
 using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Services;
+using BistroQ.Services.Common;
 
 namespace BistroQ.Services.Services;
 
@@ -57,36 +58,7 @@ public class OrderItemService : IOrderItemService
                     throw new ResourceNotFoundException($"Order item with id {enumerable[i]} not found.");
                 }
 
-                if (orderItem.Status == status)
-                {
-                    // Skip if the status is the same
-                }
-                // Only allow the following status transitions
-                else if (orderItem.Status == OrderItemStatus.Pending && status == OrderItemStatus.InProgress)
-                {
-                    orderItem.Status = status;
-                    orderItem.UpdatedAt = DateTime.Now;
-                }
-                else if (orderItem.Status == OrderItemStatus.InProgress && status == OrderItemStatus.Pending)
-                {
-                    orderItem.Status = status;
-                    orderItem.UpdatedAt = DateTime.Now;
-                }
-                else if (orderItem.Status == OrderItemStatus.Pending && status == OrderItemStatus.Cancelled)
-                {
-                    orderItem.Status = status;
-                    orderItem.UpdatedAt = DateTime.Now;
-                }
-                else if (orderItem.Status == OrderItemStatus.InProgress && status == OrderItemStatus.Completed)
-                {
-                    orderItem.Status = status;
-                    orderItem.UpdatedAt = DateTime.Now;
-                }
-                else
-                {
-                    throw new ConflictException($"Invalid status transition (from: {orderItem.Status}, to: {status}).");
-                }
-
+                OrderItemStatusTransition.UpdateStatus(orderItem, status);
                 updatedOrderItems.Add(orderItem);
             }
             
