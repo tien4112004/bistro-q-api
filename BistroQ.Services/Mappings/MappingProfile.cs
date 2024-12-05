@@ -55,5 +55,6 @@ public class MappingProfile : Profile
         CreateMap<Order, OrderWithTableDto>();
         CreateMap<OrderItem, OrderItemDto>().ReverseMap();
         CreateMap<OrderItem, OrderItemWithProductDto>();
+        CreateMap<OrderItem, DetailOrderItemDto>();
     }
 }
