@@ -1,4 +1,5 @@
 using BistroQ.Core.Entities;
+using BistroQ.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace BistroQ.Core.Common.Builder;
@@ -32,7 +33,7 @@ public class OrderItemQueryableBuilder : BaseQueryableBuilder<OrderItem>
         return this;
     }
     
-    public OrderItemQueryableBuilder WithStatus(string[]? status)
+    public OrderItemQueryableBuilder WithStatus(OrderItemStatus[]? status)
     {
         if (status == null || !status.Any()) return this;
         

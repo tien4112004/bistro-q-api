@@ -1,4 +1,5 @@
 using BistroQ.Core.Dtos.Tables;
+using BistroQ.Core.Enums;
 
 namespace BistroQ.Core.Dtos.Orders;
 
@@ -12,7 +13,7 @@ public class OrderWithTableDto
 
     public DateTime? EndTime { get; set; }
     
-    public string Status { get; set; }
+    public OrderStatus Status { get; set; }
     
     public int PeopleCount { get; set; }
     

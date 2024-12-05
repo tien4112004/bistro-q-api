@@ -1,3 +1,5 @@
+using BistroQ.Core.Enums;
+
 namespace BistroQ.Core.Dtos.Orders;
 
 public class OrderItemDto
@@ -10,7 +12,7 @@ public class OrderItemDto
 
     public int? Quantity { get; set; }
     
-    public string Status { get; set; } 
+    public OrderItemStatus Status { get; set; } 
     
     public DateTime? CreatedAt { get; set; }
     

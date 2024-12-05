@@ -1,5 +1,6 @@
 using BistroQ.Core.Dtos.Products;
 using BistroQ.Core.Dtos.Tables;
+using BistroQ.Core.Enums;
 
 namespace BistroQ.Core.Dtos.Orders;
 
@@ -13,7 +14,7 @@ public class DetailOrderItemDto
     
     public int? Quantity { get; set; }
     
-    public string Status { get; set; }
+    public OrderItemStatus Status { get; set; }
     
     public DateTime? CreatedAt { get; set; }
     

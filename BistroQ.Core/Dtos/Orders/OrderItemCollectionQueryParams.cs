@@ -1,8 +1,10 @@
+using BistroQ.Core.Enums;
+
 namespace BistroQ.Core.Dtos.Orders;
 
 public class OrderItemCollectionQueryParams : BaseCollectionQueryParams
 {
-    public string[]? Status { get; set; }
+    public OrderItemStatus[]? Status { get; set; }
     
     public DateTime? CreatedFrom { get; set; }
     

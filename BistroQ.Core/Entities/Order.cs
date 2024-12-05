@@ -14,7 +14,7 @@ public class Order
 
     public DateTime? EndTime { get; set; }
     
-    public string Status { get; set; } = OrderStatus.InProgress;
+    public OrderStatus Status { get; set; } = OrderStatus.InProgress;
 
     public string? Note { get; set; }
     

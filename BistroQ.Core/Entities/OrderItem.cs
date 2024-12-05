@@ -14,7 +14,7 @@ public class OrderItem
 
     public int? Quantity { get; set; }
     
-    public string Status { get; set; } = OrderItemStatus.InProgress;
+    public OrderItemStatus Status { get; set; } = OrderItemStatus.Pending;
 
     public DateTime? CreatedAt { get; set; }
     

@@ -1,4 +1,6 @@
 using BistroQ.Core.Entities;
+using BistroQ.Core.Enums;
+
 namespace BistroQ.Core.Dtos.Orders;
 
 public class DetailOrderDto
@@ -11,7 +13,7 @@ public class DetailOrderDto
 
     public DateTime? EndTime { get; set; }
     
-    public string Status { get; set; }
+    public OrderStatus Status { get; set; }
     
     public int PeopleCount { get; set; }
 
