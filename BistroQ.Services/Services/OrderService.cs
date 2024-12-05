@@ -82,7 +82,7 @@ public class OrderService : IOrderService
 
 	public async Task<IEnumerable<OrderItemDto>> AddProductsToOrder(
 		int tableId,
-		[FromBody] IEnumerable<CreateOrderItemRequestDto> orderItems)
+		IEnumerable<CreateOrderItemRequestDto> orderItems)
 	{
 		var order = await _unitOfWork.OrderRepository.GetByTableIdAsync(tableId);
 		if (order == null)

@@ -11,3 +11,9 @@ dotnet ef migrations add --project BistroQ.Infrastructure --startup-project Bist
 ```bash
 dotnet ef database update --project BistroQ.Infrastructure --startup-project BistroQ.API --context BistroQ.Infrastructure.Data.BistroQContext --verbose 
 ```
+
+## Run the test
+
+```bash
+dotnet test
+```

@@ -21,18 +21,6 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
         : base(options)
     {
     }
-    
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? throw new ArgumentException("Connection string is not set");
-            optionsBuilder.UseMySql(
-                connectionString, 
-                new MySqlServerVersion(new Version(8, 0, 21)),
-                b => b.MigrationsAssembly("BistroQ.Infrastructure"));
-        }
-    }
 
     public virtual DbSet<Category> Categories { get; set; }
 
