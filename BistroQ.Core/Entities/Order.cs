@@ -16,6 +16,8 @@ public class Order
     
     public string Status { get; set; } = OrderStatus.InProgress;
 
+    public string? Note { get; set; }
+    
     public int PeopleCount { get; set; }
     
     public int? TableId { get; set; }

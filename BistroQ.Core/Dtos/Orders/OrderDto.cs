@@ -12,7 +12,7 @@ public class OrderDto
     public DateTime? EndTime { get; set; }
     
     public string Status { get; set; } 
-
+    
     public int PeopleCount { get; set; }
 
     public int? TableId { get; set; }

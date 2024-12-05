@@ -10,6 +10,10 @@ public class DetailOrderDto
     public DateTime? StartTime { get; set; }
 
     public DateTime? EndTime { get; set; }
+    
+    public string Status { get; set; }
+    
+    public int PeopleCount { get; set; }
 
     public int? TableId { get; set; }
     public ICollection<OrderItemWithProductDto> OrderItems { get; set; } = new List<OrderItemWithProductDto>();
