@@ -37,6 +37,6 @@ public class KitchenOrderController : ControllerBase
     {
         var orderItems = 
             await _orderItemService.UpdateOrderItemsStatusAsync(updateOrderItemsStatusDto.OrderItemIds, updateOrderItemsStatusDto.Status);
-        return Ok(orderItems);
+        return Ok(new ResponseDto<IEnumerable<OrderItemDto>>(orderItems));
     }
 }
