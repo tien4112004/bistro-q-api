@@ -21,7 +21,7 @@ public interface IGenericRepository<T> where T : class
     /// Consider whether int is always the appropriate type for your ID
     /// You might want to make this generic as well: TId
     /// </remarks>
-    Task<T?> GetByIdAsync(int id);
+    Task<T?> GetByIdAsync<TId>(TId id);
 
     /// <summary>
     /// Retrieves all entities in the repository
