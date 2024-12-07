@@ -24,6 +24,12 @@ public interface ITableService
     /// <returns>A tuple containing the collection of tables and total count</returns>
     Task<(IEnumerable<TableDetailDto> Tables, int Count)> GetAllAsync(TableCollectionQueryParams queryParams);
     
+    /// <summary>
+    /// Retrieves all currently occupied tables in a specific zone.
+    /// </summary>
+    /// <param name="zoneId">The ID of the zone to check for occupied tables.</param>
+    /// <returns>A collection of detailed information about occupied tables in the specified zone.</returns>
+    /// <exception cref="ResourceNotFoundException">Thrown when the specified zone cannot be found.</exception>
     Task<IEnumerable<TableDetailDto>> GetOccupiedTablesAsync(int zoneId);
     
     /// <summary>

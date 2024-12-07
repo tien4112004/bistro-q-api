@@ -82,7 +82,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             entity.HasKey(e => e.OrderId).HasName("PRIMARY");
 
             entity.Property(e => e.OrderId).ValueGeneratedOnAdd();
-            
+
             entity.ToTable("Order");
 
             entity.HasIndex(e => e.TableId, "TableId");
@@ -106,6 +106,8 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
         {
             entity.HasKey(e => e.OrderItemId).HasName("PRIMARY");
             
+            entity.Property(e => e.OrderItemId).ValueGeneratedOnAdd();
+
             entity.Property(e => e.OrderItemId).ValueGeneratedOnAdd();
 
             entity.ToTable("OrderItem");
@@ -558,7 +560,9 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 ProductId = 1,
                 Status = OrderItemStatus.InProgress,
                 Quantity = 2,
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 1).Price
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 1).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
@@ -567,7 +571,9 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 ProductId = 2,
                 Status = OrderItemStatus.InProgress,
                 Quantity = 1,
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 2).Price
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 2).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
@@ -575,8 +581,10 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 OrderId = "1",
                 ProductId = 3,
                 Status = OrderItemStatus.InProgress,
-                Quantity = 1,                
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 3).Price
+                Quantity = 1,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 3).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
@@ -585,7 +593,9 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 ProductId = 4,
                 Status = OrderItemStatus.Pending,
                 Quantity = 2,
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 4).Price
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 4).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
@@ -594,7 +604,9 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 Status = OrderItemStatus.Completed,
                 ProductId = 5,
                 Quantity = 1,
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 5).Price
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 5).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
@@ -603,43 +615,53 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 ProductId = 6,
                 Status = OrderItemStatus.Pending,
                 Quantity = 3,
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 6).Price
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 6).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
                 OrderItemId = "107",
                 OrderId = "1",
                 ProductId = 7,
-                Status =  OrderItemStatus.InProgress,
+                Status = OrderItemStatus.InProgress,
                 Quantity = 1,
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 7).Price
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 7).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
                 OrderItemId = "108",
                 OrderId = "1",
                 ProductId = 8,
-                Status =  OrderItemStatus.InProgress,
-                Quantity = 2,                
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 8).Price
+                Status = OrderItemStatus.InProgress,
+                Quantity = 2,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 8).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
                 OrderItemId = "201",
                 OrderId = "2",
                 ProductId = 3,
-                Status = OrderItemStatus.Completed,  // Completed: First items ordered
+                Status = OrderItemStatus.Completed,
                 Quantity = 3,
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 3).Price
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 3).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
                 OrderItemId = "202",
                 OrderId = "2",
                 ProductId = 4,
-                Status = OrderItemStatus.Completed,  
+                Status = OrderItemStatus.Completed,
                 Quantity = 2,
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 4).Price
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 4).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
@@ -648,7 +670,9 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 ProductId = 5,
                 Status = OrderItemStatus.InProgress,
                 Quantity = 1,
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 5).Price
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 5).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
@@ -657,26 +681,31 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 ProductId = 6,
                 Status = OrderItemStatus.Pending,
                 Quantity = 1,
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 6).Price
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 6).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
                 OrderItemId = "205",
                 OrderId = "2",
                 ProductId = 7,
-                Status = OrderItemStatus.Pending, 
+                Status = OrderItemStatus.Pending,
                 Quantity = 2,
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 7).Price
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 7).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
-
             new OrderItem
             {
                 OrderItemId = "301",
                 OrderId = "3",
                 ProductId = 4,
                 Quantity = 1,
-                Status = OrderItemStatus.InProgress, 
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 4).Price
+                Status = OrderItemStatus.InProgress,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 4).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
@@ -684,8 +713,10 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 OrderId = "3",
                 ProductId = 5,
                 Quantity = 2,
-                Status = OrderItemStatus.Completed,  
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 5).Price
+                Status = OrderItemStatus.Completed,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 5).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
@@ -693,8 +724,10 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 OrderId = "4",
                 ProductId = 6,
                 Quantity = 1,
-                Status = OrderItemStatus.Completed,  
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 6).Price
+                Status = OrderItemStatus.Completed,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 6).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
@@ -702,8 +735,10 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 OrderId = "5",
                 ProductId = 7,
                 Quantity = 2,
-                Status = OrderItemStatus.Completed,  
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 7).Price
+                Status = OrderItemStatus.Completed,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 7).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             },
             new OrderItem
             {
@@ -711,8 +746,10 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
                 OrderId = "6",
                 ProductId = 8,
                 Quantity = 1,
-                Status = OrderItemStatus.Completed,  
-                PriceAtPurchase = listProducts.First(p => p.ProductId == 8).Price
+                Status = OrderItemStatus.Completed,
+                PriceAtPurchase = listProducts.First(p => p.ProductId == 8).Price,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             }
         };
 
@@ -767,7 +804,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
 
         modelBuilder.Entity<Table>().HasData(listTable);
-        
+
         modelBuilder.Entity<Zone>().HasData(listZone);
 
         modelBuilder.Entity<Category>().HasData(listCategories);

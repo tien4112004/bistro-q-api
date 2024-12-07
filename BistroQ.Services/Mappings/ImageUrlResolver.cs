@@ -18,7 +18,7 @@ public class ImageUrlResolver : IValueResolver<Product, ProductResponseDto, stri
 
     public string Resolve(Product source, ProductResponseDto destination, string destMember, ResolutionContext context)
     {
-        var key = source.ImageId + ContentTypeValue.GetExtension(source.Image.ContentType);
+        var key = source.ImageId + ContentTypeValue.GetExtension(source?.Image?.ContentType ?? "image/jpeg");
         var url = _cloudStorageService.GeneratePresignedUrlAsync(key,
             TimeSpan.FromDays(1));
         return url;

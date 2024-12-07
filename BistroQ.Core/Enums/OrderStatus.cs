@@ -1,10 +1,15 @@
+using System.ComponentModel;
+
 namespace BistroQ.Core.Enums;
 
-public class OrderStatus
+public enum OrderStatus
 {
-    public const string InProgress = "In Progress";
+    [Description("In Progress")]
+    InProgress,
 
-    public const string Pending = "Pending";
+    [Description("Pending")]
+    Pending,
     
-    public const string Completed = "Completed";
+    [Description("Completed")] 
+    Completed,
 }
