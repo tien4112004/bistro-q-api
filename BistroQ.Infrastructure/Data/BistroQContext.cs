@@ -6,6 +6,7 @@ using BistroQ.Core.Enums;
 using BistroQ.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace BistroQ.Infrastructure.Data;
@@ -86,7 +87,10 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
             entity.HasIndex(e => e.TableId, "TableId");
 
-            entity.Property(e => e.OrderId).HasMaxLength(100);
+            entity.Property(e => e.OrderId).
+                HasMaxLength(100).
+                ValueGeneratedOnAdd().                
+                HasDefaultValueSql("UUID()");
             entity.Property(e => e.EndTime).HasColumnType("datetime");
             entity.Property(e => e.StartTime).HasColumnType("datetime");
             entity.Property(e => e.TotalAmount).HasPrecision(10);
@@ -101,6 +105,8 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
         modelBuilder.Entity<OrderItem>(entity =>
         {
             entity.HasKey(e => e.OrderItemId).HasName("PRIMARY");
+            
+            entity.Property(e => e.OrderItemId).ValueGeneratedOnAdd();
 
             entity.Property(e => e.OrderItemId).ValueGeneratedOnAdd();
 
@@ -110,7 +116,10 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
 
             entity.HasIndex(e => e.ProductId, "ProductId");
 
-            entity.Property(e => e.OrderItemId).HasMaxLength(100);
+            entity.Property(e => e.OrderItemId).
+                HasMaxLength(100).
+                ValueGeneratedOnAdd().
+                HasDefaultValueSql("UUID()");
             entity.Property(e => e.OrderId).HasMaxLength(100);
             entity.Property(e => e.PriceAtPurchase).HasPrecision(10);
 

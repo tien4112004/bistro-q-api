@@ -1,3 +1,5 @@
+using System.Collections;
+using BistroQ.Core.Dtos.Orders;
 using BistroQ.Core.Entities;
 
 namespace BistroQ.Core.Interfaces.Repositories;
@@ -20,7 +22,7 @@ public interface IOrderRepository : IGenericRepository<Order>
     /// This method assumes only one active order per table.
     /// Consider using GetOrdersByTableIdAsync if multiple orders per table are needed.
     /// </remarks>
-    public Task<Order?> GetByTableIdAsync(int tableId);
+    Task<Order?> GetByTableIdAsync(int tableId);
     
     /// <summary>
     /// Retrieves all current orders in the system.
@@ -32,5 +34,5 @@ public interface IOrderRepository : IGenericRepository<Order>
     /// The definition of "current" orders should be clearly specified in the implementation.
     /// Consider adding filters for specific order statuses.
     /// </remarks>
-    public Task<IEnumerable<Order>> GetAllCurrentOrdersAsync();
+    Task<IEnumerable<Order>> GetAllCurrentOrdersAsync();
 }

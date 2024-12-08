@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BistroQ.Infrastructure", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BistroQ.Core", "BistroQ.Core\BistroQ.Core.csproj", "{42F5850E-42B9-4C00-8ED0-00CD058F5D33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BistroQ.Tests", "BistroQ.Tests\BistroQ.Tests.csproj", "{DD478E7D-E94A-4A68-8AFB-2499E62D2BAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{42F5850E-42B9-4C00-8ED0-00CD058F5D33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42F5850E-42B9-4C00-8ED0-00CD058F5D33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42F5850E-42B9-4C00-8ED0-00CD058F5D33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD478E7D-E94A-4A68-8AFB-2499E62D2BAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD478E7D-E94A-4A68-8AFB-2499E62D2BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD478E7D-E94A-4A68-8AFB-2499E62D2BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD478E7D-E94A-4A68-8AFB-2499E62D2BAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

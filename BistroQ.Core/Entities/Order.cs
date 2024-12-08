@@ -6,7 +6,7 @@ namespace BistroQ.Core.Entities;
 
 public class Order
 {
-    public string OrderId { get; set; } = null!;
+    public string OrderId { get; set; } = Guid.NewGuid().ToString()!;
 
     public decimal? TotalAmount { get; set; }
 
