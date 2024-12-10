@@ -29,7 +29,7 @@ public class AdminProductController : ControllerBase
     public async Task<IActionResult> GetProducts([FromQuery] ProductCollectionQueryParams queryParams)
     {
         var (products, count) = await _productService.GetAllAsync(queryParams);
-        return Ok(new PaginationResponseDto<IEnumerable<ProductDto>>(products, count, queryParams.Page, queryParams.Size));
+        return Ok(new PaginationResponseDto<IEnumerable<ProductResponseDto>>(products, count, queryParams.Page, queryParams.Size));
     }
     
     [HttpGet]

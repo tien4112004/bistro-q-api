@@ -8,6 +8,8 @@ public class ProductResponseDto
 
     public int? CategoryId { get; set; }
 
+    public string? CategoryName { get; set; }
+    
     public decimal? Price { get; set; }
 
     public string? Unit { get; set; }
