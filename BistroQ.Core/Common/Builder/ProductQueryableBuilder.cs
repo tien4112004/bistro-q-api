@@ -1,4 +1,5 @@
 using BistroQ.Core.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BistroQ.Core.Common.Builder;
 
@@ -6,6 +7,18 @@ public class ProductQueryableBuilder : BaseQueryableBuilder<Product>
 {
     public ProductQueryableBuilder(IQueryable<Product> queryable) : base(queryable)
     {
+    }
+    
+    public ProductQueryableBuilder IncludeCategory()
+    {
+        Queryable = Queryable.Include(p => p.Category);
+        return this;
+    }
+
+    public ProductQueryableBuilder IncludeImage()
+    {
+        Queryable = Queryable.Include(p => p.Image);
+        return this;
     }
 
     public ProductQueryableBuilder WithName(string? name)

@@ -55,6 +55,11 @@ public class ClientOrderController : ControllerBase
 	[HttpPatch("PeopleCount")]
 	public async Task<IActionResult> UpdatePeopleCount([FromQuery] int peopleCount)
 	{
+		if (peopleCount <= 0)
+		{
+			throw new ArgumentOutOfRangeException(nameof(peopleCount));
+		}
+
 		var tableId = await GetTableId();
 
 		var order = await _orderService.UpdatePeopleCount(tableId, peopleCount);

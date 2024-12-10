@@ -1,6 +1,7 @@
 ﻿using BistroQ.API.Controllers.Order;
 using BistroQ.Core.Dtos;
 using BistroQ.Core.Dtos.Orders;
+using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces.Services;
 using BistroQ.Infrastructure.Identity;
 using Microsoft.AspNetCore.Http;
@@ -72,6 +73,34 @@ public class ClientOrderControllerTests
 	}
 
 	[TestMethod]
+	public async Task CreateOrder_Unauthorized()
+	{
+		// Arrange
+		_mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync((AppUser)null);
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<UnauthorizedException>(async () =>
+		{
+			await _clientOrderController.CreateOrder(4);
+		});
+	}
+
+	[TestMethod]
+	public async Task CreateOrder_ThrowsException_WhenOrderCreationFails()
+	{
+		// Arrange
+		var user = new AppUser { Id = "user_id", TableId = 1 };
+		SetupUserManager(user);
+		_mockOrderService.Setup(x => x.CreateOrder(1, 4)).ThrowsAsync(new Exception("Order creation failed"));
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<Exception>(async () =>
+		{
+			await _clientOrderController.CreateOrder(4);
+		});
+	}
+
+	[TestMethod]
 	public async Task GetOrder_Success()
 	{
 		// Arrange
@@ -88,6 +117,34 @@ public class ClientOrderControllerTests
 		var response = result.Value as ResponseDto<DetailOrderDto>;
 		Assert.IsNotNull(response);
 		Assert.AreEqual("1", response.Data.OrderId);
+	}
+
+	[TestMethod]
+	public async Task GetOrder_Unauthorized()
+	{
+		// Arrange
+		_mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync((AppUser)null);
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<UnauthorizedException>(async () =>
+		{
+			await _clientOrderController.GetOrder();
+		});
+	}
+
+	[TestMethod]
+	public async Task GetOrder_ThrowsException_WhenOrderRetrievalFails()
+	{
+		// Arrange
+		var user = new AppUser { Id = "user_id", TableId = 1 };
+		SetupUserManager(user);
+		_mockOrderService.Setup(x => x.GetOrder(1)).ThrowsAsync(new Exception("Order retrieval failed"));
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<Exception>(async () =>
+		{
+			await _clientOrderController.GetOrder();
+		});
 	}
 
 	[TestMethod]
@@ -109,6 +166,34 @@ public class ClientOrderControllerTests
 	}
 
 	[TestMethod]
+	public async Task DeleteOrder_Unauthorized()
+	{
+		// Arrange
+		_mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync((AppUser)null);
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<UnauthorizedException>(async () =>
+		{
+			await _clientOrderController.DeleteOrder();
+		});
+	}
+
+	[TestMethod]
+	public async Task DeleteOrder_ThrowsException_WhenOrderDeletionFails()
+	{
+		// Arrange
+		var user = new AppUser { Id = "user_id", TableId = 1 };
+		SetupUserManager(user);
+		_mockOrderService.Setup(x => x.DeleteOrder(1)).ThrowsAsync(new Exception("Order deletion failed"));
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<Exception>(async () =>
+		{
+			await _clientOrderController.DeleteOrder();
+		});
+	}
+
+	[TestMethod]
 	public async Task UpdatePeopleCount_Success()
 	{
 		// Arrange
@@ -126,6 +211,48 @@ public class ClientOrderControllerTests
 		Assert.IsNotNull(response);
 		Assert.AreEqual("1", response.Data.OrderId);
 		Assert.AreEqual(5, response.Data.PeopleCount);
+	}
+
+	[TestMethod]
+	public async Task UpdatePeopleCount_NegativeNumberOfPeople()
+	{
+		// Arrange
+		var user = new AppUser { Id = "user_id", TableId = 1 };
+		SetupUserManager(user);
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(async () =>
+		{
+			await _clientOrderController.UpdatePeopleCount(-1);
+		});
+	}
+
+	[TestMethod]
+	public async Task UpdatePeopleCount_Unauthorized()
+	{
+		// Arrange
+		_mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync((AppUser)null);
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<UnauthorizedException>(async () =>
+		{
+			await _clientOrderController.UpdatePeopleCount(5);
+		});
+	}
+
+	[TestMethod]
+	public async Task UpdatePeopleCount_ThrowsException_WhenUpdateFails()
+	{
+		// Arrange
+		var user = new AppUser { Id = "user_id", TableId = 1 };
+		SetupUserManager(user);
+		_mockOrderService.Setup(x => x.UpdatePeopleCount(1, 5)).ThrowsAsync(new Exception("Update failed"));
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<Exception>(async () =>
+		{
+			await _clientOrderController.UpdatePeopleCount(5);
+		});
 	}
 
 	[TestMethod]
@@ -156,6 +283,38 @@ public class ClientOrderControllerTests
 	}
 
 	[TestMethod]
+	public async Task AddProductsToOrder_Unauthorized()
+	{
+		// Arrange
+		_mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync((AppUser)null);
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<UnauthorizedException>(async () =>
+		{
+			await _clientOrderController.AddProductsToOrder(new List<CreateOrderItemRequestDto>());
+		});
+	}
+
+	[TestMethod]
+	public async Task AddProductsToOrder_ThrowsException_WhenAddProductsFails()
+	{
+		// Arrange
+		var user = new AppUser { Id = "user_id", TableId = 1 };
+		SetupUserManager(user);
+		var orderItems = new List<CreateOrderItemRequestDto>
+			{
+				new CreateOrderItemRequestDto { ProductId = 1, Quantity = 2 }
+			};
+		_mockOrderService.Setup(x => x.AddProductsToOrder(1, orderItems)).ThrowsAsync(new Exception("Add products failed"));
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<Exception>(async () =>
+		{
+			await _clientOrderController.AddProductsToOrder(orderItems);
+		});
+	}
+
+	[TestMethod]
 	public async Task RemoveProductsFromOrder_Success()
 	{
 		// Arrange
@@ -180,5 +339,56 @@ public class ClientOrderControllerTests
 		Assert.IsNotNull(response);
 		Assert.AreEqual(1, response.Data.First().ProductId);
 		Assert.AreEqual(0, response.Data.First().Quantity);
+	}
+
+	[TestMethod]
+	public async Task RemoveProductsFromOrder_RemoveNotExistsItem()
+	{
+		// Arrange
+		var user = new AppUser { Id = "user_id", TableId = 1 };
+		SetupUserManager(user);
+		var orderItems = new List<RemoveOrderItemRequestDto>
+	{
+		new RemoveOrderItemRequestDto { OrderItemId = "nonexistent_item" }
+	};
+		_mockOrderService.Setup(x => x.CancelOrderItems(1, orderItems)).ThrowsAsync(new KeyNotFoundException("Order item not found"));
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<KeyNotFoundException>(async () =>
+		{
+			await _clientOrderController.RemoveProductsFromOrder(orderItems);
+		});
+	}
+
+	[TestMethod]
+	public async Task RemoveProductsFromOrder_Unauthorized()
+	{
+		// Arrange
+		_mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync((AppUser)null);
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<UnauthorizedException>(async () =>
+		{
+			await _clientOrderController.RemoveProductsFromOrder(new List<RemoveOrderItemRequestDto>());
+		});
+	}
+
+	[TestMethod]
+	public async Task RemoveProductsFromOrder_ThrowsException_WhenRemoveProductsFails()
+	{
+		// Arrange
+		var user = new AppUser { Id = "user_id", TableId = 1 };
+		SetupUserManager(user);
+		var orderItems = new List<RemoveOrderItemRequestDto>
+			{
+				new RemoveOrderItemRequestDto { OrderItemId = "item1" }
+			};
+		_mockOrderService.Setup(x => x.CancelOrderItems(1, orderItems)).ThrowsAsync(new Exception("Remove products failed"));
+
+		// Act & Assert
+		await Assert.ThrowsExceptionAsync<Exception>(async () =>
+		{
+			await _clientOrderController.RemoveProductsFromOrder(orderItems);
+		});
 	}
 }
