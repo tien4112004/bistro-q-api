@@ -28,7 +28,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         return count;
     }
     
-    public new async Task<Product?> GetByIdAsync(int productId)
+    public async Task<Product?> GetProductByIdAsync(int productId)
     {
         var product = await DbSet
             .Include(p => p.Image)

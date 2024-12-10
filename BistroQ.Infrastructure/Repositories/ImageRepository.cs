@@ -14,6 +14,7 @@ public class ImageRepository : GenericRepository<Image>, IImageRepository
     public async Task<Image?> GetByProductIdAsync(int productId)
     {
         var image = await Context.Products
+            .Include(p => p.Image)
             .FirstOrDefaultAsync(i => i.ProductId == productId)
             .ContinueWith(t => t.Result?.Image);
 

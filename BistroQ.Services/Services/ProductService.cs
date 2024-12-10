@@ -111,14 +111,24 @@ public class ProductService : IProductService
 
     public async Task<ProductDto> UpdateAsync(int productId, UpdateProductRequestDto productDto)
     {
-        var existingProduct = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
+        var existingProduct = await _unitOfWork.ProductRepository.GetProductByIdAsync(productId);
         if (existingProduct == null)
         {
             throw new ResourceNotFoundException("Product not found");
         }
         
         var newProduct = _mapper.Map<Product>(productDto);
+        if (newProduct.CategoryId != null)
+        {
+            var category = await _unitOfWork.CategoryRepository.GetByIdAsync(newProduct.CategoryId.Value);
+            if (category == null)
+            {
+                throw new ResourceNotFoundException("Category not found");
+            }
+        }
+
         newProduct.ProductId = productId;
+        newProduct.ImageId = existingProduct.ImageId;
 
         await _unitOfWork.ProductRepository.UpdateAsync(existingProduct, newProduct);
         await _unitOfWork.SaveChangesAsync();
@@ -131,7 +141,7 @@ public class ProductService : IProductService
     public async Task<ProductResponseDto> UpdateImageAsync(int productId, ImageRequestDto image)
     {
         
-        var existingProduct = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
+        var existingProduct = await _unitOfWork.ProductRepository.GetProductByIdAsync(productId);
         if (existingProduct == null)
         {
             throw new ResourceNotFoundException("Product not found");
@@ -146,10 +156,8 @@ public class ProductService : IProductService
         await _unitOfWork.BeginTransactionAsync();
         try
         {
-            var updatedImage = _mapper.Map<Image>(image);
-            updatedImage.ImageId = existingImage.ImageId;
-            
-            await _unitOfWork.ImageRepository.UpdateAsync(existingImage, updatedImage);
+            existingImage.Name = image.Name;
+            existingImage.ContentType = image.ContentType;
             
             await _cloudStorageService.UploadFileAsync(
                 image.Data, 
@@ -165,7 +173,7 @@ public class ProductService : IProductService
             throw;
         }
 
-        var updatedProduct = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
+        var updatedProduct = await _unitOfWork.ProductRepository.GetProductByIdAsync(productId);
         return _mapper.Map<ProductResponseDto>(updatedProduct);
     }
 
