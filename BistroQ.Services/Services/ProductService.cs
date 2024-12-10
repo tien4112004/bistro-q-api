@@ -37,7 +37,7 @@ public class ProductService : IProductService
         return _mapper.Map<ProductResponseDto>(product);
     }
 
-    public async Task<(IEnumerable<ProductDto> Products, int Count)> GetAllAsync(ProductCollectionQueryParams queryParams)
+    public async Task<(IEnumerable<ProductResponseDto> Products, int Count)> GetAllAsync(ProductCollectionQueryParams queryParams)
     {
         var builder = 
             new ProductQueryableBuilder(_unitOfWork.ProductRepository.GetQueryable())
@@ -48,12 +48,14 @@ public class ProductService : IProductService
         var count = await _unitOfWork.ProductRepository.GetProductsCountAsync(builder.Build());
 
         builder
+            .IncludeCategory()
+            .IncludeImage()
             .ApplySorting(queryParams.OrderBy, queryParams.OrderDirection)
             .ApplyPaging(queryParams.Page, queryParams.Size);
 
         var products = await _unitOfWork.ProductRepository.GetProductsAsync(builder.Build());
 
-        return (_mapper.Map<IEnumerable<ProductDto>>(products), count);
+        return (_mapper.Map<IEnumerable<ProductResponseDto>>(products), count);
     }
 
     public async Task<ProductResponseDto> AddAsync(CreateProductRequestDto productDto, ImageRequestDto? image)

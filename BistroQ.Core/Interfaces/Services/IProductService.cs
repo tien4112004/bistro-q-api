@@ -24,7 +24,7 @@ public interface IProductService
     /// </summary>
     /// <param name="queryParams">Parameters for filtering, sorting, and pagination</param>
     /// <returns>A tuple containing the collection of products and total count</returns>
-    Task<(IEnumerable<ProductDto> Products, int Count)> GetAllAsync(
+    Task<(IEnumerable<ProductResponseDto> Products, int Count)> GetAllAsync(
         ProductCollectionQueryParams queryParams);
     
     /// <summary>
