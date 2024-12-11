@@ -101,11 +101,15 @@ public class OrderService : IOrderService
 				throw new ResourceNotFoundException("Product not found");
 			}
 
+			var receivedOrderTime = DateTime.Now;
+			
 			var orderItem = new OrderItem
 			{
 				OrderId = order.OrderId,
 				ProductId = item.ProductId,
 				Quantity = item.Quantity,
+				CreatedAt = receivedOrderTime,
+				UpdatedAt = receivedOrderTime,
 				PriceAtPurchase = product.Price, // TODO: OR DiscountPrice
 			};
 
