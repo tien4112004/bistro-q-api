@@ -1,3 +1,5 @@
+using BistroQ.Core.Dtos.NutritionFact;
+
 namespace BistroQ.Core.Dtos.Products;
 
 public class UpdateProductRequestDto
@@ -9,4 +11,6 @@ public class UpdateProductRequestDto
     public string Unit { get; set; }
 
     public decimal DiscountPrice { get; set; }
+    
+    public NutritionFactDto NutritionFact { get; set; }
 }
