@@ -1,9 +1,13 @@
+using System.Runtime.InteropServices.JavaScript;
+using Amazon.CloudFront.Model.Internal.MarshallTransformations;
 using AutoMapper;
 using BistroQ.Core.Dtos.Orders;
 using BistroQ.Core.Entities;
+using BistroQ.Core.Enums;
 using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Services;
+using BistroQ.Services.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BistroQ.Services.Services;
@@ -156,6 +160,24 @@ public class OrderService : IOrderService
 
 		var updatedOrder = order;
 		updatedOrder.PeopleCount = peopleCount;
+		await _unitOfWork.OrderRepository.UpdateAsync(order, updatedOrder);
+		await _unitOfWork.SaveChangesAsync();
+
+		return _mapper.Map<OrderDto>(updatedOrder);
+	}
+
+	public async Task<OrderDto> UpdateStatus(int tableId, OrderStatus status)
+	{
+		DateTime? endTime = status == OrderStatus.Completed ? DateTime.Now : null;
+		var order = await _unitOfWork.OrderRepository.GetByTableIdAsync(tableId);
+		if (order == null)
+		{
+			throw new ResourceNotFoundException("Order not found");
+		}
+
+		var updatedOrder = order;
+		OrderStatusTransition.UpdateStatus(updatedOrder, status);
+		
 		await _unitOfWork.OrderRepository.UpdateAsync(order, updatedOrder);
 		await _unitOfWork.SaveChangesAsync();
 
