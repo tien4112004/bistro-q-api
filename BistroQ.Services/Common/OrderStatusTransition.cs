@@ -21,11 +21,11 @@ public class OrderStatusTransition
     {
         [OrderStatus.Pending] = new HashSet<OrderStatus> 
         { 
-            OrderStatus.InProgress, 
+            OrderStatus.Completed, 
         },
         [OrderStatus.InProgress] = new HashSet<OrderStatus> 
         { 
-            OrderStatus.Completed 
+            OrderStatus.Pending 
         },
         [OrderStatus.Completed] = new HashSet<OrderStatus>()
     };

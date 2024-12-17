@@ -38,10 +38,10 @@ public class CashierOrderController : ControllerBase
     }
 
     [HttpPatch]
-    [Route("Checkout/{tableId:int}")]
-    public async Task<IActionResult> Checkout([FromRoute] int tableId)
+    [Route("Status")]
+    public async Task<IActionResult> UpdateStatus([FromBody] UpdateOrderStatusRequestDto updateOrderStatusDto)
     {
-        var order = await _orderService.UpdateStatus(tableId, OrderStatus.Completed);
+        var order = await _orderService.UpdateStatus(updateOrderStatusDto.OrderId, updateOrderStatusDto.Status);
         return Ok(new ResponseDto<OrderDto>(order));
     }
 }
