@@ -41,7 +41,7 @@ public class CashierOrderController : ControllerBase
     [Route("Status")]
     public async Task<IActionResult> UpdateStatus([FromBody] UpdateOrderStatusRequestDto updateOrderStatusDto)
     {
-        var order = await _orderService.UpdateStatus(updateOrderStatusDto.OrderId, updateOrderStatusDto.Status);
+        var order = await _orderService.UpdateStatus(updateOrderStatusDto.TableId, updateOrderStatusDto.Status);
         return Ok(new ResponseDto<OrderDto>(order));
     }
 }

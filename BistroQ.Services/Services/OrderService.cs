@@ -177,6 +177,11 @@ public class OrderService : IOrderService
 
 		var updatedOrder = order;
 		OrderStatusTransition.UpdateStatus(updatedOrder, status);
+
+		if (updatedOrder.Status == OrderStatus.Completed)
+		{
+			updatedOrder.TableId = null;
+		}
 		
 		await _unitOfWork.OrderRepository.UpdateAsync(order, updatedOrder);
 		await _unitOfWork.SaveChangesAsync();
