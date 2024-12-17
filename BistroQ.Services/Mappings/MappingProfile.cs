@@ -2,9 +2,11 @@ using AutoMapper;
 using BistroQ.Core.Dtos.Category;
 using BistroQ.Core.Dtos.Orders;
 using BistroQ.Core.Dtos.Image;
+using BistroQ.Core.Dtos.NutritionFact;
 using BistroQ.Core.Dtos.Products;
 using BistroQ.Core.Dtos.Tables;
 using BistroQ.Core.Dtos.Zones;
+using BistroQ.Core.Dtos.NutritionFact;
 using BistroQ.Core.Entities;
 using BistroQ.Services.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,13 +19,15 @@ public class MappingProfile : Profile
     {
         CreateMap<Product, ProductDto>().ReverseMap();
         CreateMap<CreateProductRequestDto, Product>()
-            .ConstructUsing((src, context) => new Product());
+            .ConstructUsing((src, context) => new Product())
+            .ForMember(dest => dest.NutritionFact, opt => opt.MapFrom(src => src.NutritionFact));
         CreateMap<UpdateProductRequestDto, Product>()
             .ConstructUsing((src, context) => new Product());
         CreateMap<Product, ProductResponseDto>()
             .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category!.Name))
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom<ImageUrlResolver>());
-
+        CreateMap<NutritionFact, NutritionFactDto>().ReverseMap();
+            
         CreateMap<ImageDto, Image>();
         CreateMap<ImageRequestDto, Image>()
             .ConstructUsing((src, context) => new Image());
