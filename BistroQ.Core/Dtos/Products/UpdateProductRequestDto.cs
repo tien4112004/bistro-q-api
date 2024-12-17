@@ -13,4 +13,6 @@ public class UpdateProductRequestDto
     public decimal DiscountPrice { get; set; }
     
     public NutritionFactDto NutritionFact { get; set; }
+    
+    public int? CategoryId { get; set; }
 }
