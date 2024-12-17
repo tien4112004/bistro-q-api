@@ -30,7 +30,6 @@ public class AwsStorageService : ICloudStorageService
             };
 
             var a = await _s3Client.PutObjectAsync(putRequest);
-            Console.WriteLine(a.HttpStatusCode); // 200
         }
         catch (AmazonS3Exception ex)
         {
