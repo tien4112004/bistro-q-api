@@ -1,4 +1,4 @@
-using BistroQ.Infrastructure.Identity;
+using BistroQ.Core.Entities;
 
 namespace BistroQ.Core.Interfaces.Services;
 

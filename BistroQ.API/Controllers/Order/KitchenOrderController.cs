@@ -1,8 +1,8 @@
 using BistroQ.Core.Dtos;
 using BistroQ.Core.Dtos.Orders;
+using BistroQ.Core.Entities;
 using BistroQ.Core.Enums;
 using BistroQ.Core.Interfaces.Services;
-using BistroQ.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

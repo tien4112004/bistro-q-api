@@ -1,5 +1,5 @@
+using BistroQ.Core.Entities;
 using BistroQ.Infrastructure.Data;
-using BistroQ.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace BistroQ.API.Configurations;

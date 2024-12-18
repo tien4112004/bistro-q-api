@@ -3,13 +3,13 @@ using BistroQ.Core.Dtos;
 using BistroQ.Core.Dtos.Orders;
 using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces.Services;
-using BistroQ.Infrastructure.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Security.Claims;
+using BistroQ.Core.Entities;
 
 namespace BistroQ.Tests.Controllers;
 
