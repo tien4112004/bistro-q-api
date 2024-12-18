@@ -9,5 +9,5 @@ public class CreateProductRequestDto
     public string Unit { get; set; }
     public decimal DiscountPrice { get; set; }
     public int? CategoryId { get; set; }
-    public NutritionFactDto NutritionFact { get; set; }
+    public double Calories { get; set; }
 }

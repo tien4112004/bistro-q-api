@@ -20,9 +20,25 @@ public class MappingProfile : Profile
         CreateMap<Product, ProductDto>().ReverseMap();
         CreateMap<CreateProductRequestDto, Product>()
             .ConstructUsing((src, context) => new Product())
-            .ForMember(dest => dest.NutritionFact, opt => opt.MapFrom(src => src.NutritionFact));
+            .AfterMap((src, dest, context) => 
+            {
+                if (dest.NutritionFact == null)
+                {
+                    dest.NutritionFact = new NutritionFact();
+                }
+                dest.NutritionFact.Calories = src.Calories;
+            });
+
         CreateMap<UpdateProductRequestDto, Product>()
-            .ConstructUsing((src, context) => new Product());
+            .ConstructUsing((src, context) => new Product())
+            .AfterMap((src, dest, context) => 
+            {
+                if (dest.NutritionFact == null)
+                {
+                    dest.NutritionFact = new NutritionFact();
+                }
+                dest.NutritionFact.Calories = src.Calories;
+            });
         CreateMap<Product, ProductResponseDto>()
             .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category!.Name))
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom<ImageUrlResolver>());
