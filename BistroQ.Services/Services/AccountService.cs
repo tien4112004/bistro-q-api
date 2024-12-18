@@ -1,4 +1,5 @@
 using BistroQ.Core.Dtos.Auth;
+using BistroQ.Core.Dtos.Tables;
 using BistroQ.Core.Entities;
 using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces;
@@ -49,12 +50,20 @@ public class AccountService : IAccountService
                 on user.Id equals userRole.UserId
             join role in _context.Roles
                 on userRole.RoleId equals role.Id
+            join table in _context.Tables
+                on user.TableId equals table.TableId into userTable
+            join zone in _context.Zones
+                on user.TableId equals zone.ZoneId into userZone
             group role.Name by user
             into userRoles
             select new
             {
                 User = userRoles.Key,
-                Role = userRoles.First()
+                Role = userRoles.First(),
+                TableId = userRoles.Key.TableId,
+                ZoneId = userRoles.Key.Table?.ZoneId,
+                TableNumber = userRoles.Key.Table?.Number,
+                ZoneName = userRoles.Key.Table?.Zone?.Name
             };
 
         var filteredUsers = usersWithRoles;
@@ -92,7 +101,14 @@ public class AccountService : IAccountService
                 Id = ur.User.Id,
                 Username = ur.User.UserName,
                 Role = ur.Role,
-                TableId = ur.User.TableId
+                TableId = ur.User.TableId,
+                Table = new TableDetailDto
+                {
+                    TableId = ur.TableId,
+                    ZoneId = ur.ZoneId,
+                    Number = ur.TableNumber,
+                    ZoneName = ur.ZoneName,
+                }
             })
             .ToListAsync();
 

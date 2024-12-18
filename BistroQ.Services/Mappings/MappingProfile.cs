@@ -1,4 +1,5 @@
 using AutoMapper;
+using BistroQ.Core.Dtos.Auth;
 using BistroQ.Core.Dtos.Category;
 using BistroQ.Core.Dtos.Orders;
 using BistroQ.Core.Dtos.Image;
@@ -28,8 +29,8 @@ public class MappingProfile : Profile
         CreateMap<ImageRequestDto, Image>()
             .ConstructUsing((src, context) => new Image());
         CreateMap<ImageRequestDto, ImageDto>();
-        
-        
+
+
         CreateMap<Category, CategoryDto>().ReverseMap();
         CreateMap<Category, CategoryDetailDto>()
             .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
@@ -37,26 +38,29 @@ public class MappingProfile : Profile
             .ConstructUsing((src, context) => new Category());
         CreateMap<UpdateCategoryRequestDto, Category>()
             .ConstructUsing((src, context) => new Category());
-        
+
         CreateMap<Zone, ZoneDto>().ReverseMap();
         CreateMap<Zone, ZoneDetailDto>().ReverseMap();
         CreateMap<CreateZoneRequestDto, Zone>().ConstructUsing((src, context) => new Zone());
         CreateMap<UpdateZoneRequestDto, Zone>().ConstructUsing((src, context) => new Zone());
-        
+
         CreateMap<Table, TableDto>().ReverseMap();
         CreateMap<CreateTableRequestDto, Table>().ConstructUsing((src, context) => new Table());
         CreateMap<UpdateTableRequestDto, Table>().ConstructUsing((src, context) => new Table());
         CreateMap<Table, TableDetailDto>().ForMember(dest => dest.ZoneName,
-            opt => opt.MapFrom(src => src.Zone == null ? null : src.Zone.Name))
+                opt => opt.MapFrom(src => src.Zone == null ? null : src.Zone.Name))
             .ForMember(dest => dest.IsOccupied, opt => opt.MapFrom(src => src.Order != null));
-        
+
         CreateMap<Order, OrderDto>().ReverseMap();
-        CreateMap<Order, DetailOrderDto>().ForMember(v => v.OrderItems, 
+        CreateMap<Order, DetailOrderDto>().ForMember(v => v.OrderItems,
             opt => opt.MapFrom(src => src.OrderItems));
         CreateMap<Order, OrderWithTableDto>();
         CreateMap<OrderItem, OrderItemDto>().ReverseMap();
         CreateMap<OrderItem, OrderItemWithProductDto>();
         CreateMap<OrderItem, DetailOrderItemDto>()
             .ForMember(dest => dest.Table, opt => opt.MapFrom(src => src.Order.Table));
+
+        CreateMap<AccountDto, AccountResponseDto>()
+            .ForMember(dest => dest.Table, opt => opt.MapFrom(src => src.Table));
     }
 }
