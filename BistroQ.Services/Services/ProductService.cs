@@ -119,6 +119,13 @@ public class ProductService : IProductService
         }
         
         var newProduct = _mapper.Map<Product>(productDto);
+        
+        if (existingProduct.NutritionFact == null)
+        {
+            existingProduct.NutritionFact = new NutritionFact();
+        }
+        existingProduct.NutritionFact.Calories = productDto.Calories;
+        
         if (newProduct.CategoryId != null)
         {
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync(newProduct.CategoryId.Value);
