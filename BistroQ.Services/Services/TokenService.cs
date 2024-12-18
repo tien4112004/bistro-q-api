@@ -16,14 +16,11 @@ public class TokenService : ITokenService
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly JwtSettings _jwtSettings;
-    private readonly BistroQContext _context;
-    private ITokenService _tokenServiceImplementation;
 
-    public TokenService(UserManager<AppUser> userManager, JwtSettings jwtSettings, BistroQContext context)
+    public TokenService(UserManager<AppUser> userManager, JwtSettings jwtSettings)
     {
         _userManager = userManager;
         _jwtSettings = jwtSettings;
-        _context = context;
     }
 
     public async Task<string> GenerateAccessToken(AppUser user)

@@ -1,5 +1,7 @@
 using BistroQ.Core.Dtos.Auth;
 using BistroQ.Core.Entities;
+using BistroQ.Core.Exceptions;
+using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Services;
 using BistroQ.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
@@ -10,71 +12,148 @@ namespace BistroQ.Services.Services;
 public class AccountService : IAccountService
 {
     private readonly UserManager<AppUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly BistroQContext _context;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public AccountService(
-        UserManager<AppUser> userManager,
-        RoleManager<IdentityRole> roleManager,
-        BistroQContext context)
+    public AccountService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork)
     {
         _userManager = userManager;
-        _roleManager = roleManager;
-        _context = context;
-    }
-    public async Task<bool> CreateAccountAsync(CreateAccountDto request)
-    {
-        var user = new AppUser
-        {
-            UserName = request.Username,
-        };
-
-        var result = await _userManager.CreateAsync(user, request.Password);
-        if (!result.Succeeded)
-            return false;
-
-        await _userManager.AddToRoleAsync(user, request.Role);
-
-        return true;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<bool> UpdateAccountAsync(string id, UpdateAccountDto request)
+    public async Task<AccountDto> CreateAccountAsync(CreateAccountDto request)
     {
-        var user = await _userManager.FindByIdAsync(id);
-        if (user == null)
-            return false;
-
-        if (!string.IsNullOrEmpty(request.Username))
-            user.UserName = request.Username;
-
-        if (!string.IsNullOrEmpty(request.Password))
+        await _unitOfWork.BeginTransactionAsync();
+        try
         {
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var result = await _userManager.ResetPasswordAsync(user, token, request.Password);
+            var user = new AppUser
+            {
+                UserName = request.Username,
+            };
+
+            var result = await _userManager.CreateAsync(user, request.Password);
             if (!result.Succeeded)
-                return false;
-        }
+            {
+                throw new Exception("Failed to create user");
+            }
 
-        if (!string.IsNullOrEmpty(request.Role))
+            var roleResult = await _userManager.AddToRoleAsync(user, request.Role);
+            if (!roleResult.Succeeded)
+            {
+                throw new Exception("Failed to assign role to user");
+            }
+            var createdUser = await _userManager.FindByNameAsync(user.UserName);
+            if (createdUser == null)
+            {
+                throw new ResourceNotFoundException("User not found");
+            }
+            
+            await _unitOfWork.CommitTransactionAsync();
+            
+            return new AccountDto
+            {
+                Id = createdUser.Id,
+                Username = createdUser.UserName,
+                Role = request.Role
+            };
+        }
+        catch (Exception e)
         {
-            var currentRoles = await _userManager.GetRolesAsync(user);
-
-            await _userManager.RemoveFromRolesAsync(user, currentRoles);
-            await _userManager.AddToRoleAsync(user, request.Role);
+            await _unitOfWork.RollbackTransactionAsync();
+            throw;
         }
-
-        var updateResult = await _userManager.UpdateAsync(user);
-        return updateResult.Succeeded;
     }
 
-    // Hard delete
+    public async Task<AccountDto> UpdateAccountAsync(string id, UpdateAccountDto request)
+    {
+        await _unitOfWork.BeginTransactionAsync();
+        try
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                throw new ResourceNotFoundException("User not found");
+            }
+
+            if (!string.IsNullOrEmpty(request.Username))
+                user.UserName = request.Username;
+
+            if (!string.IsNullOrEmpty(request.Password))
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var passwordResult = await _userManager.ResetPasswordAsync(user, token, request.Password);
+                if (!passwordResult.Succeeded)
+                {
+                    throw new Exception("Failed to reset password");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(request.Role))
+            {
+                var currentRoles = await _userManager.GetRolesAsync(user);
+                var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+                if (!removeResult.Succeeded)
+                {
+                    throw new Exception("Failed to remove roles from user");
+                }
+                var addRoleResult = await _userManager.AddToRoleAsync(user, request.Role);
+                if (!addRoleResult.Succeeded)
+                {
+                    throw new Exception("Failed to assign role to user");
+                }
+            }
+
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                throw new Exception("Failed to update user");
+            }
+            
+            var updatedUser = await _userManager.FindByIdAsync(id);
+            if (updatedUser == null)
+            {
+                throw new ResourceNotFoundException("User not found");
+            }
+            
+            await _unitOfWork.CommitTransactionAsync();
+            
+            return new AccountDto
+            {
+                Id = updatedUser.Id,
+                Username = updatedUser.UserName,
+                Role = request.Role
+            };
+        }
+        catch (Exception e)
+        {
+            await _unitOfWork.RollbackTransactionAsync();
+            throw;
+        }
+    }
+
     public async Task<bool> DeleteAccountAsync(string id)
     {
-        var user = await _userManager.FindByIdAsync(id);
-        if (user == null)
-            return false;
+        await _unitOfWork.BeginTransactionAsync();
+        try
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                throw new ResourceNotFoundException("User not found");
+            }
 
-        var result = await _userManager.DeleteAsync(user);
-        return result.Succeeded;
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                throw new Exception("Failed to delete user");
+            }
+
+            await _unitOfWork.CommitTransactionAsync();
+            return true;
+        }
+        catch (Exception e)
+        {
+            await _unitOfWork.RollbackTransactionAsync();
+            throw;
+        }
     }
 }
