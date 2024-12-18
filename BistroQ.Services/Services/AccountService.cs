@@ -13,11 +13,90 @@ public class AccountService : IAccountService
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly BistroQContext _context;
 
-    public AccountService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork)
+    public AccountService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, BistroQContext context)
     {
         _userManager = userManager;
         _unitOfWork = unitOfWork;
+        _context = context;
+    }
+    
+    public async Task<AccountDto> GetByIdAsync(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+        {
+            throw new ResourceNotFoundException("User not found");
+        }
+
+        var role = await _userManager.GetRolesAsync(user);
+        return new AccountDto
+        {
+            Id = user.Id,
+            Username = user.UserName,
+            Role = role.FirstOrDefault(),
+            TableId = user.TableId
+        };
+    }
+
+    // NOTE: Cannot split this method into QueryableBuilder because of the group by clause
+    public async Task<(IEnumerable<AccountDto> Accounts, int Count)> GetAllAsync(
+        AccountCollectionQueryParams query)
+    {
+        var usersWithRoles = from user in _userManager.Users
+            join userRole in _context.UserRoles
+                on user.Id equals userRole.UserId
+            join role in _context.Roles
+                on userRole.RoleId equals role.Id
+            group role.Name by user
+            into userRoles
+            select new
+            {
+                User = userRoles.Key,
+                Role = userRoles.First()
+            };
+
+        var filteredUsers = usersWithRoles;
+
+        if (!string.IsNullOrWhiteSpace(query.Username))
+        {
+            filteredUsers = filteredUsers.Where(u =>
+                u.User.UserName != null && u.User.UserName.Contains(query.Username));
+        }
+
+        if (!string.IsNullOrWhiteSpace(query.Role))
+        {
+            filteredUsers = filteredUsers.Where(u =>
+                u.Role.Equals(query.Role, StringComparison.OrdinalIgnoreCase));
+        }
+
+        var totalCount = await filteredUsers.CountAsync();
+
+        var sortedUsers = query.OrderBy?.ToLower() switch
+        {
+            "username" => query.OrderDirection == "asc"
+                ? filteredUsers.OrderBy(u => u.User.UserName)
+                : filteredUsers.OrderByDescending(u => u.User.UserName),
+            "role" => query.OrderDirection == "asc"
+                ? filteredUsers.OrderBy(u => u.Role)
+                : filteredUsers.OrderByDescending(u => u.Role),
+            _ => filteredUsers.OrderBy(u => u.User.UserName)
+        };
+
+        var pagedUsers = await sortedUsers
+            .Skip((query.Page - 1) * query.Size)
+            .Take(query.Size)
+            .Select(ur => new AccountDto
+            {
+                Id = ur.User.Id,
+                Username = ur.User.UserName,
+                Role = ur.Role,
+                TableId = ur.User.TableId
+            })
+            .ToListAsync();
+
+        return (pagedUsers, totalCount);
     }
 
     public async Task<AccountDto> CreateAccountAsync(CreateAccountDto request)

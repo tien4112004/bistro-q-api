@@ -8,6 +8,25 @@ namespace BistroQ.Core.Interfaces.Services;
 public interface IAccountService
 {
     /// <summary>
+    /// Retrieves a collection of user accounts based on the specified query parameters.
+    /// </summary>
+    /// <param name="query">The query parameters for filtering and sorting the accounts.</param>
+    /// <returns>
+    /// A tuple containing an enumerable collection of account response DTOs and the total count of accounts.
+    /// </returns>
+    Task<(IEnumerable<AccountDto> Accounts, int Count)> GetAllAsync(
+        AccountCollectionQueryParams query);
+
+    /// <summary>
+    /// Retrieves the details of a user account by its unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the account to retrieve.</param>
+    /// <returns>
+    /// An account DTO containing the account information.
+    /// </returns>
+    Task<AccountDto> GetByIdAsync(string id);
+    
+    /// <summary>
     /// Creates a new user account with specified credentials and role.
     /// </summary>
     /// <param name="request">The account creation data containing username, password, and role.</param>
