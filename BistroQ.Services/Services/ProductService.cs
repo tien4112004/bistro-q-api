@@ -50,6 +50,7 @@ public class ProductService : IProductService
         builder
             .IncludeCategory()
             .IncludeImage()
+            .IncludeNutritionFact()
             .ApplySorting(queryParams.OrderBy, queryParams.OrderDirection)
             .ApplyPaging(queryParams.Page, queryParams.Size);
 
