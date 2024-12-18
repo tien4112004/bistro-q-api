@@ -62,6 +62,6 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> DeleteAccount([FromRoute] string id)
     {
         await _accountService.DeleteAccountAsync(id);
-        return Ok();
+        return Ok(new ResponseDto<string>("Account deleted successfully"));
     }
 }

@@ -1,3 +1,4 @@
+using System.Text.Json;
 using AutoMapper;
 using BistroQ.Core.Dtos.Auth;
 using BistroQ.Core.Dtos.Tables;
@@ -139,6 +140,18 @@ public async Task<(IEnumerable<AccountDto> Accounts, int Count)> GetAllAsync(
             {
                 throw new ResourceNotFoundException("User not found");
             }
+            
+            if (request.TableId.HasValue)
+            {
+                var table = await _context.Tables.FindAsync(request.TableId);
+                if (table == null)
+                {
+                    throw new ResourceNotFoundException("Table not found");
+                }
+
+                createdUser.TableId = table.TableId;
+                await _userManager.UpdateAsync(createdUser);
+            }
 
             await _unitOfWork.CommitTransactionAsync();
 
@@ -195,10 +208,22 @@ public async Task<(IEnumerable<AccountDto> Accounts, int Count)> GetAllAsync(
                     throw new Exception("Failed to assign role to user");
                 }
             }
+            
+            if (request.TableId.HasValue)
+            {
+                var table = await _context.Tables.FindAsync(request.TableId);
+                if (table == null)
+                {
+                    throw new ResourceNotFoundException("Table not found");
+                }
+
+                user.TableId = table.TableId;
+            }
 
             var updateResult = await _userManager.UpdateAsync(user);
             if (!updateResult.Succeeded)
             {
+                Console.WriteLine(JsonSerializer.Serialize(updateResult.Errors));
                 throw new Exception("Failed to update user");
             }
 
