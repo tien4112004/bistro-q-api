@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BistroQ.API.Controllers.Account;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/admin/[controller]")]
 [Authorize(Roles = BistroRoles.Admin)]
 public class AccountController : ControllerBase
 {

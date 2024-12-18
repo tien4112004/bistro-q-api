@@ -9,5 +9,5 @@ public class AccountDto
     public string Role { get; set; }
     public int? TableId { get; set; }
     
-    public TableDetailDto Table { get; set; }
+    public TableDetailDto? Table { get; set; }
 }

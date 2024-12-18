@@ -1,3 +1,4 @@
+using AutoMapper;
 using BistroQ.Core.Dtos.Auth;
 using BistroQ.Core.Dtos.Tables;
 using BistroQ.Core.Entities;
@@ -15,14 +16,16 @@ public class AccountService : IAccountService
     private readonly UserManager<AppUser> _userManager;
     private readonly IUnitOfWork _unitOfWork;
     private readonly BistroQContext _context;
+    private readonly IMapper _mapper;
 
-    public AccountService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, BistroQContext context)
+    public AccountService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, BistroQContext context, IMapper mapper)
     {
         _userManager = userManager;
         _unitOfWork = unitOfWork;
         _context = context;
+        _mapper = mapper;
     }
-    
+
     public async Task<AccountDto> GetByIdAsync(string id)
     {
         var user = await _userManager.FindByIdAsync(id);
@@ -42,78 +45,72 @@ public class AccountService : IAccountService
     }
 
     // NOTE: Cannot split this method into QueryableBuilder because of the group by clause
-    public async Task<(IEnumerable<AccountDto> Accounts, int Count)> GetAllAsync(
-        AccountCollectionQueryParams query)
+public async Task<(IEnumerable<AccountDto> Accounts, int Count)> GetAllAsync(
+    AccountCollectionQueryParams query)
+{
+    var usersWithRoles = _context.Users
+        .Include(u => u.Table)
+        .ThenInclude(t => t.Zone)
+        .Select(u => new
+        {
+            User = u,
+            Role = _context.UserRoles
+                .Where(ur => ur.UserId == u.Id)
+                .Join(_context.Roles,
+                    ur => ur.RoleId,
+                    r => r.Id,
+                    (ur, r) => r.Name)
+                .FirstOrDefault()
+        });
+
+    if (!string.IsNullOrWhiteSpace(query.Username))
     {
-        var usersWithRoles = from user in _userManager.Users
-            join userRole in _context.UserRoles
-                on user.Id equals userRole.UserId
-            join role in _context.Roles
-                on userRole.RoleId equals role.Id
-            join table in _context.Tables
-                on user.TableId equals table.TableId into userTable
-            join zone in _context.Zones
-                on user.TableId equals zone.ZoneId into userZone
-            group role.Name by user
-            into userRoles
-            select new
-            {
-                User = userRoles.Key,
-                Role = userRoles.First(),
-                TableId = userRoles.Key.TableId,
-                ZoneId = userRoles.Key.Table?.ZoneId,
-                TableNumber = userRoles.Key.Table?.Number,
-                ZoneName = userRoles.Key.Table?.Zone?.Name
-            };
-
-        var filteredUsers = usersWithRoles;
-
-        if (!string.IsNullOrWhiteSpace(query.Username))
-        {
-            filteredUsers = filteredUsers.Where(u =>
-                u.User.UserName != null && u.User.UserName.Contains(query.Username));
-        }
-
-        if (!string.IsNullOrWhiteSpace(query.Role))
-        {
-            filteredUsers = filteredUsers.Where(u =>
-                u.Role.Equals(query.Role, StringComparison.OrdinalIgnoreCase));
-        }
-
-        var totalCount = await filteredUsers.CountAsync();
-
-        var sortedUsers = query.OrderBy?.ToLower() switch
-        {
-            "username" => query.OrderDirection == "asc"
-                ? filteredUsers.OrderBy(u => u.User.UserName)
-                : filteredUsers.OrderByDescending(u => u.User.UserName),
-            "role" => query.OrderDirection == "asc"
-                ? filteredUsers.OrderBy(u => u.Role)
-                : filteredUsers.OrderByDescending(u => u.Role),
-            _ => filteredUsers.OrderBy(u => u.User.UserName)
-        };
-
-        var pagedUsers = await sortedUsers
-            .Skip((query.Page - 1) * query.Size)
-            .Take(query.Size)
-            .Select(ur => new AccountDto
-            {
-                Id = ur.User.Id,
-                Username = ur.User.UserName,
-                Role = ur.Role,
-                TableId = ur.User.TableId,
-                Table = new TableDetailDto
-                {
-                    TableId = ur.TableId,
-                    ZoneId = ur.ZoneId,
-                    Number = ur.TableNumber,
-                    ZoneName = ur.ZoneName,
-                }
-            })
-            .ToListAsync();
-
-        return (pagedUsers, totalCount);
+        usersWithRoles = usersWithRoles.Where(x => EF.Functions.Like(
+            x.User.UserName, 
+            $"%{query.Username}%"
+        ));
     }
+
+    if (!string.IsNullOrWhiteSpace(query.Role))
+    {
+        usersWithRoles = usersWithRoles.Where(u => u.Role == query.Role);
+    }
+    
+    if (!string.IsNullOrWhiteSpace(query.Zone))
+    {
+        usersWithRoles = usersWithRoles.Where(u => u.User.Table != null 
+                                                   && u.User.Table.Zone != null 
+                                                   && u.User.Table.Zone.Name == query.Zone);
+    }
+
+    var totalCount = await usersWithRoles.CountAsync();
+
+    var sortedUsers = query.OrderBy?.ToLower() switch
+    {
+        "username" => query.OrderDirection == "asc"
+            ? usersWithRoles.OrderBy(u => u.User.UserName)
+            : usersWithRoles.OrderByDescending(u => u.User.UserName),
+        "role" => query.OrderDirection == "asc"
+            ? usersWithRoles.OrderBy(u => u.Role)
+            : usersWithRoles.OrderByDescending(u => u.Role),
+        _ => usersWithRoles.OrderBy(u => u.User.UserName)
+    };
+    
+    var pagedUsers = await sortedUsers
+        .Skip(query.Size * (query.Page - 1))
+        .Take(query.Size)
+        .Select(u => new AccountDto
+        {
+            Id = u.User.Id,
+            Username = u.User.UserName,
+            Role = u.Role,
+            TableId = u.User.TableId,
+            Table = u.User.Table != null ? _mapper.Map<TableDetailDto>(u.User.Table) : null
+        })
+        .ToListAsync();
+    
+    return (pagedUsers, totalCount);
+}
 
     public async Task<AccountDto> CreateAccountAsync(CreateAccountDto request)
     {
@@ -136,14 +133,15 @@ public class AccountService : IAccountService
             {
                 throw new Exception("Failed to assign role to user");
             }
+
             var createdUser = await _userManager.FindByNameAsync(user.UserName);
             if (createdUser == null)
             {
                 throw new ResourceNotFoundException("User not found");
             }
-            
+
             await _unitOfWork.CommitTransactionAsync();
-            
+
             return new AccountDto
             {
                 Id = createdUser.Id,
@@ -190,6 +188,7 @@ public class AccountService : IAccountService
                 {
                     throw new Exception("Failed to remove roles from user");
                 }
+
                 var addRoleResult = await _userManager.AddToRoleAsync(user, request.Role);
                 if (!addRoleResult.Succeeded)
                 {
@@ -202,15 +201,15 @@ public class AccountService : IAccountService
             {
                 throw new Exception("Failed to update user");
             }
-            
+
             var updatedUser = await _userManager.FindByIdAsync(id);
             if (updatedUser == null)
             {
                 throw new ResourceNotFoundException("User not found");
             }
-            
+
             await _unitOfWork.CommitTransactionAsync();
-            
+
             return new AccountDto
             {
                 Id = updatedUser.Id,
