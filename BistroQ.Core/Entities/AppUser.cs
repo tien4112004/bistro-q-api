@@ -1,7 +1,6 @@
-using BistroQ.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 
-namespace BistroQ.Infrastructure.Identity;
+namespace BistroQ.Core.Entities;
 
 public class AppUser : IdentityUser
 {

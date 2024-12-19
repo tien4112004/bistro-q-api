@@ -3,10 +3,10 @@ using BistroQ.Core.Dtos.Auth;
 using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces.Services;
 using BistroQ.Domain.Dtos;
-using BistroQ.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using BistroQ.Core.Entities;
 
 namespace BistroQ.API.Controllers.Auth;
 
