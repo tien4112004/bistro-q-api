@@ -3,9 +3,9 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using BistroQ.Core.Common.Settings;
+using BistroQ.Core.Entities;
 using BistroQ.Core.Interfaces.Services;
 using BistroQ.Infrastructure.Data;
-using BistroQ.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
@@ -16,14 +16,11 @@ public class TokenService : ITokenService
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly JwtSettings _jwtSettings;
-    private readonly BistroQContext _context;
-    private ITokenService _tokenServiceImplementation;
 
-    public TokenService(UserManager<AppUser> userManager, JwtSettings jwtSettings, BistroQContext context)
+    public TokenService(UserManager<AppUser> userManager, JwtSettings jwtSettings)
     {
         _userManager = userManager;
         _jwtSettings = jwtSettings;
-        _context = context;
     }
 
     public async Task<string> GenerateAccessToken(AppUser user)

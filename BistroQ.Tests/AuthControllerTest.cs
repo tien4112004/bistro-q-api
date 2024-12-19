@@ -1,10 +1,10 @@
 ﻿using BistroQ.API.Controllers.Auth;
 using BistroQ.Core.Dtos;
 using BistroQ.Core.Dtos.Auth;
+using BistroQ.Core.Entities;
 using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces.Services;
 using BistroQ.Domain.Dtos;
-using BistroQ.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
