@@ -90,7 +90,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             entity.Property(e => e.OrderId).
                 HasMaxLength(100).
                 ValueGeneratedOnAdd().                
-                HasDefaultValueSql("UUID()");
+                HasDefaultValueSql("(UUID())");
             entity.Property(e => e.EndTime).HasColumnType("datetime");
             entity.Property(e => e.StartTime).HasColumnType("datetime");
             entity.Property(e => e.TotalAmount).HasPrecision(10);
@@ -119,7 +119,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             entity.Property(e => e.OrderItemId).
                 HasMaxLength(100).
                 ValueGeneratedOnAdd().
-                HasDefaultValueSql("UUID()");
+                HasDefaultValueSql("(UUID())");
             entity.Property(e => e.OrderId).HasMaxLength(100);
             entity.Property(e => e.PriceAtPurchase).HasPrecision(10);
 
