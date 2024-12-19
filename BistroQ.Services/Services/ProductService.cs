@@ -50,6 +50,7 @@ public class ProductService : IProductService
         builder
             .IncludeCategory()
             .IncludeImage()
+            .IncludeNutritionFact()
             .ApplySorting(queryParams.OrderBy, queryParams.OrderDirection)
             .ApplyPaging(queryParams.Page, queryParams.Size);
 
@@ -118,6 +119,16 @@ public class ProductService : IProductService
         }
         
         var newProduct = _mapper.Map<Product>(productDto);
+        
+        if (existingProduct.NutritionFact == null)
+        {
+            existingProduct.NutritionFact = new NutritionFact();
+        }
+        existingProduct.NutritionFact.Calories = newProduct.NutritionFact.Calories;
+        existingProduct.NutritionFact.Fat = newProduct.NutritionFact.Fat;
+        existingProduct.NutritionFact.Fiber = newProduct.NutritionFact.Fiber;
+        existingProduct.NutritionFact.Protein = newProduct.NutritionFact.Protein;
+        
         if (newProduct.CategoryId != null)
         {
             var category = await _unitOfWork.CategoryRepository.GetByIdAsync(newProduct.CategoryId.Value);

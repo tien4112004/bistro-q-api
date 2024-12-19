@@ -1,3 +1,5 @@
+using BistroQ.Core.Dtos.NutritionFact;
+
 namespace BistroQ.Core.Dtos.Products;
 
 public class ProductResponseDto 
@@ -17,4 +19,6 @@ public class ProductResponseDto
     public decimal? DiscountPrice { get; set; }
    
     public string? ImageUrl { get; set; }
+    
+    public NutritionFactDto NutritionFact { get; set; }
 }
