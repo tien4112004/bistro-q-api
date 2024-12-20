@@ -20,6 +20,12 @@ public class ProductQueryableBuilder : BaseQueryableBuilder<Product>
         Queryable = Queryable.Include(p => p.Image);
         return this;
     }
+    
+    public ProductQueryableBuilder IncludeNutritionFact()
+    {
+        Queryable = Queryable.Include(p => p.NutritionFact);
+        return this;
+    }
 
     public ProductQueryableBuilder WithName(string? name)
     {

@@ -95,7 +95,7 @@ public class OrderItemQueryableBuilder : BaseQueryableBuilder<OrderItem>
                 ? Queryable.OrderByDescending(o => o.UpdatedAt)
                 : Queryable.OrderBy(o => o.UpdatedAt),
             
-            _ => Queryable.OrderBy(o => o.OrderItemId)
+            _ => Queryable.OrderBy(o => o.CreatedAt)
         };
         return this;
     }

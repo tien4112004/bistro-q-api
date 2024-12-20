@@ -1,13 +1,9 @@
-﻿namespace BistroQ.Core.Entities;
+﻿namespace BistroQ.Core.Dtos.NutritionFact;
 
-public class NutritionFact
+public class NutritionFactDto
 {
-    public int ProductId { get; set; }
-
     public double? Calories { get; set; }
     public double? Fat { get; set; }
     public double? Fiber { get; set; }
     public double? Protein { get; set; }
-
-    public virtual Product Product { get; set; } = null!;
 }

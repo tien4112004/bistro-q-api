@@ -1,5 +1,6 @@
 using BistroQ.Core.Dtos.Orders;
 using BistroQ.Core.Entities;
+using BistroQ.Core.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BistroQ.Core.Interfaces.Services;
@@ -62,18 +63,29 @@ public interface IOrderService
     /// Should validate product availability and pricing.
     /// </remarks>
     Task<IEnumerable<OrderItemDto>> AddProductsToOrder(int tableId, [FromBody] IEnumerable<CreateOrderItemRequestDto> orderItems);
-
+    
+    /// <summary>
+    /// Update the order status to "Cancelled" for a list of order items. 
+    /// </summary>
+    /// <param name="tableId"></param>
+    /// <param name="orderItems"></param>
+    /// <returns>The list of order items with new status</returns>
+    /// <remarks>Soft-delete</remarks>
     Task<IEnumerable<OrderItemDto>> CancelOrderItems(int tableId, [FromBody] IEnumerable<RemoveOrderItemRequestDto> orderItems);
     
     /// <summary>
     /// Updates the quantity of a product in an existing order.
     /// </summary>
     /// <param name="tableId">The unique identifier of the table.</param>
-    /// <param name="productId">The unique identifier of the product to update.</param>
-    /// <returns>Updated order details with the new quantity.</returns>
-    /// <remarks>
-    /// Missing quantity parameter - should be added.
-    /// Should validate if quantity update is allowed (e.g., kitchen status).
-    /// </remarks>
+    /// <param name="peopleCount">The new people count need to be updated.</param>
+    /// <returns>Updated order with new number of people.</returns>
     Task<OrderDto> UpdatePeopleCount(int tableId, int peopleCount);
+
+    /// <summary>
+    /// Update the status of the order
+    /// </summary>
+    /// <param name="tableId">The unique identifier of the table</param>
+    /// <param name="status">The new status need to be updated</param>
+    /// <returns>Updated order</returns>
+    Task<OrderDto> UpdateStatus(int tableId, OrderStatus status);
 }

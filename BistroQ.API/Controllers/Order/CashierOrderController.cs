@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BistroQ.API.Controllers.Order;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/Cashier/Order")]
 [Authorize(Roles = BistroRoles.Cashier)]
 public class CashierOrderController : ControllerBase
 {
@@ -34,5 +34,13 @@ public class CashierOrderController : ControllerBase
     {
         var order = await _orderService.GetOrder(tableId);
         return Ok(new ResponseDto<DetailOrderDto>(order));
+    }
+
+    [HttpPatch]
+    [Route("Status")]
+    public async Task<IActionResult> UpdateStatus([FromBody] UpdateOrderStatusRequestDto updateOrderStatusDto)
+    {
+        var order = await _orderService.UpdateStatus(updateOrderStatusDto.TableId, updateOrderStatusDto.Status);
+        return Ok(new ResponseDto<OrderDto>(order));
     }
 }

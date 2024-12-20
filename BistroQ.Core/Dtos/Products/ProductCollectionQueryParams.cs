@@ -6,5 +6,4 @@ public class ProductCollectionQueryParams : BaseCollectionQueryParams
     public int? CategoryId { get; set; }
     public decimal? Price { get; set; }
     public decimal? DiscountPrice { get; set; }
-
 }

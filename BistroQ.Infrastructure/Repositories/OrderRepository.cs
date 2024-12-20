@@ -23,6 +23,12 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
             .Include(o => o.OrderItems)
             .ThenInclude(od => od.Product)
             .ThenInclude(p => p.Image)
+            .Select(o => new Order
+            {
+                OrderId = o.OrderId,
+                TableId = o.TableId,
+                OrderItems = o.OrderItems.OrderByDescending(oi => oi.CreatedAt).ToList(),
+            })
             .FirstOrDefaultAsync(o => o.TableId == tableId);
     }
     

@@ -81,7 +81,6 @@ public class AdminProductController : ControllerBase
             ContentType = image.ContentType
         };
         
-        
         var updatedProduct = await _productService.UpdateImageAsync(productId, imageRequest);
         return Ok(new ResponseDto<ProductResponseDto>(updatedProduct));
     }
