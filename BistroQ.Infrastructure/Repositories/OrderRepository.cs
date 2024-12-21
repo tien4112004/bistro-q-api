@@ -28,6 +28,11 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
                 OrderId = o.OrderId,
                 TableId = o.TableId,
                 OrderItems = o.OrderItems.OrderByDescending(oi => oi.CreatedAt).ToList(),
+                TotalAmount = o.TotalAmount,
+                StartTime = o.StartTime,
+                EndTime = o.EndTime,
+                PeopleCount = o.PeopleCount,
+                Status = o.Status
             })
             .FirstOrDefaultAsync(o => o.TableId == tableId);
     }
