@@ -93,7 +93,8 @@ public class OrderService : IOrderService
 		{
 			throw new ResourceNotFoundException("Order not found");
 		}
-		var updatedOrder = order;
+
+		var updatedOrder = _mapper.Map<Order>(order);
 
 		List<OrderItem> addedItems = new List<OrderItem>();
 
@@ -114,12 +115,12 @@ public class OrderService : IOrderService
 				Quantity = item.Quantity,
 				CreatedAt = receivedOrderTime,
 				UpdatedAt = receivedOrderTime,
-				PriceAtPurchase = product.Price, // TODO: OR DiscountPrice
+				PriceAtPurchase = (product.DiscountPrice != 0 ? product.DiscountPrice : product.Price), // TODO: OR DiscountPrice
 			};
 
 			var addedItem = await _unitOfWork.OrderItemRepository.AddAsync(orderItem);
 			addedItems.Add(addedItem);
-			order.TotalAmount += (item.PriceAtPurchase * item.Quantity);
+			updatedOrder.TotalAmount += (item.PriceAtPurchase * item.Quantity);
 		}
 
 		await _unitOfWork.OrderRepository.UpdateAsync(order, updatedOrder);
@@ -163,6 +164,7 @@ public class OrderService : IOrderService
 		}
 
 		var updatedOrder = order;
+		
 		updatedOrder.PeopleCount = peopleCount;
 		await _unitOfWork.OrderRepository.UpdateAsync(order, updatedOrder);
 		await _unitOfWork.SaveChangesAsync();
