@@ -128,6 +128,7 @@ public class ProductService : IProductService
         existingProduct.NutritionFact.Fat = newProduct.NutritionFact.Fat;
         existingProduct.NutritionFact.Fiber = newProduct.NutritionFact.Fiber;
         existingProduct.NutritionFact.Protein = newProduct.NutritionFact.Protein;
+        existingProduct.NutritionFact.Carbohydrates = newProduct.NutritionFact.Carbohydrates;
         
         if (newProduct.CategoryId != null)
         {
