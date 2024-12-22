@@ -16,6 +16,7 @@ public class UpdateProductRequestDto
     public double? Fat { get; set; }
     public double? Fiber { get; set; }
     public double? Protein { get; set; }
+    public double? Carbohydrates { get; set; }
     
     public int? CategoryId { get; set; }
 }

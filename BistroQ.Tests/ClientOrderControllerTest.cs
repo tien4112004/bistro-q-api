@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System.Security.Claims;
 using BistroQ.Core.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BistroQ.Tests.Controllers;
 
@@ -203,7 +204,11 @@ public class ClientOrderControllerTests
 		_mockOrderService.Setup(x => x.UpdatePeopleCount(1, 5)).ReturnsAsync(order);
 
 		// Act
-		var result = await _clientOrderController.UpdatePeopleCount(5) as OkObjectResult;
+		var request = new UpdateOrderPeopleCountDto
+		{
+			PeopleCount = 5
+		};
+		var result = await _clientOrderController.UpdatePeopleCount(request) as OkObjectResult;
 
 		// Assert
 		Assert.IsNotNull(result);
@@ -221,9 +226,13 @@ public class ClientOrderControllerTests
 		SetupUserManager(user);
 
 		// Act & Assert
+		var request = new UpdateOrderPeopleCountDto
+		{
+			PeopleCount = -1
+		};
 		await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(async () =>
 		{
-			await _clientOrderController.UpdatePeopleCount(-1);
+			await _clientOrderController.UpdatePeopleCount(request);
 		});
 	}
 
@@ -234,9 +243,13 @@ public class ClientOrderControllerTests
 		_mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync((AppUser)null);
 
 		// Act & Assert
+		var request = new UpdateOrderPeopleCountDto
+		{
+			PeopleCount = 5
+		};
 		await Assert.ThrowsExceptionAsync<UnauthorizedException>(async () =>
 		{
-			await _clientOrderController.UpdatePeopleCount(5);
+			await _clientOrderController.UpdatePeopleCount(request);
 		});
 	}
 
@@ -248,10 +261,15 @@ public class ClientOrderControllerTests
 		SetupUserManager(user);
 		_mockOrderService.Setup(x => x.UpdatePeopleCount(1, 5)).ThrowsAsync(new Exception("Update failed"));
 
+		
 		// Act & Assert
+		var request = new UpdateOrderPeopleCountDto
+		{
+			PeopleCount = 5
+		};
 		await Assert.ThrowsExceptionAsync<Exception>(async () =>
 		{
-			await _clientOrderController.UpdatePeopleCount(5);
+			await _clientOrderController.UpdatePeopleCount(request);
 		});
 	}
 

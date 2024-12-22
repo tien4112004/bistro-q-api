@@ -21,8 +21,8 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
     {
         return await _context.Orders
             .Include(o => o.OrderItems)
-            .ThenInclude(od => od.Product)
-            .ThenInclude(p => p.Image)
+                .ThenInclude(od => od.Product)
+                .ThenInclude(p => p.Image)
             .Select(o => new Order
             {
                 OrderId = o.OrderId,

@@ -61,10 +61,33 @@ public class OrderService : IOrderService
 		{
 			throw new ResourceNotFoundException("Order not found");
 		}
-
+		
 		order.OrderItems = _mapper.Map<List<OrderItem>>(order.OrderItems);
 
-		return _mapper.Map<DetailOrderDto>(order);
+		var result = _mapper.Map<DetailOrderDto>(order);
+		
+#region braindead-code
+		result.TotalCalories = 0;
+		result.TotalProtein = 0;
+		result.TotalFat = 0;
+		result.TotalFiber = 0;
+		result.TotalCarbohydrates = 0;
+		
+		foreach (var item in order.OrderItems)
+		{
+			var nf = await _unitOfWork.NutritionFactRepository.GetByIdAsync(item.ProductId);
+			if (nf != null)
+			{
+				result.TotalCalories += nf.Calories;
+				result.TotalProtein += nf.Protein;
+				result.TotalFat += nf.Fat;
+				result.TotalFiber += nf.Fiber;
+				result.TotalCarbohydrates += nf.Carbohydrates;
+			}
+		}
+#endregion
+		
+		return result;
 	}
 
 	public async Task DeleteOrder(int tableId)
