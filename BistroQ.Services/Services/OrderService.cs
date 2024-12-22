@@ -1,3 +1,4 @@
+
 using System.Runtime.InteropServices.JavaScript;
 using Amazon.CloudFront.Model.Internal.MarshallTransformations;
 using AutoMapper;
@@ -138,6 +139,8 @@ public class OrderService : IOrderService
 			throw new ResourceNotFoundException("Order not found");
 		}
 
+		var updatedOrder = order;
+
 		List<OrderItem> removedItems = new List<OrderItem>();
 		foreach (var item in orderItems)
 		{
@@ -149,7 +152,9 @@ public class OrderService : IOrderService
 
 			await _unitOfWork.OrderItemRepository.DeleteAsync(orderItem);
 			removedItems.Add(orderItem);
+			updatedOrder.TotalAmount -= orderItem.Quantity * orderItem.PriceAtPurchase;
 		}
+		await _unitOfWork.OrderRepository.UpdateAsync(order, updatedOrder);
 		await _unitOfWork.SaveChangesAsync();
 
 		return _mapper.Map<IEnumerable<OrderItemDto>>(removedItems);
