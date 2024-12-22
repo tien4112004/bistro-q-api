@@ -351,7 +351,8 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
         var listOrderItems = CsvReaderHelper.ReadCsv<OrderItem>("../BistroQ.Infrastructure/Data/orderitems.csv");
         // var listOrder = CsvReaderHelper.ReadCsv<Order>("../BistroQ.Infrastructure/Data/orders.csv");
         var identityUserRoleList = CsvReaderHelper.ReadCsv<IdentityUserRole<string>>("../BistroQ.Infrastructure/Data/identityroles.csv");
-        
+        var nutritionFactsList =
+            CsvReaderHelper.ReadCsv<NutritionFact>("../BistroQ.Infrastructure/Data/nutritionfacts.csv");
 
         var listOrder = new List<Order>()
         {
@@ -458,10 +459,18 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             TableId = int.TryParse(o.TableId.ToString(), out var tableId) ? tableId : (int?)null,
             StartTime = o.StartTime,
             PeopleCount = o.PeopleCount,
-
             EndTime = o.EndTime,
             Status = o.Status,
             TotalAmount = listOrderItems.Where(oi => oi.OrderId == o.OrderId).Sum(oi => oi.PriceAtPurchase * oi.Quantity)
+        }));
+
+        modelBuilder.Entity<NutritionFact>().HasData(nutritionFactsList.Select(nf => new
+        {
+            ProductId = nf.ProductId,
+            Calories = nf.Calories,
+            Fiber = nf.Fiber,
+            Fat = nf.Fat,
+            Protein = nf.Protein,
         }));
 
         OnModelCreatingPartial(modelBuilder);
@@ -481,7 +490,6 @@ public static class CsvReaderHelper
             HeaderValidated = null,
             MissingFieldFound = null,
             TrimOptions = TrimOptions.Trim,
-
         });
 
         return csv.GetRecords<T>().ToList();
