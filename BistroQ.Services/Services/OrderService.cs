@@ -78,11 +78,11 @@ public class OrderService : IOrderService
 			var nf = await _unitOfWork.NutritionFactRepository.GetByIdAsync(item.ProductId);
 			if (nf != null)
 			{
-				result.TotalCalories += nf.Calories;
-				result.TotalProtein += nf.Protein;
-				result.TotalFat += nf.Fat;
-				result.TotalFiber += nf.Fiber;
-				result.TotalCarbohydrates += nf.Carbohydrates;
+				result.TotalCalories += nf.Calories * item.Quantity;
+				result.TotalProtein += nf.Protein * item.Quantity;
+				result.TotalFat += nf.Fat * item.Quantity;
+				result.TotalFiber += nf.Fiber * item.Quantity;
+				result.TotalCarbohydrates += nf.Carbohydrates * item.Quantity;
 			}
 		}
 #endregion
