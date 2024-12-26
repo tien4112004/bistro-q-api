@@ -73,9 +73,12 @@ public class OrderService : IOrderService
 		result.TotalFiber = 0;
 		result.TotalCarbohydrates = 0;
 		
+		var productIds = order.OrderItems.Select(oi => (int) oi.ProductId);
+		var nutritionFacts = await _unitOfWork.NutritionFactRepository.GetByIdsAsync(productIds);
+		
 		foreach (var item in order.OrderItems)
 		{
-			var nf = await _unitOfWork.NutritionFactRepository.GetByIdAsync(item.ProductId);
+			var nf = nutritionFacts[item.ProductId.GetValueOrDefault()];
 			if (nf != null)
 			{
 				result.TotalCalories += nf.Calories * item.Quantity;

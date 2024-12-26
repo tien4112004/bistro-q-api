@@ -14,4 +14,14 @@ public class NutritionFactRepository : GenericRepository<NutritionFact>, INutrit
     {
         _context = context;
     }
+    
+    public async Task<Dictionary<int, NutritionFact>> GetByIdsAsync(IEnumerable<int> productIds)
+    {
+        var nutritionFacts = await _context.NutritionFacts
+            .Include(nf => nf.Product)
+            .Where(nf => productIds.Contains(nf.ProductId))
+            .ToListAsync();
+
+        return nutritionFacts.ToDictionary(nf => nf.ProductId);
+    }
 }
