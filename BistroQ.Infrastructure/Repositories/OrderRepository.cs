@@ -21,13 +21,18 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
     {
         return await _context.Orders
             .Include(o => o.OrderItems)
-            .ThenInclude(od => od.Product)
-            .ThenInclude(p => p.Image)
+                .ThenInclude(od => od.Product)
+                .ThenInclude(p => p.Image)
             .Select(o => new Order
             {
                 OrderId = o.OrderId,
                 TableId = o.TableId,
                 OrderItems = o.OrderItems.OrderByDescending(oi => oi.CreatedAt).ToList(),
+                TotalAmount = o.TotalAmount,
+                StartTime = o.StartTime,
+                EndTime = o.EndTime,
+                PeopleCount = o.PeopleCount,
+                Status = o.Status
             })
             .FirstOrDefaultAsync(o => o.TableId == tableId);
     }

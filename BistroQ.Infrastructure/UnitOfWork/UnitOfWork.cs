@@ -19,6 +19,8 @@ public class UnitOfWork : IUnitOfWork
     
     public IOrderItemRepository OrderItemRepository { get; }
     
+    public INutritionFactRepository NutritionFactRepository { get; }
+    
     public BistroQContext Context { get; }
 
     private IDbContextTransaction? _transaction;
@@ -31,7 +33,8 @@ public class UnitOfWork : IUnitOfWork
         ITableRepository tableRepository,
         IImageRepository imageRepository,
         IOrderItemRepository orderItemRepository,
-        IOrderRepository orderRepository)
+        IOrderRepository orderRepository,
+        INutritionFactRepository nutritionFactRepository)
     {
         Context = context;
         ProductRepository = productRepository;
@@ -41,6 +44,7 @@ public class UnitOfWork : IUnitOfWork
         OrderRepository = orderRepository;
         OrderItemRepository = orderItemRepository;
         ImageRepository = imageRepository;
+        NutritionFactRepository = nutritionFactRepository;
     }
 
     public async Task<int> SaveChangesAsync()

@@ -1,0 +1,14 @@
+﻿Id,UserName,NormalizedUserName,Email,NormalizedEmail,PasswordHash,TableId
+1,admin,ADMIN,admin@gmail.com,ADMIN@GMAIL.COM,admin,
+2,kitchen,KITCHEN,kitchen@gmail.com,KITCHEN@GMAIL.COM,kitchen,
+3,cashier,CASHIER,cashier@gmail.com,CASHIER@GMAIL.COM,cashier,
+4,client1,CLIENT1,client1@gmail.com,CLIENT1@GMAIL.COM,client,1
+5,client2,CLIENT2,client2@gmail.com,CLIENT2@GMAIL.COM,client,2
+6,client3,CLIENT3,client3@gmail.com,CLIENT3@GMAIL.COM,client,3
+7,client4,CLIENT4,client4@gmail.com,CLIENT4@GMAIL.COM,client,4
+8,client5,CLIENT5,client5@gmail.com,CLIENT5@GMAIL.COM,client,5
+9,client6,CLIENT6,client6@gmail.com,CLIENT6@GMAIL.COM,client,6
+10,client7,CLIENT7,client7@gmail.com,CLIENT7@GMAIL.COM,client,7
+11,client8,CLIENT8,client8@gmail.com,CLIENT8@GMAIL.COM,client,8
+12,client9,CLIENT9,client9@gmail.com,CLIENT9@GMAIL.COM,client,9
+13,client10,CLIENT10,client10@gmail.com,CLIENT10@GMAIL.COM,client,10

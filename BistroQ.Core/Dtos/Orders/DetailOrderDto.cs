@@ -19,4 +19,10 @@ public class DetailOrderDto
 
     public int? TableId { get; set; }
     public ICollection<OrderItemWithProductDto> OrderItems { get; set; } = new List<OrderItemWithProductDto>();
+    
+    public double? TotalCalories { get; set; }
+    public double? TotalProtein { get; set; }
+    public double? TotalFat { get; set; }
+    public double? TotalFiber { get; set; }
+    public double? TotalCarbohydrates { get; set; }
 }

@@ -46,6 +46,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public Task UpdateAsync(T oldEntity, T newEntity)
     {
+        Context.Entry(oldEntity).State = EntityState.Modified;
         Context.Entry(oldEntity).CurrentValues.SetValues(newEntity);
         return Task.CompletedTask;
     }

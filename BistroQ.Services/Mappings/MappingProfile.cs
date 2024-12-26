@@ -31,6 +31,7 @@ public class MappingProfile : Profile
                 dest.NutritionFact.Fat = src.Fat;
                 dest.NutritionFact.Fiber = src.Fiber;
                 dest.NutritionFact.Protein = src.Protein;
+                dest.NutritionFact.Carbohydrates = src.Carbohydrates;
             });
 
         CreateMap<UpdateProductRequestDto, Product>()
@@ -44,7 +45,8 @@ public class MappingProfile : Profile
                 dest.NutritionFact.Calories = src.Calories;
                 dest.NutritionFact.Fat = src.Fat;
                 dest.NutritionFact.Fiber = src.Fiber;
-                dest.NutritionFact.Protein = src.Protein;            
+                dest.NutritionFact.Protein = src.Protein;      
+                dest.NutritionFact.Carbohydrates = src.Carbohydrates;
             });
         CreateMap<Product, ProductResponseDto>()
             .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category!.Name))

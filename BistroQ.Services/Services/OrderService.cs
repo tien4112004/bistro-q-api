@@ -1,3 +1,4 @@
+
 using System.Runtime.InteropServices.JavaScript;
 using Amazon.CloudFront.Model.Internal.MarshallTransformations;
 using AutoMapper;
@@ -60,10 +61,36 @@ public class OrderService : IOrderService
 		{
 			throw new ResourceNotFoundException("Order not found");
 		}
-
+		
 		order.OrderItems = _mapper.Map<List<OrderItem>>(order.OrderItems);
 
-		return _mapper.Map<DetailOrderDto>(order);
+		var result = _mapper.Map<DetailOrderDto>(order);
+		
+#region braindead-code
+		result.TotalCalories = 0;
+		result.TotalProtein = 0;
+		result.TotalFat = 0;
+		result.TotalFiber = 0;
+		result.TotalCarbohydrates = 0;
+		
+		var productIds = order.OrderItems.Select(oi => (int) oi.ProductId);
+		var nutritionFacts = await _unitOfWork.NutritionFactRepository.GetByIdsAsync(productIds);
+		
+		foreach (var item in order.OrderItems)
+		{
+			var nf = nutritionFacts[item.ProductId.GetValueOrDefault()];
+			if (nf != null)
+			{
+				result.TotalCalories += nf.Calories * item.Quantity;
+				result.TotalProtein += nf.Protein * item.Quantity;
+				result.TotalFat += nf.Fat * item.Quantity;
+				result.TotalFiber += nf.Fiber * item.Quantity;
+				result.TotalCarbohydrates += nf.Carbohydrates * item.Quantity;
+			}
+		}
+#endregion
+		
+		return result;
 	}
 
 	public async Task DeleteOrder(int tableId)
@@ -93,7 +120,8 @@ public class OrderService : IOrderService
 		{
 			throw new ResourceNotFoundException("Order not found");
 		}
-		var updatedOrder = order;
+
+		var updatedOrder = _mapper.Map<Order>(order);
 
 		List<OrderItem> addedItems = new List<OrderItem>();
 
@@ -114,12 +142,12 @@ public class OrderService : IOrderService
 				Quantity = item.Quantity,
 				CreatedAt = receivedOrderTime,
 				UpdatedAt = receivedOrderTime,
-				PriceAtPurchase = product.Price, // TODO: OR DiscountPrice
+				PriceAtPurchase = (product.DiscountPrice != 0 ? product.DiscountPrice : product.Price), // TODO: OR DiscountPrice
 			};
 
 			var addedItem = await _unitOfWork.OrderItemRepository.AddAsync(orderItem);
 			addedItems.Add(addedItem);
-			order.TotalAmount += (item.PriceAtPurchase * item.Quantity);
+			updatedOrder.TotalAmount += (item.PriceAtPurchase * item.Quantity);
 		}
 
 		await _unitOfWork.OrderRepository.UpdateAsync(order, updatedOrder);
@@ -137,6 +165,8 @@ public class OrderService : IOrderService
 			throw new ResourceNotFoundException("Order not found");
 		}
 
+		var updatedOrder = order;
+
 		List<OrderItem> removedItems = new List<OrderItem>();
 		foreach (var item in orderItems)
 		{
@@ -148,7 +178,9 @@ public class OrderService : IOrderService
 
 			await _unitOfWork.OrderItemRepository.DeleteAsync(orderItem);
 			removedItems.Add(orderItem);
+			updatedOrder.TotalAmount -= orderItem.Quantity * orderItem.PriceAtPurchase;
 		}
+		await _unitOfWork.OrderRepository.UpdateAsync(order, updatedOrder);
 		await _unitOfWork.SaveChangesAsync();
 
 		return _mapper.Map<IEnumerable<OrderItemDto>>(removedItems);
@@ -163,6 +195,7 @@ public class OrderService : IOrderService
 		}
 
 		var updatedOrder = order;
+		
 		updatedOrder.PeopleCount = peopleCount;
 		await _unitOfWork.OrderRepository.UpdateAsync(order, updatedOrder);
 		await _unitOfWork.SaveChangesAsync();

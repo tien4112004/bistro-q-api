@@ -46,7 +46,8 @@ public class OrderItemService : IOrderItemService
         var enumerable = orderItems as string[] ?? orderItems.ToArray();
         
         var updatedOrderItems = new List<OrderItem>();
-
+        
+        decimal totalCancelAmount = 0;
         await _unitOfWork.BeginTransactionAsync();
         try
         {
@@ -59,8 +60,17 @@ public class OrderItemService : IOrderItemService
                 }
 
                 OrderItemStatusTransition.UpdateStatus(orderItem, status);
+                totalCancelAmount += orderItem.Quantity.Value * orderItem.PriceAtPurchase.Value;
                 updatedOrderItems.Add(orderItem);
             }
+
+            var order = await _unitOfWork.OrderRepository.GetByIdAsync(updatedOrderItems.First().OrderId);
+
+            if (status == OrderItemStatus.Cancelled)
+            {
+                order.TotalAmount -= totalCancelAmount;
+            }
+            await _unitOfWork.OrderRepository.UpdateAsync(order, order);
             
             await _unitOfWork.SaveChangesAsync();
             await _unitOfWork.CommitTransactionAsync();

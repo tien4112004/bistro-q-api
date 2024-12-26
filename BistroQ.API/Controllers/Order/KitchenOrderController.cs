@@ -16,11 +16,16 @@ namespace BistroQ.API.Controllers.Order;
 public class KitchenOrderController : ControllerBase
 {
     private readonly IOrderItemService _orderItemService;
+    private readonly IOrderService _orderService;
     private readonly UserManager<AppUser> _userManager;
 
-    public KitchenOrderController(IOrderItemService orderItemService, UserManager<AppUser> userManager)
+    public KitchenOrderController(
+        IOrderItemService orderItemService, 
+        IOrderService orderService,
+        UserManager<AppUser> userManager)
     {
         _orderItemService = orderItemService;
+        _orderService = orderService;
         _userManager = userManager;
     }
     
@@ -37,6 +42,9 @@ public class KitchenOrderController : ControllerBase
     {
         var orderItems = 
             await _orderItemService.UpdateOrderItemsStatusAsync(updateOrderItemsStatusDto.OrderItemIds, updateOrderItemsStatusDto.Status);
+        
+        var totalCancelAmount = orderItems.Sum(oi => oi.PriceAtPurchase * oi.Quantity);
+        
         return Ok(new ResponseDto<IEnumerable<OrderItemDto>>(orderItems));
     }
 }
