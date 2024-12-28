@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BistroQ.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class HopeThisIsTheLastMigration : Migration
+    public partial class FinalMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -174,7 +174,11 @@ namespace BistroQ.Infrastructure.Migrations
                 columns: table => new
                 {
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    Calories = table.Column<double>(type: "double", nullable: true)
+                    Calories = table.Column<double>(type: "double", nullable: true),
+                    Fat = table.Column<double>(type: "double", nullable: true),
+                    Fiber = table.Column<double>(type: "double", nullable: true),
+                    Protein = table.Column<double>(type: "double", nullable: true),
+                    Carbohydrates = table.Column<double>(type: "double", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -192,7 +196,7 @@ namespace BistroQ.Infrastructure.Migrations
                 name: "Order",
                 columns: table => new
                 {
-                    OrderId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false, collation: "utf8mb4_0900_ai_ci")
+                    OrderId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false, defaultValueSql: "(UUID())", collation: "utf8mb4_0900_ai_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TotalAmount = table.Column<decimal>(type: "decimal(10)", precision: 10, nullable: true),
                     StartTime = table.Column<DateTime>(type: "datetime", nullable: true),
@@ -266,7 +270,7 @@ namespace BistroQ.Infrastructure.Migrations
                 name: "OrderItem",
                 columns: table => new
                 {
-                    OrderItemId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false, collation: "utf8mb4_0900_ai_ci")
+                    OrderItemId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false, defaultValueSql: "(UUID())", collation: "utf8mb4_0900_ai_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     OrderId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true, collation: "utf8mb4_0900_ai_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -408,7 +412,8 @@ namespace BistroQ.Infrastructure.Migrations
                 values: new object[,]
                 {
                     { 1, "Dry" },
-                    { 2, "Broth-based" }
+                    { 2, "Broth-based" },
+                    { 3, "Spicy" }
                 });
 
             migrationBuilder.InsertData(
@@ -454,9 +459,9 @@ namespace BistroQ.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TableId", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "3a86419d-d2a4-4012-84d7-a09dbc110f10", "admin@gmail.com", false, false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEFHkKz3ucjpyWKGU7TGx6wCKkuYSU8kRuEBIq80nHE9R2kAkTL8PxF/KHmOal3GzuQ==", null, false, null, null, "20b08de9-bbb0-47d1-b033-2b7d4e125a20", null, false, "admin" },
-                    { "2", 0, "cb6c95b6-e943-4cdc-9d10-ea03ef580b86", "kitchen@gmail.com", false, false, null, "KITCHEN@GMAIL.COM", "KITCHEN", "AQAAAAIAAYagAAAAELBSynuR2bo+H5qdQEq6AlPxDOmD4YAPzespEPpr19ANiuXCdxt7p1H0DURMTnrM6Q==", null, false, null, null, "c2005e51-aa99-4f5a-86ab-e011123a28d5", null, false, "kitchen" },
-                    { "3", 0, "4d3273a5-7393-426c-bd44-a2c36d1d7e71", "cashier@gmail.com", false, false, null, "CASHIER@GMAIL.COM", "CASHIER", "AQAAAAIAAYagAAAAECoS4gDLfm7YqgXkpIOvjoFdu/Ff35ImhamoXArX+FdjcSil/7GIN1OsNU2YKDqkQg==", null, false, null, null, "acd6cda1-eaaa-42a6-be5e-79cde24a2275", null, false, "cashier" }
+                    { "1", 0, "638f17c2-5405-4e6f-b43e-40afd8788672", "admin@gmail.com", false, false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEGZSlN5nxCd8sK83PjOpgvl4b40ZeJCx1xW+aR/fFWV8pLR8dDRoNOaDxJZavTNNvA==", null, false, null, null, "6b578dd3-df4c-4127-8ae0-d0d54ec5416b", null, false, "admin" },
+                    { "2", 0, "71ce686c-a356-4ca1-863a-27b9f11658ac", "kitchen@gmail.com", false, false, null, "KITCHEN@GMAIL.COM", "KITCHEN", "AQAAAAIAAYagAAAAEH7E/cVnQRZiDy5tnqC1Qp+AuesCl/kSPnAvRDxcPqmVUelhyW5fHdxT5Iff/li09g==", null, false, null, null, "cba74f2b-f465-4987-8e7b-fc9cf4571626", null, false, "kitchen" },
+                    { "3", 0, "f155d7e4-cb7d-4ec6-bfc8-f336ce952db3", "cashier@gmail.com", false, false, null, "CASHIER@GMAIL.COM", "CASHIER", "AQAAAAIAAYagAAAAEHosHTvM+aREydkhTv8ZHnOaem+eNxNCem/sJjvpKfXUCIKaVT93R3pL/Pvy4MPtxQ==", null, false, null, null, "369f9d0a-f50f-4806-abf8-abd865ee62ff", null, false, "cashier" }
                 });
 
             migrationBuilder.InsertData(
@@ -467,7 +472,8 @@ namespace BistroQ.Infrastructure.Migrations
                     { 1, "Inside" },
                     { 2, "Backyard" },
                     { 3, "Outside" },
-                    { 4, "VIP" }
+                    { 4, "VIP" },
+                    { 5, "Front" }
                 });
 
             migrationBuilder.InsertData(
@@ -501,7 +507,9 @@ namespace BistroQ.Infrastructure.Migrations
                     { 7, 3, 3, 2 },
                     { 8, 4, 3, 2 },
                     { 9, 1, 3, 3 },
-                    { 10, 2, 2, 3 }
+                    { 10, 2, 2, 3 },
+                    { 11, 5, 4, 1 },
+                    { 12, 3, 5, 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -515,13 +523,30 @@ namespace BistroQ.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "NutritionFact",
+                columns: new[] { "ProductId", "Calories", "Carbohydrates", "Fat", "Fiber", "Protein" },
+                values: new object[,]
+                {
+                    { 1, 479.0, 50.0, 15.0, 3.0, 25.0 },
+                    { 2, 431.0, 45.0, 8.0, 2.0, 25.0 },
+                    { 3, 461.0, 55.0, 15.0, 3.0, 20.0 },
+                    { 4, 517.0, 41.600000000000001, 16.699999999999999, 2.2999999999999998, 8.4000000000000004 },
+                    { 5, 379.0, 45.0, 12.0, 2.0, 18.0 },
+                    { 6, 590.0, 45.0, 8.0, 2.0, 5.0 },
+                    { 7, 530.0, 55.0, 20.0, 3.0, 15.0 },
+                    { 8, 482.0, 45.0, 10.0, 3.0, 20.0 },
+                    { 9, 451.0, 45.0, 15.0, 3.0, 18.0 },
+                    { 10, 650.0, 65.0, 18.0, 4.0, 22.0 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Order",
                 columns: new[] { "OrderId", "EndTime", "Note", "PeopleCount", "StartTime", "Status", "TableId", "TotalAmount" },
                 values: new object[,]
                 {
-                    { "1", null, null, 5, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4384), 0, 1, 490000m },
-                    { "2", null, null, 2, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4508), 0, 6, 265000m },
-                    { "3", null, null, 4, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4527), 0, 2, 115000m }
+                    { "1", null, null, 5, new DateTime(2024, 12, 28, 11, 50, 40, 725, DateTimeKind.Local).AddTicks(5355), 0, 1, 490000m },
+                    { "2", null, null, 2, new DateTime(2024, 12, 28, 11, 50, 40, 725, DateTimeKind.Local).AddTicks(5514), 0, 6, 265000m },
+                    { "3", null, null, 4, new DateTime(2024, 12, 28, 11, 50, 40, 725, DateTimeKind.Local).AddTicks(5550), 0, 2, 115000m }
                 });
 
             migrationBuilder.InsertData(
@@ -529,9 +554,9 @@ namespace BistroQ.Infrastructure.Migrations
                 columns: new[] { "OrderItemId", "CreatedAt", "OrderId", "PriceAtPurchase", "ProductId", "Quantity", "Status", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { "401", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4367), "4", 30000m, 6, 1, 2, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4368) },
-                    { "501", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4372), "5", 25000m, 7, 2, 2, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4373) },
-                    { "601", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4379), "6", 45000m, 8, 1, 2, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4379) }
+                    { "401", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "4", 30000m, 6, 1, 2, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "501", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "5", 25000m, 7, 2, 2, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "601", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "6", 45000m, 8, 1, 2, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -539,16 +564,16 @@ namespace BistroQ.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TableId", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "10", 0, "5eba2a7b-8899-42c8-adff-56d00a079857", "client7@gmail.com", false, false, null, "CLIENT7@GMAIL.COM", "CLIENT7", "AQAAAAIAAYagAAAAEMKpFFxXuajM2z1gxbJBYhzmIt2zILKvyEa/TZ4nD3Kg6HbZe04XZxtZp7105EJAwQ==", null, false, null, null, "1f0b604b-93de-45c9-9462-e6295ba942bc", 7, false, "client7" },
-                    { "11", 0, "8a6a3c1d-419f-4c70-bb42-330148e1abc0", "client8@gmail.com", false, false, null, "CLIENT8@GMAIL.COM", "CLIENT8", "AQAAAAIAAYagAAAAEOxOuFez7va+AvbHhbLv8If37+CxQqKzO0Yy5cc4lGj+Wk+NHoJEgj5xh7Tw6LEPvQ==", null, false, null, null, "f7d3511b-a28a-4be4-85e9-e9d70fa13118", 8, false, "client8" },
-                    { "12", 0, "db2d8507-aa63-42aa-9b9b-6492fb7df34a", "client9@gmail.com", false, false, null, "CLIENT9@GMAIL.COM", "CLIENT9", "AQAAAAIAAYagAAAAEL2W/jyYmI3uW+rABY4m9mDEVkdax58pp5E1dHwedeD17/01lTyntn2zE+lcQB116w==", null, false, null, null, "26992a25-177f-48b2-a9d4-7d4209669785", 9, false, "client9" },
-                    { "13", 0, "8df287d4-1c15-4877-8b40-db8af0b12b5a", "client10@gmail.com", false, false, null, "CLIENT10@GMAIL.COM", "CLIENT10", "AQAAAAIAAYagAAAAEIlSMIxuiMEDMX2eF1F0Q55LRmq6I8kpABq7gNS26GvorfmxrPbclRTXVG3JU8oPPg==", null, false, null, null, "a0ef6fff-25f8-4884-8074-90b84503317a", 10, false, "client10" },
-                    { "4", 0, "4a8faa59-3eee-4e05-aa1d-86bad8d073fe", "client1@gmail.com", false, false, null, "CLIENT1@GMAIL.COM", "CLIENT1", "AQAAAAIAAYagAAAAEKV7UV8XjHuvUSAtHz/JV0SxVvRayqNkDIO0NIwbQrk9c3dMtD01NaMWNPf7APNKmA==", null, false, null, null, "ae2a3db0-35d0-4a03-8117-bd019373bbcc", 1, false, "client1" },
-                    { "5", 0, "3bc69e7b-dc45-480b-b44a-a678eb7711dc", "client2@gmail.com", false, false, null, "CLIENT2@GMAIL.COM", "CLIENT2", "AQAAAAIAAYagAAAAEOTSRuiDFaUiJWrUPXCAajaheZsRSw2bGJTUBE01BXCHxMJVInNY/DFr/QwN40A8JA==", null, false, null, null, "67f51de4-42c6-4a4c-a758-ca81dba5f80c", 2, false, "client2" },
-                    { "6", 0, "b99d456d-fa84-4988-8bdf-02674109936e", "client3@gmail.com", false, false, null, "CLIENT3@GMAIL.COM", "CLIENT3", "AQAAAAIAAYagAAAAEPlKtAvbdApC0ld8O5jJwwM8LdWWS+Na+C7zKnP/qAXxZ0iysw41W2N7hsHXIHYkbw==", null, false, null, null, "a179cfaf-3d66-4385-bb76-e880c1ffb6c0", 3, false, "client3" },
-                    { "7", 0, "28da7344-ddcb-4aec-8140-951f795c46dd", "client4@gmail.com", false, false, null, "CLIENT4@GMAIL.COM", "CLIENT4", "AQAAAAIAAYagAAAAEOXYZcCa79nJdAkK1l5yNb/h/D/VhNUMTAw0gLu0mxgjXhJ5puzl8f3P9Fpv0WL3UA==", null, false, null, null, "d1f46438-4cd0-4d3e-96bd-d50efcb3f57a", 4, false, "client4" },
-                    { "8", 0, "880bbf17-841b-43c3-8233-3262a01ef7cf", "client5@gmail.com", false, false, null, "CLIENT5@GMAIL.COM", "CLIENT5", "AQAAAAIAAYagAAAAEEFJIUpGEFvcQwjux4LLM2QYO70KOnlavQNiQiry1asc2NrKJWDDSQ7SAHzUvSD7og==", null, false, null, null, "2e260389-7df6-436d-84e5-aae21062bbfb", 5, false, "client5" },
-                    { "9", 0, "1c32b882-2a9b-4343-9192-c94dc33f45ef", "client6@gmail.com", false, false, null, "CLIENT6@GMAIL.COM", "CLIENT6", "AQAAAAIAAYagAAAAEENdnRvm8YXzAQ7X1tExdhmgsdRUiSz4bgcDq92ibyXfvzulCgCwfQHBt80AJm1ZsA==", null, false, null, null, "6e3b2241-032d-4e29-8726-f26e3a6780b6", 6, false, "client6" }
+                    { "10", 0, "a72f432a-f664-4325-8345-0431082fd361", "client7@gmail.com", false, false, null, "CLIENT7@GMAIL.COM", "CLIENT7", "AQAAAAIAAYagAAAAEA8fv8QkVOtD3q7Cp6miivxMbdK120K87FE6wyRNAlT9Jsn4TOi7ecoyVC+D8cIAtA==", null, false, null, null, "cab89db9-5c8e-46ec-950e-3a7a5c19b230", 7, false, "client7" },
+                    { "11", 0, "6cb84dc3-5896-4e1e-a7c6-2316ad75e105", "client8@gmail.com", false, false, null, "CLIENT8@GMAIL.COM", "CLIENT8", "AQAAAAIAAYagAAAAENUrvD6hCU4iZYFVkxUBYsgC5pXGoeSS3FbHInQA/Ssv6aNDR0eK4gUQxjhGKRx17Q==", null, false, null, null, "778d11e5-2ef5-4e98-bd18-4b01ef2cfad5", 8, false, "client8" },
+                    { "12", 0, "e61cf8b8-2063-4009-81de-6c7d651e62ab", "client9@gmail.com", false, false, null, "CLIENT9@GMAIL.COM", "CLIENT9", "AQAAAAIAAYagAAAAEItNfrzhNnX3r+NUNXLkxIbRD6TpT2pttqN3uDH88Pkm3w2wh5g5lijNF9JLWEib1w==", null, false, null, null, "da332dab-c7ba-49c8-b3d9-e959f488141c", 9, false, "client9" },
+                    { "13", 0, "451d639a-1d86-4fc9-b049-515cb4a63934", "client10@gmail.com", false, false, null, "CLIENT10@GMAIL.COM", "CLIENT10", "AQAAAAIAAYagAAAAEJUJAPgHj7qUh/mlRIKiotnWz9X7y5ayxaITGUv75W0c5vCMKqMT2mR3RZub9qMeHQ==", null, false, null, null, "17930c4b-5873-4665-bc04-325b7dc329cc", 10, false, "client10" },
+                    { "4", 0, "b8e54401-4023-4823-b19a-636b511e524a", "client1@gmail.com", false, false, null, "CLIENT1@GMAIL.COM", "CLIENT1", "AQAAAAIAAYagAAAAEPzVPUtP69AXQSV0Lq8H/+8UsCRgzQRQ/tFQ7Vy+4Jv7cWeDjEIes0zijScHu1VgeQ==", null, false, null, null, "9ab226b0-5366-4c2d-81f1-368cdc8009d1", 1, false, "client1" },
+                    { "5", 0, "3117e11d-bd97-400a-8fe4-15737bcf517b", "client2@gmail.com", false, false, null, "CLIENT2@GMAIL.COM", "CLIENT2", "AQAAAAIAAYagAAAAEMnb7r1EsvN1br0ZiA+gG81SBMX1csRU9aW43/022pajQu5oMNHBOSDdJPwZWhT+Aw==", null, false, null, null, "d2d19548-5b96-4f4c-a199-df8dc92e837a", 2, false, "client2" },
+                    { "6", 0, "77c908ab-3549-44ad-bef3-85ad016bbf72", "client3@gmail.com", false, false, null, "CLIENT3@GMAIL.COM", "CLIENT3", "AQAAAAIAAYagAAAAEFe381muNntSkenCVNR2E9bSz74TXG9dHQZ/y3iMJiUhM5gKnITT9D+KgKBHuU4xcA==", null, false, null, null, "309cf38f-f927-4c38-a9b1-cfdbc82246e3", 3, false, "client3" },
+                    { "7", 0, "4e80b6b9-5e3b-43d8-9a78-05c3e0c3528b", "client4@gmail.com", false, false, null, "CLIENT4@GMAIL.COM", "CLIENT4", "AQAAAAIAAYagAAAAEML/mAvTvi+pgYMz+rYJM5ZSTiLfLVVZ4P3z+L711CkMNo94SJNtnAywh1f0DweLDg==", null, false, null, null, "d4243a69-483a-4d7b-a7a1-438f09df6477", 4, false, "client4" },
+                    { "8", 0, "3bce3609-abf2-4382-83b0-eb056e4daebd", "client5@gmail.com", false, false, null, "CLIENT5@GMAIL.COM", "CLIENT5", "AQAAAAIAAYagAAAAEPjNx3uW4kzEN/kiWF3GohGOLnvtSwWUAPb132fnfwR0UgrnzxYfRgc7R6ENNGicNg==", null, false, null, null, "968981bd-6489-44f1-9ed4-26f526dfae29", 5, false, "client5" },
+                    { "9", 0, "cd187681-3902-4f9b-bc89-ea380c4e59a2", "client6@gmail.com", false, false, null, "CLIENT6@GMAIL.COM", "CLIENT6", "AQAAAAIAAYagAAAAEMAGtO9+9YxCgw6OJAnC4n9CXu+yBQCroHfXpiipSyxjqN2a3CqAfj+AAphMFOhMRg==", null, false, null, null, "6374c13a-8a44-4135-9cfd-a7c6744f9404", 6, false, "client6" }
                 });
 
             migrationBuilder.InsertData(
@@ -556,21 +581,21 @@ namespace BistroQ.Infrastructure.Migrations
                 columns: new[] { "OrderItemId", "CreatedAt", "OrderId", "PriceAtPurchase", "ProductId", "Quantity", "Status", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { "101", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4171), "1", 50000m, 1, 2, 1, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4178) },
-                    { "102", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4184), "1", 50000m, 2, 1, 1, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4185) },
-                    { "103", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4189), "1", 25000m, 3, 1, 1, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4189) },
-                    { "104", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4194), "1", 35000m, 4, 2, 0, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4195) },
-                    { "105", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4200), "1", 40000m, 5, 1, 2, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4200) },
-                    { "106", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4205), "1", 30000m, 6, 3, 0, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4205) },
-                    { "107", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4209), "1", 25000m, 7, 1, 1, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4209) },
-                    { "108", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4216), "1", 45000m, 8, 2, 1, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4216) },
-                    { "201", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4220), "2", 25000m, 3, 3, 2, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4221) },
-                    { "202", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4227), "2", 35000m, 4, 2, 2, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4227) },
-                    { "203", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4319), "2", 40000m, 5, 1, 1, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4320) },
-                    { "204", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4325), "2", 30000m, 6, 1, 0, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4326) },
-                    { "205", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4331), "2", 25000m, 7, 2, 0, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4331) },
-                    { "301", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4335), "3", 35000m, 4, 1, 1, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4336) },
-                    { "302", new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4341), "3", 40000m, 5, 2, 2, new DateTime(2024, 12, 5, 16, 28, 40, 563, DateTimeKind.Local).AddTicks(4353) }
+                    { "101", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "1", 50000m, 1, 2, 1, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "102", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "1", 50000m, 2, 1, 1, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "103", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "1", 25000m, 3, 1, 1, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "104", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "1", 35000m, 4, 2, 0, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "105", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "1", 40000m, 5, 1, 2, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "106", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "1", 30000m, 6, 3, 0, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "107", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "1", 25000m, 7, 1, 1, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "108", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "1", 45000m, 8, 2, 1, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "201", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "2", 25000m, 3, 3, 2, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "202", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "2", 35000m, 4, 2, 2, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "203", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "2", 40000m, 5, 1, 1, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "204", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "2", 30000m, 6, 1, 0, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "205", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "2", 25000m, 7, 2, 0, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "301", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "3", 35000m, 4, 1, 1, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "302", new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "3", 40000m, 5, 2, 2, new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(

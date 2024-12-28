@@ -471,7 +471,7 @@ public partial class BistroQContext : IdentityDbContext<AppUser>
             Fiber = nf.Fiber,
             Fat = nf.Fat,
             Protein = nf.Protein,
-            Carbohydates = nf.Carbohydrates
+            Carbohydrates = nf.Carbohydrates
         }));
 
         OnModelCreatingPartial(modelBuilder);
