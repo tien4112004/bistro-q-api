@@ -62,7 +62,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         public const decimal CARB_DEFICIENCY_MULTIPLIER = 2.0m;
     }
 
-    public async Task<IEnumerable<Product>> GetRecommendedProductsAsync(string orderId)
+    public async Task<IEnumerable<Product>> GetRecommendedProductsAsync(string orderId, int size)
     {
         const string query = """
                              with NormalizedNutritionFact as (
@@ -116,7 +116,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
                              join NormalizedNutritionFact as n on p.ProductId = n.ProductId
                              join CurrentNormalized
                              order by Rating desc
-                             limit 10
+                             limit {16};
                              """;
 
         string formattedQuery = string.Format(
@@ -136,7 +136,8 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             NutritionalConstants.FAT_DEFICIENCY_MULTIPLIER,
             NutritionalConstants.CALORIES_DEFICIENCY_MULTIPLIER,
             NutritionalConstants.FIBER_DEFICIENCY_MULTIPLIER,
-            NutritionalConstants.CARB_DEFICIENCY_MULTIPLIER
+            NutritionalConstants.CARB_DEFICIENCY_MULTIPLIER,
+            size
         );
 
         return await DbSet.FromSqlRaw(formattedQuery).ToListAsync();

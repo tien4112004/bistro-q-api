@@ -32,4 +32,12 @@ public class ProductController : ControllerBase
         var product = await _productService.GetByIdAsync(productId);
         return Ok(new ResponseDto<ProductResponseDto>(product));
     }
+    
+    [HttpGet]
+    [Route("Recommendations")]
+    public async Task<IActionResult> GetRecommendations([FromQuery] int size, [FromQuery] string orderId)
+    {
+        var products = await _productService.GetRecommendedProductsAsync(orderId, size);
+        return Ok(new ResponseDto<IEnumerable<ProductResponseDto>>(products));
+    }
 }

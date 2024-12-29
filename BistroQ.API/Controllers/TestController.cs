@@ -12,12 +12,10 @@ namespace BistroQ.API.Controllers;
 public class TestController : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IProductService _productService;
     
-    public TestController(IUnitOfWork unitOfWork, IProductService productService)
+    public TestController(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _productService = productService;
     }
     
     [HttpGet]
@@ -48,13 +46,5 @@ public class TestController : ControllerBase
         await _unitOfWork.SaveChangesAsync();
 
         return Ok(orderItems);
-    }
-
-    [HttpGet("/product")]
-    public async Task<IActionResult> GetProduct()
-    {
-        var products = await _productService.GetRecommendedProductsAsync("1");
-
-        return Ok(products);
     }
 }

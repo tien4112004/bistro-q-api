@@ -59,9 +59,15 @@ public class ProductService : IProductService
         return (_mapper.Map<IEnumerable<ProductResponseDto>>(products), count);
     }
     
-    public async Task<IEnumerable<ProductResponseDto>> GetRecommendedProductsAsync(string orderId)
+    public async Task<IEnumerable<ProductResponseDto>> GetRecommendedProductsAsync(string orderId, int size = 5)
     {
-        var products = await _unitOfWork.ProductRepository.GetRecommendedProductsAsync(orderId);
+        var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
+        if (order == null)
+        {
+            throw new ResourceNotFoundException("Order not found");
+        }
+        
+        var products = await _unitOfWork.ProductRepository.GetRecommendedProductsAsync(orderId, size);
         
         var productIds = products.Select(p => p.ProductId).ToList();
         var nutritionFacts = await _unitOfWork.NutritionFactRepository.GetByIdsAsync(productIds);
