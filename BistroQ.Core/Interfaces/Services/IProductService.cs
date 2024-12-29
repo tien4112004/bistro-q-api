@@ -52,4 +52,6 @@ public interface IProductService
     /// <param name="id">The identifier of the product to delete</param>
     /// <exception cref="ResourceNotFoundException">When product with given id doesn't exist</exception>
     Task DeleteAsync(int id);
+    
+    Task<IEnumerable<ProductResponseDto>> GetRecommendedProductsAsync(string orderId);
 }

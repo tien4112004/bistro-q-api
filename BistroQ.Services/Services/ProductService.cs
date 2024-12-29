@@ -58,6 +58,23 @@ public class ProductService : IProductService
 
         return (_mapper.Map<IEnumerable<ProductResponseDto>>(products), count);
     }
+    
+    public async Task<IEnumerable<ProductResponseDto>> GetRecommendedProductsAsync(string orderId)
+    {
+        var products = await _unitOfWork.ProductRepository.GetRecommendedProductsAsync(orderId);
+        
+        var productIds = products.Select(p => p.ProductId).ToList();
+        var nutritionFacts = await _unitOfWork.NutritionFactRepository.GetByIdsAsync(productIds);
+        
+        return products.Select(p =>
+        {
+            if (nutritionFacts.TryGetValue(p.ProductId, out var nutritionFact))
+            {
+                p.NutritionFact = nutritionFact;
+            }
+            return _mapper.Map<ProductResponseDto>(p);
+        });
+    }
 
     public async Task<ProductResponseDto> AddAsync(CreateProductRequestDto productDto, ImageRequestDto? image)
     {

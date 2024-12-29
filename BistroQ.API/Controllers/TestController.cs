@@ -2,6 +2,7 @@ using BistroQ.Core.Entities;
 using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Repositories;
 using BistroQ.Core.Interfaces.Services;
+using BistroQ.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BistroQ.API.Controllers;
@@ -11,10 +12,12 @@ namespace BistroQ.API.Controllers;
 public class TestController : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IProductService _productService;
     
-    public TestController(IUnitOfWork unitOfWork)
+    public TestController(IUnitOfWork unitOfWork, IProductService productService)
     {
         _unitOfWork = unitOfWork;
+        _productService = productService;
     }
     
     [HttpGet]
@@ -46,5 +49,12 @@ public class TestController : ControllerBase
 
         return Ok(orderItems);
     }
-    
+
+    [HttpGet("/product")]
+    public async Task<IActionResult> GetProduct()
+    {
+        var products = await _productService.GetRecommendedProductsAsync("1");
+
+        return Ok(products);
+    }
 }

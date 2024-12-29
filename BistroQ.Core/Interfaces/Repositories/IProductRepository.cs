@@ -27,6 +27,8 @@ public interface IProductRepository : IGenericRepository<Product>
     /// <param name="queryable">The prepared queryable after all filtering has been applied</param>
     /// <returns>The total count of products matching the filter criteria</returns>
     Task<int> GetProductsCountAsync(IQueryable<Product> queryable);
-
+    
     Task<Product?> GetProductByIdAsync(int productId);
+    
+    Task<IEnumerable<Product>> GetRecommendedProductsAsync(string orderId);
 }
