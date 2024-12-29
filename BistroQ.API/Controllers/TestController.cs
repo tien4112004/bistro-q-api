@@ -2,6 +2,7 @@ using BistroQ.Core.Entities;
 using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Repositories;
 using BistroQ.Core.Interfaces.Services;
+using BistroQ.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BistroQ.API.Controllers;
@@ -46,5 +47,4 @@ public class TestController : ControllerBase
 
         return Ok(orderItems);
     }
-    
 }

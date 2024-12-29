@@ -47,7 +47,8 @@ public class AwsStorageService : ICloudStorageService
                 Key = key,
             };
 
-            await _s3Client.DeleteObjectAsync(deleteRequest);
+            // NOTE: Uncomment this line to enable deletion
+            // await _s3Client.DeleteObjectAsync(deleteRequest);
         }
         catch (AmazonS3Exception ex)
         {
