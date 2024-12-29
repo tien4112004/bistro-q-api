@@ -65,28 +65,28 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
     public async Task<IEnumerable<Product>> GetRecommendedProductsAsync(string orderId, int size)
     {
         const string query = """
-                             with NormalizedNutritionFact as (
-                             select 
+                             WITH NormalizedNutritionFact AS (
+                             SELECT 
                                  n.ProductId,
-                                 n.Calories / {1} as NormalizedCalories,
-                                 n.Protein / {2} as NormalizedProtein,
-                                 n.Carbohydrates / {3} as NormalizedCarb,
-                                 n.Fat / {4} as NormalizedFat,
-                                 n.Fiber / {5} as NormalizedFiber
-                             from `nutritionfact` n),
+                                 n.Calories / {1} AS NormalizedCalories,
+                                 n.Protein / {2} AS NormalizedProtein,
+                                 n.Carbohydrates / {3} AS NormalizedCarb,
+                                 n.Fat / {4} AS NormalizedFat,
+                                 n.Fiber / {5} AS NormalizedFiber
+                             FROM `nutritionfact` n),
                              CurrentNormalized AS (
-                             select 
-                                 sum(NormalizedCalories) / o.PeopleCount as CurrentCalories,
-                                 sum(NormalizedCarb) / o.PeopleCount as CurrentCarb,
-                                 sum(NormalizedProtein) / o.PeopleCount as CurrentProtein,
-                                 sum(NormalizedFat) / o.PeopleCount as CurrentFat,
-                                 sum(NormalizedFiber) / o.PeopleCount as CurrentFiber
-                             from `orderitem` i
-                             join NormalizedNutritionFact as x on x.ProductId = i.ProductId
-                             join `order` as o on o.OrderId = {0} and i.OrderId = {0}
-                             group by o.OrderId)
+                             SELECT 
+                                 SUM(NormalizedCalories) / o.PeopleCount AS CurrentCalories,
+                                 SUM(NormalizedCarb) / o.PeopleCount AS CurrentCarb,
+                                 SUM(NormalizedProtein) / o.PeopleCount AS CurrentProtein,
+                                 SUM(NormalizedFat) / o.PeopleCount AS CurrentFat,
+                                 SUM(NormalizedFiber) / o.PeopleCount AS CurrentFiber
+                             FROM `orderitem` i
+                             JOIN NormalizedNutritionFact AS x ON x.ProductId = i.ProductId
+                             JOIN `order` AS o ON o.OrderId = {0} AND i.OrderId = {0}
+                             GROUP BY o.OrderId)
 
-                             select p.Name, p.ProductId, p.Price, p.ImageId, p.CategoryId, p.DiscountPrice, p.Unit,
+                             SELECT p.Name, p.ProductId, p.Price, p.ImageId, p.CategoryId, p.DiscountPrice, p.Unit,
                              (CASE 
                                  WHEN (n.NormalizedProtein - CurrentNormalized.CurrentProtein) < 0 
                                  THEN {6} * ABS(n.NormalizedProtein - CurrentNormalized.CurrentProtein) * {11}
@@ -111,12 +111,12 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
                                  WHEN (n.NormalizedCarb - CurrentNormalized.CurrentCarb) < 0 
                                  THEN {10} * ABS(n.NormalizedCarb - CurrentNormalized.CurrentCarb) * {15}
                                  ELSE {10} * ABS(n.NormalizedCarb - CurrentNormalized.CurrentCarb)
-                             END) as Rating
-                             from `product` p
-                             join NormalizedNutritionFact as n on p.ProductId = n.ProductId
-                             join CurrentNormalized
-                             order by Rating desc
-                             limit {16};
+                             END) AS Rating
+                             FROM `product` p
+                             JOIN NormalizedNutritionFact AS n ON p.ProductId = n.ProductId
+                             JOIN CurrentNormalized
+                             ORDER BY Rating DESC
+                             LIMIT {16};
                              """;
 
         string formattedQuery = string.Format(
