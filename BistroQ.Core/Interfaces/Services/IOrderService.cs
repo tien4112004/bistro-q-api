@@ -30,7 +30,7 @@ public interface IOrderService
     /// Assumes only one active order per table exists.
     /// Consider using orderId instead of tableId for more flexibility.
     /// </remarks>
-    Task<DetailOrderDto> GetOrder(int tableId);
+    Task<DetailOrderDto> GetOrderByTableId(int tableId);
     
     /// <summary>
     /// Deletes an order associated with a specific table.

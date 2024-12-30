@@ -27,6 +27,7 @@ public static class AppServiceConfigExtension
         services.AddScoped<IOrderItemService, OrderItemService>();
         services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<INutritionFactRepository, NutritionFactRepository>();
+        services.AddScoped<IPaymentService, PaymentService>();
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ITokenService, TokenService>();

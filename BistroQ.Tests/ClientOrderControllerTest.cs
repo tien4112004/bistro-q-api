@@ -108,7 +108,7 @@ public class ClientOrderControllerTests
 		var user = new AppUser { Id = "user_id", TableId = 1 };
 		SetupUserManager(user);
 		var order = new DetailOrderDto { OrderId = "1", TableId = 1 };
-		_mockOrderService.Setup(x => x.GetOrder(1)).ReturnsAsync(order);
+		_mockOrderService.Setup(x => x.GetOrderByTableId(1)).ReturnsAsync(order);
 
 		// Act
 		var result = await _clientOrderController.GetOrder() as OkObjectResult;
@@ -139,7 +139,7 @@ public class ClientOrderControllerTests
 		// Arrange
 		var user = new AppUser { Id = "user_id", TableId = 1 };
 		SetupUserManager(user);
-		_mockOrderService.Setup(x => x.GetOrder(1)).ThrowsAsync(new Exception("Order retrieval failed"));
+		_mockOrderService.Setup(x => x.GetOrderByTableId(1)).ThrowsAsync(new Exception("Order retrieval failed"));
 
 		// Act & Assert
 		await Assert.ThrowsExceptionAsync<Exception>(async () =>

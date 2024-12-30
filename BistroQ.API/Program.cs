@@ -1,5 +1,6 @@
 using AutoMapper;
 using BistroQ.API.Configurations;
+using BistroQ.API.Hubs;
 using BistroQ.API.Middlewares;
 using BistroQ.Core.Mappings;
 
@@ -15,6 +16,19 @@ builder.Services.AddDatabaseConfig()
     .AddSwaggerConfig()
     .AddAutoMapperConfig()
     .AddAwsS3Config();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("SignalRPolicy", policy =>
+    {
+        policy.SetIsOriginAllowed(origin => true) 
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
+builder.Services.AddSignalR();
 
 builder.Services.AddAuthorization();
 
@@ -34,5 +48,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<CheckoutHub>("hubs/checkout");
 
 app.Run();
