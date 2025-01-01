@@ -9,6 +9,15 @@ public class TableRepository : GenericRepository<Table>, ITableRepository
 	public TableRepository(BistroQContext context) : base(context)
 	{
 	}
+	
+	public async Task<Table?> GetByIdAsync(int id)
+	{
+		var table = await DbSet
+			.Include(t => t.Zone)
+			.FirstOrDefaultAsync(t => t.TableId == id);
+		
+		return table;
+	}
 
 	public async Task<IEnumerable<Table>> GetTablesAsync(IQueryable<Table> queryable)
 	{	

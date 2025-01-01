@@ -12,16 +12,18 @@ public class CheckoutHub : Hub
 {
     private readonly IOrderService _orderService;
     private readonly IPaymentService _paymentService;
+    private readonly ITableService _tableService;
     private readonly UserManager<AppUser> _userManager;
     
-    public CheckoutHub(IOrderService orderService, IPaymentService paymentService, UserManager<AppUser> userManager)
+    public CheckoutHub(IOrderService orderService, IPaymentService paymentService, UserManager<AppUser> userManager, ITableService tableService)
     {
         _orderService = orderService;
         _paymentService = paymentService;
+        _tableService = tableService;
         _userManager = userManager;
     }
 
-    public async Task InitiatePayment(int tableId, int zoneId)
+    public async Task InitiateCheckout(int tableId)
     {
         try
         {
@@ -30,27 +32,25 @@ public class CheckoutHub : Hub
             {
                 throw new ResourceNotFoundException("Order not found");
             }
-
+            
+            var table = await _tableService.GetByIdAsync(tableId);
             // var paymentUrl = await _paymentService.InitiatePayment(order.TotalAmount); // <--- Generate payment URL
             
             var paymentUrl = "https://example.com/payment"; // <--- Temporary payment URL
             
-            Console.WriteLine($"Payment initiated for table {tableId} in zone {zoneId}");
+            Console.WriteLine($"Payment initiated for table {tableId} in zone {table.ZoneId}");
             
-            await Clients.Caller.SendAsync("PaymentInitiated", paymentUrl);
-            await Clients.Group("Cashiers").SendAsync("NewPayment", tableId, zoneId);
-        }
-        catch (ResourceNotFoundException e)
-        {
-            await Clients.Caller.SendAsync("OrderNotFound", e.Message);
+            await Clients.Caller.SendAsync("CheckoutInitiated", paymentUrl);
+            await Clients.Group("Cashiers").SendAsync("NewCheckout", tableId, table.Number, table.ZoneName);
         }
         catch (Exception e)
         {
-            await Clients.Caller.SendAsync("PaymentError", e.Message);
+            Console.WriteLine(e.StackTrace);
+            await Clients.Caller.SendAsync("CheckoutError", e.Message);
         }
     }
 
-    public async Task CompletePayment(int tableId, int zoneId)
+    public async Task CompleteCheckout(int tableId)
     {
         try
         {
@@ -60,18 +60,15 @@ public class CheckoutHub : Hub
                 throw new ResourceNotFoundException("Order not found");
             }
             
-            Console.WriteLine($"Payment completed for table {tableId} in zone {zoneId}");
-
+            Console.WriteLine($"Payment completed for table {tableId}");
+            
             // await _orderService.UpdateStatus(tableId, OrderStatus.Completed);
-            await Clients.Group($"Client_{tableId}").SendAsync("PaymentCompleted");
-        }
-        catch (ResourceNotFoundException e)
-        {
-            await Clients.Caller.SendAsync("OrderNotFound", e.Message);
+            await Clients.Group($"Client_{tableId}").SendAsync("CheckoutCompleted");
         }
         catch (Exception e)
         {
-            await Clients.Caller.SendAsync("PaymentError", e.Message);
+            Console.WriteLine(e.StackTrace);
+            await Clients.Caller.SendAsync("CheckoutError", e.Message);
         }
     }
     

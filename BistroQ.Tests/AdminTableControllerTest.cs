@@ -59,7 +59,7 @@ namespace BistroQ.Tests.Controllers
 		public async Task GetTable_Success()
 		{
 			// Arrange
-			var table = new TableDto { TableId = 1, SeatsCount = 4 };
+			var table = new TableDetailDto { TableId = 1, SeatsCount = 4 };
 			_mockTableService.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(table);
 
 			// Act
@@ -67,7 +67,7 @@ namespace BistroQ.Tests.Controllers
 
 			// Assert
 			Assert.IsNotNull(result);
-			var response = result.Value as ResponseDto<TableDto>;
+			var response = result.Value as ResponseDto<TableDetailDto>;
 			Assert.IsNotNull(response);
 			Assert.AreEqual(1, response.Data.TableId);
 		}
