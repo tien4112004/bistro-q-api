@@ -9,6 +9,7 @@ using BistroQ.Core.Dtos.Tables;
 using BistroQ.Core.Dtos.Zones;
 using BistroQ.Core.Dtos.NutritionFact;
 using BistroQ.Core.Entities;
+using BistroQ.Core.Enums;
 using BistroQ.Services.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -69,6 +70,8 @@ public class MappingProfile : Profile
 
         CreateMap<Zone, ZoneDto>().ReverseMap();
         CreateMap<Zone, ZoneDetailDto>().ReverseMap();
+        CreateMap<Zone, ZoneCashierDto>()
+            .ForMember(dest => dest.HasCheckingOutTables, opt => opt.MapFrom(src => src.Tables.Any(t => t.Order != null && t.Order.Status == OrderStatus.Pending)));
         CreateMap<CreateZoneRequestDto, Zone>().ConstructUsing((src, context) => new Zone());
         CreateMap<UpdateZoneRequestDto, Zone>().ConstructUsing((src, context) => new Zone());
 
@@ -77,7 +80,9 @@ public class MappingProfile : Profile
         CreateMap<UpdateTableRequestDto, Table>().ConstructUsing((src, context) => new Table());
         CreateMap<Table, TableDetailDto>().ForMember(dest => dest.ZoneName,
                 opt => opt.MapFrom(src => src.Zone == null ? null : src.Zone.Name))
-            .ForMember(dest => dest.IsOccupied, opt => opt.MapFrom(src => src.Order != null));
+            .ForMember(dest => dest.IsOccupied, opt => opt.MapFrom(src => src.Order != null))
+            .ForMember(dest => dest.IsCheckingOut,
+                opt => opt.MapFrom(src => src.Order != null && src.Order.Status == OrderStatus.Pending));
 
         CreateMap<Order, OrderDto>().ReverseMap();
         CreateMap<Order, DetailOrderDto>().ForMember(v => v.OrderItems,

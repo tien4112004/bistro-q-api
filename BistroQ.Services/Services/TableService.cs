@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text.Json;
+using AutoMapper;
 using BistroQ.Core.Common.Builder;
 using BistroQ.Core.Dtos.Tables;
 using BistroQ.Core.Entities;
@@ -47,6 +48,7 @@ public class TableService : ITableService
         
         var tables = await _unitOfWork.TableRepository.GetTablesAsync(builder.Build());
         await _unitOfWork.SaveChangesAsync();
+        Console.WriteLine(JsonSerializer.Serialize(tables.First().Order?.Status));
         return (_mapper.Map<IEnumerable<TableDetailDto>>(tables), count);
     }
     

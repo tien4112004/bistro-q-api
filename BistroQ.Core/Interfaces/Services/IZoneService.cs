@@ -57,4 +57,25 @@ public interface IZoneService
     /// <param name="tableDtos">The collection of tables to add to the zone</param>
     /// <returns>A task representing the asynchronous operation</returns>
     Task<ZoneDetailDto> AddTablesToZoneAsync(int zoneId, List<CreateTableRequestDto> tableDtos);
+
+    /// <summary>
+    /// Retrieves a zone by its cashier identifier.
+    /// </summary>
+    /// <param name="id">The cashier identifier.</param>
+    /// <returns>
+    /// A task that represents the asynchronous operation. The task result contains the zone DTO if found.
+    /// </returns>
+    /// <exception cref="ResourceNotFoundException">
+    /// Thrown when the zone with the given cashier id does not exist.
+    /// </exception>
+    Task<ZoneCashierDto> GetByCashierAsync(int id);
+
+    /// <summary>
+    /// Retrieves a filtered, sorted, and paginated collection of zones by cashier.
+    /// </summary>
+    /// <param name="queryParams">Parameters for filtering, sorting, and pagination.</param>
+    /// <returns>
+    /// A task that represents the asynchronous operation. The task result contains a tuple with the collection of zones and the total count.
+    /// </returns>
+    Task<(IEnumerable<ZoneCashierDto> Zones, int Count)> GetAllByCashierAsync(ZoneCollectionQueryParams queryParams);
 }

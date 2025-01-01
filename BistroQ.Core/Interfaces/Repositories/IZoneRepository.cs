@@ -25,4 +25,6 @@ public interface IZoneRepository : IGenericRepository<Zone>
 	/// <param name="queryable">The prepared queryable after all filtering has been applied</param>
 	/// <returns>The total count of zones matching the filter criteria</returns>
 	Task<int> GetZonesCountAsync(IQueryable<Zone> queryable);
+	
+	Task<Zone?> GetZoneWithTableAsync(int id);
 }

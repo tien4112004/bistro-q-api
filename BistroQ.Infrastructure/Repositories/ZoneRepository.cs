@@ -24,5 +24,11 @@ public class ZoneRepository : GenericRepository<Zone>, IZoneRepository
 		
 		return count;
 	}
-	
+
+	public Task<Zone?> GetZoneWithTableAsync(int id)
+	{
+		return Context.Zones
+			.Include(z => z.Tables)
+			.FirstOrDefaultAsync(z => z.ZoneId == id);
+	}
 }
