@@ -31,7 +31,7 @@ public class QrCodePaymentService : IPaymentService
                     amount = order.TotalAmount,
                     addInfo = $"Payment for table {order.TableId},  order {order.OrderId}",
                     format = "text",
-                    template = "compact"
+                    template = "compact2"
                 }),
                 Encoding.UTF8,
                 "application/json");
@@ -51,7 +51,7 @@ public class QrCodePaymentService : IPaymentService
             var responseContent = await response.Content.ReadAsStringAsync();
             var jsonObject = JsonSerializer.Deserialize<JsonElement>(responseContent);
             var data = jsonObject.GetProperty("data");
-            return data.GetProperty("qrCode").GetString() ?? "";
+            return data.GetProperty("qrDataURL").GetString() ?? "";
         }
         catch (Exception e)
         {
