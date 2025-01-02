@@ -40,6 +40,6 @@ public class CashierTableController : ControllerBase
     public async Task<IActionResult> GetTable([FromRoute] int tableId, [FromRoute] int zoneId)
     {
         var table = await _tableService.GetByIdAsync(tableId);
-        return Ok(new ResponseDto<TableDto>(table));
+        return Ok(new ResponseDto<TableDetailDto>(table));
     }
 }

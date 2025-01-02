@@ -46,6 +46,34 @@ public class ZoneService : IZoneService
         await _unitOfWork.SaveChangesAsync();
         return (_mapper.Map<IEnumerable<ZoneDto>>(zones), count);
     }
+    
+    public async Task<ZoneCashierDto> GetByCashierAsync(int id)
+    {
+        var zone = await _unitOfWork.ZoneRepository.GetZoneWithTableAsync(id);
+        if (zone == null)
+        {
+            throw new ResourceNotFoundException("Zone not found");
+        }
+        
+        return _mapper.Map<ZoneCashierDto>(zone);
+    }
+
+    public async Task<(IEnumerable<ZoneCashierDto> Zones, int Count)> GetAllByCashierAsync(ZoneCollectionQueryParams queryParams)
+    {
+        var builder =
+            new ZoneQueryableBuilder(_unitOfWork.ZoneRepository.GetQueryable())
+                .IncludeTablesWithOrder()
+                .WithName(queryParams.Name);
+        
+        var count = await _unitOfWork.ZoneRepository.GetZonesCountAsync(builder.Build());
+        builder
+            .ApplySorting(queryParams.OrderBy, queryParams.OrderDirection)
+            .ApplyPaging(queryParams.Page, queryParams.Size);
+        
+        var zones = await _unitOfWork.ZoneRepository.GetZonesAsync(builder.Build());
+        await _unitOfWork.SaveChangesAsync();
+        return (_mapper.Map<IEnumerable<ZoneCashierDto>>(zones), count);
+    }
 
     public async Task<ZoneDto> AddAsync(CreateZoneRequestDto zoneDto)
     {

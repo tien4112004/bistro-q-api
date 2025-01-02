@@ -54,7 +54,7 @@ public class OrderService : IOrderService
 		return _mapper.Map<OrderDto>(createdOrder);
 	}
 
-	public async Task<DetailOrderDto> GetOrder(int tableId)
+	public async Task<DetailOrderDto> GetOrderByTableId(int tableId)
 	{
 		var order = await _unitOfWork.OrderRepository.GetByTableIdAsync(tableId);
 		if (order == null)

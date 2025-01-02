@@ -39,7 +39,7 @@ public class ClientOrderController : ControllerBase
 	{
 		var tableId = await GetTableId();
 
-		var order = await _orderService.GetOrder(tableId);
+		var order = await _orderService.GetOrderByTableId(tableId);
 		return Ok(new ResponseDto<DetailOrderDto>(order));
 	}
 

@@ -8,6 +8,8 @@ namespace BistroQ.Core.Interfaces.Repositories;
 /// </summary>
 public interface ITableRepository : IGenericRepository<Table>
 {
+	Task<Table?> GetByIdAsync(int id);
+	
 	/// <summary>
 	/// Materializes the final filtered/sorted queryable into an enumerable result
 	/// </summary>

@@ -10,6 +10,14 @@ public class ZoneQueryableBuilder : BaseQueryableBuilder<Zone>
     public ZoneQueryableBuilder(IQueryable<Zone> queryable) : base(queryable)
     {
     }
+    
+    public ZoneQueryableBuilder IncludeTablesWithOrder()
+    {
+        Queryable = Queryable.Include(z => z.Tables)
+            .ThenInclude(t => t.Order);
+        
+        return this;
+    }
 
     public ZoneQueryableBuilder WithName(string? name)
     {

@@ -15,7 +15,7 @@ public interface ITableService
     /// <param name="id">The table identifier</param>
     /// <returns>The table DTO if found</returns>
     /// <exception cref="ResourceNotFoundException">When table with given id does not exist</exception>
-    Task<TableDto> GetByIdAsync(int id);
+    Task<TableDetailDto> GetByIdAsync(int id);
     
     /// <summary>
     /// Retrieves a filtered, sorted, and paginated collection of tables

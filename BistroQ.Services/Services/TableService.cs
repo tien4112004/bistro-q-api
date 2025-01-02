@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text.Json;
+using AutoMapper;
 using BistroQ.Core.Common.Builder;
 using BistroQ.Core.Dtos.Tables;
 using BistroQ.Core.Entities;
@@ -20,7 +21,7 @@ public class TableService : ITableService
         _mapper = mapper;
     }
     
-    public async Task<TableDto> GetByIdAsync(int id)
+    public async Task<TableDetailDto> GetByIdAsync(int id)
     {
         var table = await _unitOfWork.TableRepository.GetByIdAsync(id);
         if (table == null)
@@ -28,7 +29,7 @@ public class TableService : ITableService
             throw new ResourceNotFoundException("Table not found");
         }
         
-        return _mapper.Map<TableDto>(table);
+        return _mapper.Map<TableDetailDto>(table);
     }
 
     public async Task<(IEnumerable<TableDetailDto> Tables, int Count)> GetAllAsync(TableCollectionQueryParams queryParams)
@@ -47,6 +48,7 @@ public class TableService : ITableService
         
         var tables = await _unitOfWork.TableRepository.GetTablesAsync(builder.Build());
         await _unitOfWork.SaveChangesAsync();
+        Console.WriteLine(JsonSerializer.Serialize(tables.First().Order?.Status));
         return (_mapper.Map<IEnumerable<TableDetailDto>>(tables), count);
     }
     

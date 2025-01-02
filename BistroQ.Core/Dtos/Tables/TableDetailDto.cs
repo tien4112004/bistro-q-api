@@ -12,4 +12,6 @@ public class TableDetailDto
     public string? ZoneName { get; set; }
     
     public bool? IsOccupied { get; set; }
+    
+    public bool? IsCheckingOut { get; set; }
 }
