@@ -1,3 +1,4 @@
+using BistroQ.Core.Common.Settings;
 using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Repositories;
 using BistroQ.Core.Interfaces.Services;
@@ -27,12 +28,13 @@ public static class AppServiceConfigExtension
         services.AddScoped<IOrderItemService, OrderItemService>();
         services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<INutritionFactRepository, NutritionFactRepository>();
-        services.AddScoped<IPaymentService, PaymentService>();
+        services.AddScoped<IPaymentService, QrCodePaymentService>();
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ITokenService, TokenService>();
                         
         services.AddSingleton(new JwtSettings().ReadFromEnvironment());
+        services.AddSingleton(new PaymentSettings().ReadFromEnvironment());
         
         return services;
     }

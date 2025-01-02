@@ -1,4 +1,6 @@
 using System.Security.Claims;
+using AutoMapper;
+using BistroQ.Core.Dtos.Orders;
 using BistroQ.Core.Entities;
 using BistroQ.Core.Enums;
 using BistroQ.Core.Exceptions;
@@ -13,14 +15,16 @@ public class CheckoutHub : Hub
     private readonly IOrderService _orderService;
     private readonly IPaymentService _paymentService;
     private readonly ITableService _tableService;
+    private readonly IMapper _mapper;
     private readonly UserManager<AppUser> _userManager;
     
-    public CheckoutHub(IOrderService orderService, IPaymentService paymentService, UserManager<AppUser> userManager, ITableService tableService)
+    public CheckoutHub(IOrderService orderService, IPaymentService paymentService, UserManager<AppUser> userManager, ITableService tableService, IMapper mapper)
     {
         _orderService = orderService;
         _paymentService = paymentService;
         _tableService = tableService;
         _userManager = userManager;
+        _mapper = mapper;
     }
 
     public async Task InitiateCheckout(int tableId)
@@ -34,13 +38,11 @@ public class CheckoutHub : Hub
             }
             
             var table = await _tableService.GetByIdAsync(tableId);
-            // var paymentUrl = await _paymentService.InitiatePayment(order.TotalAmount); // <--- Generate payment URL
-            
-            var paymentUrl = "https://example.com/payment"; // <--- Temporary payment URL
+            var paymentData = await _paymentService.InitiatePayment(_mapper.Map<OrderDto>(order)); 
             
             Console.WriteLine($"Payment initiated for table {tableId} in zone {table.ZoneId}");
             
-            await Clients.Caller.SendAsync("CheckoutInitiated", paymentUrl);
+            await Clients.Caller.SendAsync("CheckoutInitiated", paymentData);
             await Clients.Group("Cashiers").SendAsync("NewCheckout", tableId, table.Number, table.ZoneName);
         }
         catch (Exception e)
