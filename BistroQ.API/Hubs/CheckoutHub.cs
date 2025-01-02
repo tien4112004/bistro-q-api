@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text.Json;
 using AutoMapper;
 using BistroQ.Core.Dtos.Orders;
 using BistroQ.Core.Entities;
@@ -37,6 +38,8 @@ public class CheckoutHub : Hub
                 throw new ResourceNotFoundException("Order not found");
             }
             
+            await _orderService.UpdateStatus(tableId, OrderStatus.Pending);
+            
             var table = await _tableService.GetByIdAsync(tableId);
             var paymentData = await _paymentService.InitiatePayment(_mapper.Map<OrderDto>(order)); 
             
@@ -64,7 +67,7 @@ public class CheckoutHub : Hub
             
             Console.WriteLine($"Payment completed for table {tableId}");
             
-            // await _orderService.UpdateStatus(tableId, OrderStatus.Completed);
+            await _orderService.UpdateStatus(tableId, OrderStatus.Completed);
             await Clients.Group($"Client_{tableId}").SendAsync("CheckoutCompleted");
         }
         catch (Exception e)
