@@ -1,8 +1,11 @@
 using BistroQ.Core.Dtos;
 using BistroQ.Core.Dtos.Products;
+using BistroQ.Core.Entities;
+using BistroQ.Core.Exceptions;
 using BistroQ.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace BistroQ.API.Controllers.Product;
 
@@ -12,10 +15,12 @@ namespace BistroQ.API.Controllers.Product;
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
+    private readonly UserManager<AppUser> _userManager;
     
-    public ProductController(IProductService productService)
+    public ProductController(IProductService productService, UserManager<AppUser> userManager)
     {
         _productService = productService;
+        _userManager = userManager;
     }
     
     [HttpGet]
@@ -35,9 +40,15 @@ public class ProductController : ControllerBase
     
     [HttpGet]
     [Route("Recommendations")]
-    public async Task<IActionResult> GetRecommendations([FromQuery] int size, [FromQuery] string orderId)
+    public async Task<IActionResult> GetRecommendations()
     {
-        var products = await _productService.GetRecommendedProductsAsync(orderId, size);
+        var user = await _userManager.GetUserAsync(User);
+        if (user?.TableId == null)
+        {
+            throw new UnauthorizedException("User not found");
+        }
+        var tableId = user.TableId.Value;
+        var products = await _productService.GetRecommendedProductsAsync(tableId);
         return Ok(new ResponseDto<IEnumerable<ProductResponseDto>>(products));
     }
 }
