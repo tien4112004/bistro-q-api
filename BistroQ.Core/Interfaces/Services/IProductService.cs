@@ -57,13 +57,12 @@ public interface IProductService
     /// <summary>
     /// Retrieves a list of recommended products based on the specified order ID and size.
     /// </summary>
-    /// <param name="orderId">The unique identifier of the order to base recommendations on.</param>
-    /// <param name="size">The number of recommended products to retrieve.</param>
+    /// <param name="tableId">The unique identifier of the table to base recommendations on.</param>
     /// <returns>
     /// A task that represents the asynchronous operation. The task result contains an enumerable collection of recommended product DTOs.
     /// </returns>
     /// <exception cref="ResourceNotFoundException">
     /// Thrown when the order specified by the order ID is not found.
     /// </exception>
-    Task<IEnumerable<ProductResponseDto>> GetRecommendedProductsAsync(string orderId, int size);
+    Task<IEnumerable<ProductResponseDto>> GetRecommendedProductsAsync(int tableId);
 }
