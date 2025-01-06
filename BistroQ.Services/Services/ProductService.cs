@@ -1,5 +1,7 @@
 using System.IO.Compression;
+using System.Runtime.Serialization;
 using System.Text.Json;
+using Amazon.CloudFront.Model;
 using AutoMapper;
 using BistroQ.Core.Common.Builder;
 using BistroQ.Core.Dtos.Image;
@@ -10,6 +12,7 @@ using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Services;
 using BistroQ.Services.Helpers;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace BistroQ.Services.Services;
 
@@ -142,36 +145,36 @@ public class ProductService : IProductService
         {
             throw new ResourceNotFoundException("Product not found");
         }
-        
-        var newProduct = _mapper.Map<Product>(productDto);
-        
+    
         if (existingProduct.NutritionFact == null)
         {
-            existingProduct.NutritionFact = new NutritionFact();
+            existingProduct.NutritionFact = new NutritionFact
+            {
+                ProductId = productId,
+            };
         }
-        existingProduct.NutritionFact.Calories = newProduct.NutritionFact.Calories;
-        existingProduct.NutritionFact.Fat = newProduct.NutritionFact.Fat;
-        existingProduct.NutritionFact.Fiber = newProduct.NutritionFact.Fiber;
-        existingProduct.NutritionFact.Protein = newProduct.NutritionFact.Protein;
-        existingProduct.NutritionFact.Carbohydrates = newProduct.NutritionFact.Carbohydrates;
+    
+        existingProduct.NutritionFact.Calories = productDto.Calories;
+        existingProduct.NutritionFact.Fat = productDto.Fat;
+        existingProduct.NutritionFact.Fiber = productDto.Fiber;
+        existingProduct.NutritionFact.Protein = productDto.Protein;
+        existingProduct.NutritionFact.Carbohydrates = productDto.Carbohydrates;
         
-        if (newProduct.CategoryId != null)
+        if (productDto.CategoryId != null)
         {
-            var category = await _unitOfWork.CategoryRepository.GetByIdAsync(newProduct.CategoryId.Value);
+            var category = await _unitOfWork.CategoryRepository.GetByIdAsync(productDto.CategoryId.Value);
             if (category == null)
             {
                 throw new ResourceNotFoundException("Category not found");
             }
+            existingProduct.CategoryId = productDto.CategoryId.Value;
         }
-
-        newProduct.ProductId = productId;
-        newProduct.ImageId = existingProduct.ImageId;
-
-        await _unitOfWork.ProductRepository.UpdateAsync(existingProduct, newProduct);
+    
+        // await _unitOfWork.ProductRepository.UpdateAsync(existingProduct, existingProduct);
         await _unitOfWork.SaveChangesAsync();
-        
+    
         var updatedProduct = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
-
+    
         return _mapper.Map<ProductDto>(updatedProduct);
     }
 
