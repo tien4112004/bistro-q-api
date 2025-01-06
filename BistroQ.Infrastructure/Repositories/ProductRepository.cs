@@ -84,7 +84,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
                                  SUM(NormalizedFiber) / o.PeopleCount AS CurrentFiber
                              FROM `orderitem` i
                              JOIN NormalizedNutritionFact AS x ON x.ProductId = i.ProductId
-                             JOIN `order` AS o ON o.OrderId = {0} AND i.OrderId = {0}
+                             JOIN `order` AS o ON o.OrderId = '{0}' AND i.OrderId = '{0}'
                              GROUP BY o.OrderId)
 
                              SELECT p.Name, p.ProductId, p.Price, p.ImageId, p.CategoryId, p.DiscountPrice, p.Unit,
