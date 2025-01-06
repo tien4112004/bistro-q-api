@@ -33,6 +33,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
         var product = await DbSet
             .Include(p => p.Image)
+            .Include(p => p.NutritionFact)
             .FirstOrDefaultAsync(p => p.ProductId == productId);
 
         return product;
