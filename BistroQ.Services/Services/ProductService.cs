@@ -71,8 +71,7 @@ public class ProductService : IProductService
         }
 
         var orderId = order.OrderId;
-        var size = order.PeopleCount;
-        var products = await _unitOfWork.ProductRepository.GetRecommendedProductsAsync(orderId, size);
+        var products = await _unitOfWork.ProductRepository.GetRecommendedProductsAsync(orderId, 10);
         
         var productIds = products.Select(p => p.ProductId).ToList();
         var nutritionFacts = await _unitOfWork.NutritionFactRepository.GetByIdsAsync(productIds);
