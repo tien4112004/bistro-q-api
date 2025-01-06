@@ -33,7 +33,7 @@ public class OrderService : IOrderService
 			TotalAmount = 0,
 			StartTime = DateTime.Now,
 			EndTime = null,
-			PeopleCount = peopleCount,
+			PeopleCount = peopleCount == 0 ? 1 : peopleCount,
 		};
 
 		var table = await _unitOfWork.TableRepository.GetByIdAsync(tableId);
