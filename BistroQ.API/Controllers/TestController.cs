@@ -1,4 +1,5 @@
 using BistroQ.Core.Entities;
+using BistroQ.Core.Enums;
 using BistroQ.Core.Interfaces;
 using BistroQ.Core.Interfaces.Repositories;
 using BistroQ.Core.Interfaces.Services;
@@ -12,10 +13,12 @@ namespace BistroQ.API.Controllers;
 public class TestController : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IOrderService _orderService;
     
-    public TestController(IUnitOfWork unitOfWork)
+    public TestController(IUnitOfWork unitOfWork, IOrderService orderService)
     {
         _unitOfWork = unitOfWork;
+        _orderService = orderService;
     }
     
     [HttpGet]
@@ -36,15 +39,8 @@ public class TestController : ControllerBase
     [HttpGet("/item")]
     public async Task<IActionResult> GetItem()
     {
-        var orderItems = await _unitOfWork.OrderItemRepository.AddAsync(new Core.Entities.OrderItem
-        {
-            OrderId = "1",
-            ProductId = 1,
-            Quantity = 2,
-            PriceAtPurchase = 0,
-        });
-        await _unitOfWork.SaveChangesAsync();
-
-        return Ok(orderItems);
+        await _orderService.UpdateStatus(1, OrderStatus.Completed);
+        
+        return Ok();
     }
 }

@@ -218,6 +218,28 @@ public class OrderService : IOrderService
 		if (updatedOrder.Status == OrderStatus.Completed)
 		{
 			updatedOrder.TableId = null;
+
+			// Update all order items to be completed
+			foreach (var orderItem in updatedOrder.OrderItems)
+			{
+				if (orderItem.Status == OrderItemStatus.InProgress)
+				{
+					orderItem.Status = OrderItemStatus.Completed;
+				}
+				else if (orderItem.Status == OrderItemStatus.Pending)
+				{
+					orderItem.Status = OrderItemStatus.Cancelled;
+				}
+			}
+			int amount = 0;
+			foreach (var orderItem in updatedOrder.OrderItems)
+			{
+				if (orderItem.Status == OrderItemStatus.Completed)
+				{
+					amount +=  Convert.ToInt32(orderItem.Quantity) * Convert.ToInt32(orderItem.PriceAtPurchase);
+				}
+			}
+			updatedOrder.TotalAmount = amount;
 		}
 		
 		await _unitOfWork.OrderRepository.UpdateAsync(order, updatedOrder);
