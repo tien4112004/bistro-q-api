@@ -142,7 +142,7 @@ public class OrderService : IOrderService
 				Quantity = item.Quantity,
 				CreatedAt = receivedOrderTime,
 				UpdatedAt = receivedOrderTime,
-				PriceAtPurchase = (product.DiscountPrice != 0 ? product.DiscountPrice : product.Price), // TODO: OR DiscountPrice
+				PriceAtPurchase = (product.DiscountPrice != 0 ? product.DiscountPrice : product.Price), 
 			};
 
 			var addedItem = await _unitOfWork.OrderItemRepository.AddAsync(orderItem);
