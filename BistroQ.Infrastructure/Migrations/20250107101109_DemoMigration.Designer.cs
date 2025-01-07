@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BistroQ.Infrastructure.Migrations
 {
     [DbContext(typeof(BistroQContext))]
-    [Migration("20241228045041_FinalMigration")]
-    partial class FinalMigration
+    [Migration("20250107101109_DemoMigration")]
+    partial class DemoMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,15 +107,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "638f17c2-5405-4e6f-b43e-40afd8788672",
+                            ConcurrencyStamp = "006fde69-74f8-4f90-9572-472a9f081fec",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGZSlN5nxCd8sK83PjOpgvl4b40ZeJCx1xW+aR/fFWV8pLR8dDRoNOaDxJZavTNNvA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEABKRcMirBFqKwLTjsmNOWO8B9sF1g/4BO6ER500dTM+ajzpw5ksYcbBHUfPjVWXsg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6b578dd3-df4c-4127-8ae0-d0d54ec5416b",
+                            SecurityStamp = "13db6117-1ac9-4873-9004-bb26dcb04183",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
@@ -123,15 +123,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "71ce686c-a356-4ca1-863a-27b9f11658ac",
+                            ConcurrencyStamp = "af825ce6-ba57-4fa4-bc3f-d362f44e334d",
                             Email = "kitchen@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "KITCHEN@GMAIL.COM",
                             NormalizedUserName = "KITCHEN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH7E/cVnQRZiDy5tnqC1Qp+AuesCl/kSPnAvRDxcPqmVUelhyW5fHdxT5Iff/li09g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECVST91IPCSHD70FHisXOBhwnujfw+XhD3fjoNr49JzrVGS3u6Uje91pwwcrjEPohA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cba74f2b-f465-4987-8e7b-fc9cf4571626",
+                            SecurityStamp = "c95db870-a659-4ec6-b3c4-f3436d568186",
                             TwoFactorEnabled = false,
                             UserName = "kitchen"
                         },
@@ -139,15 +139,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f155d7e4-cb7d-4ec6-bfc8-f336ce952db3",
+                            ConcurrencyStamp = "f7a89812-4f22-4ffd-bff7-3c2544e35efd",
                             Email = "cashier@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CASHIER@GMAIL.COM",
                             NormalizedUserName = "CASHIER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHosHTvM+aREydkhTv8ZHnOaem+eNxNCem/sJjvpKfXUCIKaVT93R3pL/Pvy4MPtxQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGmX7t0BF9HPiH4UB6TvWCvIgX4zShNdoVozJrJY6li+S8MiyUoYtxYQ4cOA2Hzo8w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "369f9d0a-f50f-4806-abf8-abd865ee62ff",
+                            SecurityStamp = "042cde1c-170b-446b-83e5-46e3c9cc79bc",
                             TwoFactorEnabled = false,
                             UserName = "cashier"
                         },
@@ -155,15 +155,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b8e54401-4023-4823-b19a-636b511e524a",
+                            ConcurrencyStamp = "6b91bd6f-bda6-4e03-8ae7-b9ad092153c9",
                             Email = "client1@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT1@GMAIL.COM",
                             NormalizedUserName = "CLIENT1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPzVPUtP69AXQSV0Lq8H/+8UsCRgzQRQ/tFQ7Vy+4Jv7cWeDjEIes0zijScHu1VgeQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEH+JTntMkSeHIpDE511VtnlO21UqtchGKctzyn7/QmjYAp3FNF8EDzv7eXl+WNRT2A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9ab226b0-5366-4c2d-81f1-368cdc8009d1",
+                            SecurityStamp = "23a56440-2ba2-4efc-9345-e35ae5f9ca4f",
                             TableId = 1,
                             TwoFactorEnabled = false,
                             UserName = "client1"
@@ -172,15 +172,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3117e11d-bd97-400a-8fe4-15737bcf517b",
+                            ConcurrencyStamp = "b4e6e61a-95d8-4a24-9d1c-d8e7aa197207",
                             Email = "client2@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT2@GMAIL.COM",
                             NormalizedUserName = "CLIENT2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMnb7r1EsvN1br0ZiA+gG81SBMX1csRU9aW43/022pajQu5oMNHBOSDdJPwZWhT+Aw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMkg+kTAiLLZaveREGeT7kd2fvjOEn8gx/043GDme5ryc+TZA2sMJCWYIA0nXztb5A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d2d19548-5b96-4f4c-a199-df8dc92e837a",
+                            SecurityStamp = "0e08b4b0-8c91-4ed3-9bf5-a63256a43586",
                             TableId = 2,
                             TwoFactorEnabled = false,
                             UserName = "client2"
@@ -189,15 +189,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "77c908ab-3549-44ad-bef3-85ad016bbf72",
+                            ConcurrencyStamp = "382c8897-5e1a-4949-b797-2b1730da7a18",
                             Email = "client3@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT3@GMAIL.COM",
                             NormalizedUserName = "CLIENT3",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFe381muNntSkenCVNR2E9bSz74TXG9dHQZ/y3iMJiUhM5gKnITT9D+KgKBHuU4xcA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFQP13eX7FjoHHOGi33WIer9JHAd/lnwWAhNAsQOVVLweSUTMvP5OLwfZdU53LFG0Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "309cf38f-f927-4c38-a9b1-cfdbc82246e3",
+                            SecurityStamp = "3fff8934-6691-4e93-ac99-533a890df407",
                             TableId = 3,
                             TwoFactorEnabled = false,
                             UserName = "client3"
@@ -206,15 +206,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4e80b6b9-5e3b-43d8-9a78-05c3e0c3528b",
+                            ConcurrencyStamp = "bdee891f-6298-41b0-9b0b-bb4f31788421",
                             Email = "client4@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT4@GMAIL.COM",
                             NormalizedUserName = "CLIENT4",
-                            PasswordHash = "AQAAAAIAAYagAAAAEML/mAvTvi+pgYMz+rYJM5ZSTiLfLVVZ4P3z+L711CkMNo94SJNtnAywh1f0DweLDg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP3DkkQ01KifrCbethyYCyXAdkplI8i94hpZOi6JaEAd15N+WYavtG1OryKh9w1kvw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d4243a69-483a-4d7b-a7a1-438f09df6477",
+                            SecurityStamp = "1ad7a87b-41cf-473c-ac1c-3905cc6d8e51",
                             TableId = 4,
                             TwoFactorEnabled = false,
                             UserName = "client4"
@@ -223,15 +223,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3bce3609-abf2-4382-83b0-eb056e4daebd",
+                            ConcurrencyStamp = "a75ffda9-28fb-4fa1-9ca7-ce754dfbbd91",
                             Email = "client5@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT5@GMAIL.COM",
                             NormalizedUserName = "CLIENT5",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPjNx3uW4kzEN/kiWF3GohGOLnvtSwWUAPb132fnfwR0UgrnzxYfRgc7R6ENNGicNg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIWT3QHIRYAPnfJtQ+eJtqXwzF4rA8GJYUUwsbL+8O3SBnpbFfk8t7iiGyL3+Lf56g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "968981bd-6489-44f1-9ed4-26f526dfae29",
+                            SecurityStamp = "5aaba00d-561e-46bd-9df2-ba7d7d0d516d",
                             TableId = 5,
                             TwoFactorEnabled = false,
                             UserName = "client5"
@@ -240,15 +240,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cd187681-3902-4f9b-bc89-ea380c4e59a2",
+                            ConcurrencyStamp = "d2625b16-2c5f-4d19-a50c-46d8268a2e04",
                             Email = "client6@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT6@GMAIL.COM",
                             NormalizedUserName = "CLIENT6",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMAGtO9+9YxCgw6OJAnC4n9CXu+yBQCroHfXpiipSyxjqN2a3CqAfj+AAphMFOhMRg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECc70XS0AgsN33k9OHnYtXm8N2+8Y0CZJ/rEasFIbbO3uGe4SbDNuObfUN3gEttiSw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6374c13a-8a44-4135-9cfd-a7c6744f9404",
+                            SecurityStamp = "fa9152e1-49e1-46c3-b42d-0ff4342098e6",
                             TableId = 6,
                             TwoFactorEnabled = false,
                             UserName = "client6"
@@ -257,15 +257,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "10",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a72f432a-f664-4325-8345-0431082fd361",
+                            ConcurrencyStamp = "0a4aba8b-d34b-4322-8e1a-7ee5cf805355",
                             Email = "client7@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT7@GMAIL.COM",
                             NormalizedUserName = "CLIENT7",
-                            PasswordHash = "AQAAAAIAAYagAAAAEA8fv8QkVOtD3q7Cp6miivxMbdK120K87FE6wyRNAlT9Jsn4TOi7ecoyVC+D8cIAtA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENqN5OpE+qhwg+l54mf6aDsbH9xJ27G/Jnf6n1tkOGoQaTw+jfrrq/pjGvHxedCnhQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cab89db9-5c8e-46ec-950e-3a7a5c19b230",
+                            SecurityStamp = "dec34075-128c-4e2d-9cd7-299248c5d4e0",
                             TableId = 7,
                             TwoFactorEnabled = false,
                             UserName = "client7"
@@ -274,15 +274,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "11",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6cb84dc3-5896-4e1e-a7c6-2316ad75e105",
+                            ConcurrencyStamp = "2968ed36-7a3d-40e5-9d91-69032df34743",
                             Email = "client8@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT8@GMAIL.COM",
                             NormalizedUserName = "CLIENT8",
-                            PasswordHash = "AQAAAAIAAYagAAAAENUrvD6hCU4iZYFVkxUBYsgC5pXGoeSS3FbHInQA/Ssv6aNDR0eK4gUQxjhGKRx17Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMmfVm5tpy4DvcFXY/P0pbFOfHjzO6133YvA7RvcgyqIPzYid/a+QmTsgJ3wdbUbaA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "778d11e5-2ef5-4e98-bd18-4b01ef2cfad5",
+                            SecurityStamp = "3b0c9678-e7e6-4637-98f1-840e0e3b4160",
                             TableId = 8,
                             TwoFactorEnabled = false,
                             UserName = "client8"
@@ -291,15 +291,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "12",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e61cf8b8-2063-4009-81de-6c7d651e62ab",
+                            ConcurrencyStamp = "611bd33d-0f61-4551-bc8c-61d9b2da1582",
                             Email = "client9@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT9@GMAIL.COM",
                             NormalizedUserName = "CLIENT9",
-                            PasswordHash = "AQAAAAIAAYagAAAAEItNfrzhNnX3r+NUNXLkxIbRD6TpT2pttqN3uDH88Pkm3w2wh5g5lijNF9JLWEib1w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPUY4B8cedW+9zIW1Q6W+pBE7uyEOoeuHBHqY3g/Y4BmRiDDoozdycGg3lULa8lATg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "da332dab-c7ba-49c8-b3d9-e959f488141c",
+                            SecurityStamp = "6e92adf4-e490-4600-bd80-e6874807915a",
                             TableId = 9,
                             TwoFactorEnabled = false,
                             UserName = "client9"
@@ -308,15 +308,15 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             Id = "13",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "451d639a-1d86-4fc9-b049-515cb4a63934",
+                            ConcurrencyStamp = "78946a8f-e854-4475-86cb-ccb5e9a5b2c0",
                             Email = "client10@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT10@GMAIL.COM",
                             NormalizedUserName = "CLIENT10",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJUJAPgHj7qUh/mlRIKiotnWz9X7y5ayxaITGUv75W0c5vCMKqMT2mR3RZub9qMeHQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEH5hX8Zuy1gSc2+sHC5hhnIA5uZW9KW43dnPmVln0D5EgPghCMv1UDfujJDEy9lFzw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "17930c4b-5873-4665-bc04-325b7dc329cc",
+                            SecurityStamp = "91f37505-f06f-434f-ad9d-8737c53a5d11",
                             TableId = 10,
                             TwoFactorEnabled = false,
                             UserName = "client10"
@@ -354,7 +354,22 @@ namespace BistroQ.Infrastructure.Migrations
                         new
                         {
                             CategoryId = 3,
-                            Name = "Spicy"
+                            Name = "Savory Snacks"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            Name = "Grilled & BBQ"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            Name = "Appetizers"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            Name = "Drinks"
                         });
                 });
 
@@ -437,6 +452,180 @@ namespace BistroQ.Infrastructure.Migrations
                             ImageId = new Guid("00000000-0000-0000-0000-000000000010"),
                             ContentType = "image/jpeg",
                             Name = "mi-xao.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000011"),
+                            ContentType = "image/jpeg",
+                            Name = "dumplings.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000012"),
+                            ContentType = "image/jpeg",
+                            Name = "bibim-guksu.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000013"),
+                            ContentType = "image/jpeg",
+                            Name = "minestrone-soup.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000015"),
+                            ContentType = "image/jpeg",
+                            Name = "cheeseburger.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000016"),
+                            ContentType = "image/jpeg",
+                            Name = "shawarma.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000017"),
+                            ContentType = "image/jpeg",
+                            Name = "chow-mein.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000018"),
+                            ContentType = "image/jpeg",
+                            Name = "samosa.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000019"),
+                            ContentType = "image/jpeg",
+                            Name = "gyoza.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000020"),
+                            ContentType = "image/jpeg",
+                            Name = "veggie-burger.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000021"),
+                            ContentType = "image/jpeg",
+                            Name = "spring-rolls.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000022"),
+                            ContentType = "image/jpeg",
+                            Name = "takoyaki.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000023"),
+                            ContentType = "image/jpeg",
+                            Name = "tea.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000024"),
+                            ContentType = "image/jpeg",
+                            Name = "seafood-pho.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000025"),
+                            ContentType = "image/jpeg",
+                            Name = "steamed-rice-roll.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000026"),
+                            ContentType = "image/jpeg",
+                            Name = "espresso.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000027"),
+                            ContentType = "image/jpeg",
+                            Name = "yakitori.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000028"),
+                            ContentType = "image/jpeg",
+                            Name = "smoothie.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000029"),
+                            ContentType = "image/jpeg",
+                            Name = "pad-thai.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000030"),
+                            ContentType = "image/jpeg",
+                            Name = "udon.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000031"),
+                            ContentType = "image/jpeg",
+                            Name = "spaghetti-carbonara.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000032"),
+                            ContentType = "image/jpeg",
+                            Name = "ramen.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000033"),
+                            ContentType = "image/jpeg",
+                            Name = "chicken-biryani.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000034"),
+                            ContentType = "image/jpeg",
+                            Name = "coconut-water.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000035"),
+                            ContentType = "image/jpeg",
+                            Name = "lemonade.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000036"),
+                            ContentType = "image/jpeg",
+                            Name = "chicken-satay.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000037"),
+                            ContentType = "image/jpeg",
+                            Name = "milkshake.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000038"),
+                            ContentType = "image/jpeg",
+                            Name = "bulgogi.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000039"),
+                            ContentType = "image/jpeg",
+                            Name = "soba-noodles.jpg"
+                        },
+                        new
+                        {
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000040"),
+                            ContentType = "image/jpeg",
+                            Name = "laksa.jpg"
                         });
                 });
 
@@ -555,6 +744,267 @@ namespace BistroQ.Infrastructure.Migrations
                             Fat = 18.0,
                             Fiber = 4.0,
                             Protein = 22.0
+                        },
+                        new
+                        {
+                            ProductId = 11,
+                            Calories = 520.0,
+                            Carbohydrates = 60.0,
+                            Fat = 16.0,
+                            Fiber = 4.0,
+                            Protein = 22.0
+                        },
+                        new
+                        {
+                            ProductId = 12,
+                            Calories = 490.0,
+                            Carbohydrates = 48.0,
+                            Fat = 14.0,
+                            Fiber = 2.0,
+                            Protein = 22.0
+                        },
+                        new
+                        {
+                            ProductId = 13,
+                            Calories = 450.0,
+                            Carbohydrates = 50.0,
+                            Fat = 12.0,
+                            Fiber = 3.0,
+                            Protein = 18.0
+                        },
+                        new
+                        {
+                            ProductId = 15,
+                            Calories = 480.0,
+                            Carbohydrates = 50.0,
+                            Fat = 15.0,
+                            Fiber = 2.0,
+                            Protein = 24.0
+                        },
+                        new
+                        {
+                            ProductId = 16,
+                            Calories = 500.0,
+                            Carbohydrates = 55.0,
+                            Fat = 12.0,
+                            Fiber = 3.0,
+                            Protein = 22.0
+                        },
+                        new
+                        {
+                            ProductId = 17,
+                            Calories = 440.0,
+                            Carbohydrates = 45.0,
+                            Fat = 15.0,
+                            Fiber = 3.0,
+                            Protein = 20.0
+                        },
+                        new
+                        {
+                            ProductId = 18,
+                            Calories = 470.0,
+                            Carbohydrates = 50.0,
+                            Fat = 12.0,
+                            Fiber = 3.0,
+                            Protein = 18.0
+                        },
+                        new
+                        {
+                            ProductId = 19,
+                            Calories = 380.0,
+                            Carbohydrates = 42.0,
+                            Fat = 10.0,
+                            Fiber = 3.0,
+                            Protein = 15.0
+                        },
+                        new
+                        {
+                            ProductId = 20,
+                            Calories = 380.0,
+                            Carbohydrates = 35.0,
+                            Fat = 10.0,
+                            Fiber = 4.0,
+                            Protein = 15.0
+                        },
+                        new
+                        {
+                            ProductId = 21,
+                            Calories = 390.0,
+                            Carbohydrates = 35.0,
+                            Fat = 10.0,
+                            Fiber = 3.0,
+                            Protein = 12.0
+                        },
+                        new
+                        {
+                            ProductId = 22,
+                            Calories = 420.0,
+                            Carbohydrates = 48.0,
+                            Fat = 14.0,
+                            Fiber = 2.0,
+                            Protein = 16.0
+                        },
+                        new
+                        {
+                            ProductId = 23,
+                            Calories = 120.0,
+                            Carbohydrates = 25.0,
+                            Fat = 2.0,
+                            Fiber = 0.0,
+                            Protein = 2.0
+                        },
+                        new
+                        {
+                            ProductId = 24,
+                            Calories = 380.0,
+                            Carbohydrates = 45.0,
+                            Fat = 8.0,
+                            Fiber = 2.0,
+                            Protein = 22.0
+                        },
+                        new
+                        {
+                            ProductId = 25,
+                            Calories = 250.0,
+                            Carbohydrates = 30.0,
+                            Fat = 8.0,
+                            Fiber = 3.0,
+                            Protein = 12.0
+                        },
+                        new
+                        {
+                            ProductId = 26,
+                            Calories = 120.0,
+                            Carbohydrates = 24.0,
+                            Fat = 2.0,
+                            Fiber = 0.0,
+                            Protein = 2.0
+                        },
+                        new
+                        {
+                            ProductId = 27,
+                            Calories = 300.0,
+                            Carbohydrates = 15.0,
+                            Fat = 12.0,
+                            Fiber = 0.0,
+                            Protein = 32.0
+                        },
+                        new
+                        {
+                            ProductId = 28,
+                            Calories = 200.0,
+                            Carbohydrates = 45.0,
+                            Fat = 3.0,
+                            Fiber = 1.0,
+                            Protein = 3.0
+                        },
+                        new
+                        {
+                            ProductId = 29,
+                            Calories = 420.0,
+                            Carbohydrates = 55.0,
+                            Fat = 12.0,
+                            Fiber = 2.0,
+                            Protein = 18.0
+                        },
+                        new
+                        {
+                            ProductId = 30,
+                            Calories = 480.0,
+                            Carbohydrates = 65.0,
+                            Fat = 12.0,
+                            Fiber = 3.0,
+                            Protein = 20.0
+                        },
+                        new
+                        {
+                            ProductId = 31,
+                            Calories = 540.0,
+                            Carbohydrates = 60.0,
+                            Fat = 18.0,
+                            Fiber = 3.0,
+                            Protein = 22.0
+                        },
+                        new
+                        {
+                            ProductId = 32,
+                            Calories = 470.0,
+                            Carbohydrates = 50.0,
+                            Fat = 15.0,
+                            Fiber = 3.0,
+                            Protein = 18.0
+                        },
+                        new
+                        {
+                            ProductId = 33,
+                            Calories = 520.0,
+                            Carbohydrates = 68.0,
+                            Fat = 16.0,
+                            Fiber = 3.0,
+                            Protein = 25.0
+                        },
+                        new
+                        {
+                            ProductId = 34,
+                            Calories = 100.0,
+                            Carbohydrates = 25.0,
+                            Fat = 0.5,
+                            Fiber = 1.0,
+                            Protein = 2.0
+                        },
+                        new
+                        {
+                            ProductId = 35,
+                            Calories = 120.0,
+                            Carbohydrates = 30.0,
+                            Fat = 0.20000000000000001,
+                            Fiber = 0.0,
+                            Protein = 1.0
+                        },
+                        new
+                        {
+                            ProductId = 36,
+                            Calories = 350.0,
+                            Carbohydrates = 18.0,
+                            Fat = 15.0,
+                            Fiber = 1.0,
+                            Protein = 28.0
+                        },
+                        new
+                        {
+                            ProductId = 37,
+                            Calories = 280.0,
+                            Carbohydrates = 48.0,
+                            Fat = 8.0,
+                            Fiber = 0.0,
+                            Protein = 5.0
+                        },
+                        new
+                        {
+                            ProductId = 38,
+                            Calories = 450.0,
+                            Carbohydrates = 45.0,
+                            Fat = 15.0,
+                            Fiber = 3.0,
+                            Protein = 25.0
+                        },
+                        new
+                        {
+                            ProductId = 39,
+                            Calories = 430.0,
+                            Carbohydrates = 50.0,
+                            Fat = 12.0,
+                            Fiber = 3.0,
+                            Protein = 18.0
+                        },
+                        new
+                        {
+                            ProductId = 40,
+                            Calories = 510.0,
+                            Carbohydrates = 55.0,
+                            Fat = 14.0,
+                            Fiber = 3.0,
+                            Protein = 20.0
                         });
                 });
 
@@ -603,25 +1053,25 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             OrderId = "1",
                             PeopleCount = 5,
-                            StartTime = new DateTime(2024, 12, 28, 11, 50, 40, 725, DateTimeKind.Local).AddTicks(5355),
+                            StartTime = new DateTime(2025, 1, 7, 17, 11, 9, 418, DateTimeKind.Local).AddTicks(4501),
                             Status = 0,
                             TableId = 1,
-                            TotalAmount = 490000m
+                            TotalAmount = 0m
                         },
                         new
                         {
                             OrderId = "2",
                             PeopleCount = 2,
-                            StartTime = new DateTime(2024, 12, 28, 11, 50, 40, 725, DateTimeKind.Local).AddTicks(5514),
+                            StartTime = new DateTime(2025, 1, 7, 17, 11, 9, 418, DateTimeKind.Local).AddTicks(4637),
                             Status = 0,
                             TableId = 6,
-                            TotalAmount = 265000m
+                            TotalAmount = 370000m
                         },
                         new
                         {
                             OrderId = "3",
                             PeopleCount = 4,
-                            StartTime = new DateTime(2024, 12, 28, 11, 50, 40, 725, DateTimeKind.Local).AddTicks(5550),
+                            StartTime = new DateTime(2025, 1, 7, 17, 11, 9, 418, DateTimeKind.Local).AddTicks(4687),
                             Status = 0,
                             TableId = 2,
                             TotalAmount = 115000m
@@ -698,94 +1148,6 @@ namespace BistroQ.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            OrderItemId = "101",
-                            CreatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderId = "1",
-                            PriceAtPurchase = 50000m,
-                            ProductId = 1,
-                            Quantity = 2,
-                            Status = 1,
-                            UpdatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            OrderItemId = "102",
-                            CreatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderId = "1",
-                            PriceAtPurchase = 50000m,
-                            ProductId = 2,
-                            Quantity = 1,
-                            Status = 1,
-                            UpdatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            OrderItemId = "103",
-                            CreatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderId = "1",
-                            PriceAtPurchase = 25000m,
-                            ProductId = 3,
-                            Quantity = 1,
-                            Status = 1,
-                            UpdatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            OrderItemId = "104",
-                            CreatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderId = "1",
-                            PriceAtPurchase = 35000m,
-                            ProductId = 4,
-                            Quantity = 2,
-                            Status = 0,
-                            UpdatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            OrderItemId = "105",
-                            CreatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderId = "1",
-                            PriceAtPurchase = 40000m,
-                            ProductId = 5,
-                            Quantity = 1,
-                            Status = 2,
-                            UpdatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            OrderItemId = "106",
-                            CreatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderId = "1",
-                            PriceAtPurchase = 30000m,
-                            ProductId = 6,
-                            Quantity = 3,
-                            Status = 0,
-                            UpdatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            OrderItemId = "107",
-                            CreatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderId = "1",
-                            PriceAtPurchase = 25000m,
-                            ProductId = 7,
-                            Quantity = 1,
-                            Status = 1,
-                            UpdatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            OrderItemId = "108",
-                            CreatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            OrderId = "1",
-                            PriceAtPurchase = 45000m,
-                            ProductId = 8,
-                            Quantity = 2,
-                            Status = 1,
-                            UpdatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
                             OrderItemId = "201",
                             CreatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderId = "2",
@@ -836,6 +1198,28 @@ namespace BistroQ.Infrastructure.Migrations
                             PriceAtPurchase = 25000m,
                             ProductId = 7,
                             Quantity = 2,
+                            Status = 0,
+                            UpdatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            OrderItemId = "206",
+                            CreatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            OrderId = "2",
+                            PriceAtPurchase = 50000m,
+                            ProductId = 16,
+                            Quantity = 1,
+                            Status = 0,
+                            UpdatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            OrderItemId = "207",
+                            CreatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            OrderId = "2",
+                            PriceAtPurchase = 55000m,
+                            ProductId = 17,
+                            Quantity = 1,
                             Status = 0,
                             UpdatedAt = new DateTime(2023, 10, 1, 12, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -941,7 +1325,7 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             ProductId = 1,
                             CategoryId = 2,
-                            DiscountPrice = 0m,
+                            DiscountPrice = 45000m,
                             ImageId = new Guid("00000000-0000-0000-0000-000000000001"),
                             Name = "Bun Bo Hue",
                             Price = 50000m,
@@ -961,7 +1345,7 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             ProductId = 3,
                             CategoryId = 1,
-                            DiscountPrice = 0m,
+                            DiscountPrice = 22000m,
                             ImageId = new Guid("00000000-0000-0000-0000-000000000003"),
                             Name = "Banh Mi",
                             Price = 25000m,
@@ -981,7 +1365,7 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             ProductId = 5,
                             CategoryId = 2,
-                            DiscountPrice = 0m,
+                            DiscountPrice = 37000m,
                             ImageId = new Guid("00000000-0000-0000-0000-000000000005"),
                             Name = "Banh Canh",
                             Price = 40000m,
@@ -1001,7 +1385,7 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             ProductId = 7,
                             CategoryId = 1,
-                            DiscountPrice = 0m,
+                            DiscountPrice = 23000m,
                             ImageId = new Guid("00000000-0000-0000-0000-000000000007"),
                             Name = "Com Chien",
                             Price = 25000m,
@@ -1021,7 +1405,7 @@ namespace BistroQ.Infrastructure.Migrations
                         {
                             ProductId = 9,
                             CategoryId = 2,
-                            DiscountPrice = 0m,
+                            DiscountPrice = 37000m,
                             ImageId = new Guid("00000000-0000-0000-0000-000000000009"),
                             Name = "Bun Thit Nuong",
                             Price = 40000m,
@@ -1036,6 +1420,296 @@ namespace BistroQ.Infrastructure.Migrations
                             Name = "Mi Xao",
                             Price = 45000m,
                             Unit = "Plate"
+                        },
+                        new
+                        {
+                            ProductId = 11,
+                            CategoryId = 5,
+                            DiscountPrice = 42000m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000011"),
+                            Name = "Dumplings",
+                            Price = 45000m,
+                            Unit = "Piece (6pcs)"
+                        },
+                        new
+                        {
+                            ProductId = 12,
+                            CategoryId = 1,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000012"),
+                            Name = "Bibim Guksu",
+                            Price = 45000m,
+                            Unit = "Plate"
+                        },
+                        new
+                        {
+                            ProductId = 13,
+                            CategoryId = 2,
+                            DiscountPrice = 59000m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000013"),
+                            Name = "Minestrone Soup",
+                            Price = 62000m,
+                            Unit = "Bowl"
+                        },
+                        new
+                        {
+                            ProductId = 15,
+                            CategoryId = 3,
+                            DiscountPrice = 75000m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000015"),
+                            Name = "Cheeseburger",
+                            Price = 80000m,
+                            Unit = "Piece (1pc)"
+                        },
+                        new
+                        {
+                            ProductId = 16,
+                            CategoryId = 4,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000016"),
+                            Name = "Shawarma",
+                            Price = 50000m,
+                            Unit = "Wrap"
+                        },
+                        new
+                        {
+                            ProductId = 17,
+                            CategoryId = 1,
+                            DiscountPrice = 52000m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000017"),
+                            Name = "Chow Mein",
+                            Price = 55000m,
+                            Unit = "Plate"
+                        },
+                        new
+                        {
+                            ProductId = 18,
+                            CategoryId = 5,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000018"),
+                            Name = "Samosa",
+                            Price = 40000m,
+                            Unit = "Piece (4pcs)"
+                        },
+                        new
+                        {
+                            ProductId = 19,
+                            CategoryId = 5,
+                            DiscountPrice = 39000m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000019"),
+                            Name = "Gyoza",
+                            Price = 42000m,
+                            Unit = "Piece (5pcs)"
+                        },
+                        new
+                        {
+                            ProductId = 20,
+                            CategoryId = 3,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000020"),
+                            Name = "Veggie Burger",
+                            Price = 70000m,
+                            Unit = "Piece (1pc)"
+                        },
+                        new
+                        {
+                            ProductId = 21,
+                            CategoryId = 5,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000021"),
+                            Name = "Spring Rolls",
+                            Price = 30000m,
+                            Unit = "Piece (3pcs)"
+                        },
+                        new
+                        {
+                            ProductId = 22,
+                            CategoryId = 5,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000022"),
+                            Name = "Takoyaki",
+                            Price = 48000m,
+                            Unit = "Piece (6pcs)"
+                        },
+                        new
+                        {
+                            ProductId = 23,
+                            CategoryId = 6,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000023"),
+                            Name = "Tea",
+                            Price = 15000m,
+                            Unit = "Cup"
+                        },
+                        new
+                        {
+                            ProductId = 24,
+                            CategoryId = 2,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000024"),
+                            Name = "Seafood Pho",
+                            Price = 60000m,
+                            Unit = "Bowl"
+                        },
+                        new
+                        {
+                            ProductId = 25,
+                            CategoryId = 1,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000025"),
+                            Name = "Steamed Rice Roll",
+                            Price = 30000m,
+                            Unit = "Plate"
+                        },
+                        new
+                        {
+                            ProductId = 26,
+                            CategoryId = 6,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000026"),
+                            Name = "Espresso",
+                            Price = 30000m,
+                            Unit = "Cup"
+                        },
+                        new
+                        {
+                            ProductId = 27,
+                            CategoryId = 4,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000027"),
+                            Name = "Yakitori",
+                            Price = 52000m,
+                            Unit = "Piece (3pcs)"
+                        },
+                        new
+                        {
+                            ProductId = 28,
+                            CategoryId = 6,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000028"),
+                            Name = "Smoothie",
+                            Price = 35000m,
+                            Unit = "Glass"
+                        },
+                        new
+                        {
+                            ProductId = 29,
+                            CategoryId = 1,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000029"),
+                            Name = "Pad Thai",
+                            Price = 55000m,
+                            Unit = "Plate"
+                        },
+                        new
+                        {
+                            ProductId = 30,
+                            CategoryId = 2,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000030"),
+                            Name = "Udon",
+                            Price = 70000m,
+                            Unit = "Bowl"
+                        },
+                        new
+                        {
+                            ProductId = 31,
+                            CategoryId = 1,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000031"),
+                            Name = "Spaghetti Carbonara",
+                            Price = 75000m,
+                            Unit = "Plate"
+                        },
+                        new
+                        {
+                            ProductId = 32,
+                            CategoryId = 2,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000032"),
+                            Name = "Ramen",
+                            Price = 65000m,
+                            Unit = "Bowl"
+                        },
+                        new
+                        {
+                            ProductId = 33,
+                            CategoryId = 1,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000033"),
+                            Name = "Chicken Biryani",
+                            Price = 65000m,
+                            Unit = "Plate"
+                        },
+                        new
+                        {
+                            ProductId = 34,
+                            CategoryId = 6,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000034"),
+                            Name = "Coconut Water",
+                            Price = 20000m,
+                            Unit = "Glass"
+                        },
+                        new
+                        {
+                            ProductId = 35,
+                            CategoryId = 6,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000035"),
+                            Name = "Lemonade",
+                            Price = 25000m,
+                            Unit = "Glass"
+                        },
+                        new
+                        {
+                            ProductId = 36,
+                            CategoryId = 4,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000036"),
+                            Name = "Chicken Satay",
+                            Price = 45000m,
+                            Unit = "Piece (4pcs)"
+                        },
+                        new
+                        {
+                            ProductId = 37,
+                            CategoryId = 6,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000037"),
+                            Name = "Milkshake",
+                            Price = 40000m,
+                            Unit = "Glass"
+                        },
+                        new
+                        {
+                            ProductId = 38,
+                            CategoryId = 3,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000038"),
+                            Name = "Bulgogi",
+                            Price = 85000m,
+                            Unit = "Plate"
+                        },
+                        new
+                        {
+                            ProductId = 39,
+                            CategoryId = 2,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000039"),
+                            Name = "Soba Noodles",
+                            Price = 50000m,
+                            Unit = "Bowl"
+                        },
+                        new
+                        {
+                            ProductId = 40,
+                            CategoryId = 2,
+                            DiscountPrice = 0m,
+                            ImageId = new Guid("00000000-0000-0000-0000-000000000040"),
+                            Name = "Laksa",
+                            Price = 58000m,
+                            Unit = "Bowl"
                         });
                 });
 
